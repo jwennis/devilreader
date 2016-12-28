@@ -1,6 +1,11 @@
 package com.example.dreader.devilreader.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -179,6 +184,71 @@ public class Story {
     public boolean isSaved() {
 
         return isSaved;
+    }
+
+
+    public String getShortByline() {
+
+        return String.format("%1$s / %2$s", getSource(), getElapsed());
+    }
+
+
+    private String getElapsed() {
+
+        final String ISO8601_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+
+        String datestring = Long.toString(pubdate);
+
+        String iso8601 = String.format("%s-%s-%sT%s:%s:00Z",
+                datestring.substring(0, 4), // year
+                datestring.substring(4, 6), // month
+                datestring.substring(6, 8), // date
+                datestring.substring(8, 10), // hour
+                datestring.substring(10, 12)); // minute
+
+        SimpleDateFormat format = new SimpleDateFormat(ISO8601_FORMAT, Locale.US);
+        format.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+        Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"), Locale.US);
+        long current = c.getTimeInMillis();
+
+        try {
+
+            c.setTime(format.parse(iso8601));
+
+            long published = c.getTimeInMillis();
+            int diff = (int) ((current - published) / (60 * 1000));
+
+            int value;
+            String label;
+
+            if (diff < 60) {
+
+                value = diff;
+                label = "minute";
+
+            } else if (diff / 60 < 24) {
+
+                value = diff / 60;
+                label = "hour";
+
+            } else if (diff / (60 * 24) < 30) {
+
+                value = diff / (60 * 24);
+                label = "day";
+
+            } else {
+
+                value = diff / (60 * 24 * 30);
+                label = "month";
+            }
+
+            return value + " " + label + (value > 1 ? "s" : "") + " ago";
+
+        } catch(ParseException e) {
+
+            return iso8601;
+        }
     }
 
 

@@ -13,4 +13,6 @@
     <dimen name="margin_xlarge">24dp</dimen>
     <dimen name="margin_xxlarge">32dp</dimen>
 
+    <dimen name="default_elevation">4dp</dimen>
+
 </resources>

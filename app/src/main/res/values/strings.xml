@@ -15,4 +15,8 @@
     <string name="typeface_arvo_normal">fonts/arvo.ttf</string>
     <string name="typeface_arvo_bold">fonts/arvo_bold.ttf</string>
 
+    <string name="story_thumbnail_placeholder">
+        http://www.prucenter.com/partner-resources/devils/NJ_Devils_Logo.250x250.png
+    </string>
+
 </resources>
