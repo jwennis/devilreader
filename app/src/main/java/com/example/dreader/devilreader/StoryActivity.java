@@ -1,18 +1,39 @@
 package com.example.dreader.devilreader;
 
+import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
+import android.support.customtabs.CustomTabsClient;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.customtabs.CustomTabsServiceConnection;
+import android.support.customtabs.CustomTabsSession;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.dreader.devilreader.data.StoryContract.StoryEntry;
 import com.example.dreader.devilreader.model.Story;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static android.support.customtabs.CustomTabsService.ACTION_CUSTOM_TABS_CONNECTION;
+
 
 public class StoryActivity extends AppCompatActivity {
+
+    private static String sChromeTabPackageName;
+
+    private CustomTabsClient mChromeTabClient;
+    private CustomTabsSession mChromeTabSession;
+    private CustomTabsServiceConnection mTabServiceConnection;
 
     private Story mStory;
 
@@ -41,6 +62,140 @@ public class StoryActivity extends AppCompatActivity {
 
             markAsRead();
         }
+    }
+
+
+    @Override
+    protected void onStart() {
+
+        super.onStart();
+
+        if (mChromeTabClient != null && mTabServiceConnection != null) { return; }
+
+        if(sChromeTabPackageName == null) {
+
+            PackageManager pm = getPackageManager();
+            Intent activityIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.example.com"));
+            ResolveInfo defaultViewHandlerInfo = pm.resolveActivity(activityIntent, 0);
+
+            String defaultViewHandlerPackageName = null;
+
+            if (defaultViewHandlerInfo != null) {
+
+                defaultViewHandlerPackageName = defaultViewHandlerInfo.activityInfo.packageName;
+            }
+
+            List<ResolveInfo> resolvedActivityList = pm.queryIntentActivities(activityIntent, 0);
+            List<String> packagesSupportingCustomTabs = new ArrayList<>();
+
+            for (ResolveInfo info : resolvedActivityList) {
+
+                Intent serviceIntent = new Intent();
+
+                serviceIntent.setAction(ACTION_CUSTOM_TABS_CONNECTION);
+                serviceIntent.setPackage(info.activityInfo.packageName);
+
+                if (pm.resolveService(serviceIntent, 0) != null) {
+
+                    packagesSupportingCustomTabs.add(info.activityInfo.packageName);
+                }
+            }
+
+            for (ResolveInfo info : resolvedActivityList) {
+
+                Intent serviceIntent = new Intent();
+                serviceIntent.setAction(ACTION_CUSTOM_TABS_CONNECTION);
+                serviceIntent.setPackage(info.activityInfo.packageName);
+
+                if (pm.resolveService(serviceIntent, 0) != null) {
+
+                    packagesSupportingCustomTabs.add(info.activityInfo.packageName);
+                }
+            }
+
+            boolean hasSpecializedHandlerIntents = false;
+
+            try {
+
+                List<ResolveInfo> handlers = pm.queryIntentActivities( activityIntent, PackageManager.GET_RESOLVED_FILTER);
+
+                if (handlers == null || handlers.size() == 0) {
+
+                    hasSpecializedHandlerIntents = false;
+                }
+
+                for (ResolveInfo resolveInfo : handlers) {
+
+                    IntentFilter filter = resolveInfo.filter;
+                    if (filter == null) continue;
+                    if (filter.countDataAuthorities() == 0 || filter.countDataPaths() == 0) continue;
+                    if (resolveInfo.activityInfo == null) continue;
+
+                    hasSpecializedHandlerIntents = true;
+                }
+
+            } catch (RuntimeException e) {
+
+            }
+
+            final String STABLE_PACKAGE = "com.android.chrome";
+            final String BETA_PACKAGE = "com.chrome.beta";
+            final String DEV_PACKAGE = "com.chrome.dev";
+            final String LOCAL_PACKAGE = "com.google.android.apps.chrome";
+
+            if (packagesSupportingCustomTabs.isEmpty()) {
+
+                sChromeTabPackageName = null;
+
+            } else if (packagesSupportingCustomTabs.size() == 1) {
+
+                sChromeTabPackageName = packagesSupportingCustomTabs.get(0);
+
+            } else if (!TextUtils.isEmpty(defaultViewHandlerPackageName)
+                    && !hasSpecializedHandlerIntents
+                    && packagesSupportingCustomTabs.contains(defaultViewHandlerPackageName)) {
+
+                sChromeTabPackageName = defaultViewHandlerPackageName;
+
+            } else if (packagesSupportingCustomTabs.contains(STABLE_PACKAGE)) {
+
+                sChromeTabPackageName = STABLE_PACKAGE;
+
+            } else if (packagesSupportingCustomTabs.contains(BETA_PACKAGE)) {
+
+                sChromeTabPackageName = BETA_PACKAGE;
+
+            } else if (packagesSupportingCustomTabs.contains(DEV_PACKAGE)) {
+
+                sChromeTabPackageName = DEV_PACKAGE;
+
+            } else if (packagesSupportingCustomTabs.contains(LOCAL_PACKAGE)) {
+
+                sChromeTabPackageName = LOCAL_PACKAGE;
+            }
+        }
+
+        if (sChromeTabPackageName == null) { return; }
+
+        mTabServiceConnection = new CustomTabsServiceConnection() {
+
+            @Override
+            public void onCustomTabsServiceConnected(ComponentName name, CustomTabsClient client) {
+
+                mChromeTabClient = client;
+                mChromeTabClient.warmup(0L);
+
+                mChromeTabSession = mChromeTabClient.newSession(null);
+                mChromeTabSession.mayLaunchUrl(Uri.parse(mStory.getLink()), null, null);
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+
+            }
+        };
+
+        CustomTabsClient.bindCustomTabsService(this, sChromeTabPackageName, mTabServiceConnection);
     }
 
 
@@ -158,7 +313,24 @@ public class StoryActivity extends AppCompatActivity {
 
     private void openLinkExternal() {
 
-        // TODO: implement this
+        if (sChromeTabPackageName != null) {
+
+            CustomTabsIntent.Builder builder =
+                    new CustomTabsIntent.Builder(mChromeTabSession);
+
+            //builder.setToolbarColor(colorInt);
+            builder.setStartAnimations(this, R.anim.slide_in_right, R.anim.slide_out_left);
+            builder.setExitAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+
+            CustomTabsIntent tabIntent = builder.build();
+
+            tabIntent.intent.setPackage(sChromeTabPackageName);
+            tabIntent.launchUrl(this, Uri.parse(mStory.getLink()));
+
+        } else {
+
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mStory.getLink())));
+        }
     }
 
 }
