@@ -1,18 +1,16 @@
 package com.example.dreader.devilreader.firebase;
 
-import android.util.Log;
+import java.util.List;
+import java.util.ArrayList;
 
 import com.example.dreader.devilreader.model.Story;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class FirebaseUtil {
 

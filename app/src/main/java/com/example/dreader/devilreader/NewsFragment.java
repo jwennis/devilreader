@@ -11,16 +11,9 @@ import android.view.ViewGroup;
 
 import com.example.dreader.devilreader.firebase.FirebaseCallback;
 import com.example.dreader.devilreader.firebase.FirebaseUtil;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import com.example.dreader.devilreader.model.Story;
 
 public class NewsFragment extends Fragment {
-
 
     public NewsFragment() {
 
@@ -40,7 +33,7 @@ public class NewsFragment extends Fragment {
 
                 for(Story item : list) {
 
-                    Log.v("DREADER", item.getTitle());
+                    item.print();
                 }
             }
         });
