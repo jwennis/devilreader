@@ -21,7 +21,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,6 +34,7 @@ import butterknife.ButterKnife;
 import com.example.dreader.devilreader.data.StoryContract.StoryEntry;
 import com.example.dreader.devilreader.model.Story;
 import com.example.dreader.devilreader.sync.StorySyncAdapter;
+import com.example.dreader.devilreader.ui.StoryAdapter;
 
 
 public class NewsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {

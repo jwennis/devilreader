@@ -33,6 +33,8 @@
 
         </activity>
 
+        <activity android:name=".StoryActivity"/>
+
         <provider
             android:name=".data.StoryProvider"
             android:authorities="@string/content_authority"

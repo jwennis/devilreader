@@ -1,29 +1,33 @@
-package com.example.dreader.devilreader;
+package com.example.dreader.devilreader.ui;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.example.dreader.devilreader.data.StoryContract.StoryEntry;
-import com.example.dreader.devilreader.model.Story;
-
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.bumptech.glide.Glide;
+
+import com.example.dreader.devilreader.NewsFragment;
+import com.example.dreader.devilreader.R;
+import com.example.dreader.devilreader.StoryActivity;
+import com.example.dreader.devilreader.data.StoryContract.StoryEntry;
+import com.example.dreader.devilreader.model.Story;
+
 
 public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHolder> {
 
@@ -126,7 +130,10 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
             @Override
             public void onClick(View view) {
 
-                // TODO: implement press for Story detail
+                Intent storyIntent = new Intent(context, StoryActivity.class);
+                storyIntent.putExtra(Story.PARAM_STORY_PARCEL, item);
+
+                context.startActivity(storyIntent);
             }
         });
 
