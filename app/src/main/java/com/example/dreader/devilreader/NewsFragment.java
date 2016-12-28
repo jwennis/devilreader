@@ -7,6 +7,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +18,18 @@ import android.view.ViewGroup;
 import com.example.dreader.devilreader.data.StoryContract.StoryEntry;
 import com.example.dreader.devilreader.sync.StorySyncAdapter;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class NewsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int LOADER_ID = 0;
+
+    private StoryAdapter mAdapter;
+    private ViewGroup layout_root;
+
+    @BindView(R.id.news_recycler)
+    RecyclerView recycler;
 
 
     public NewsFragment() {
@@ -29,13 +41,24 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        layout_root = (ViewGroup) inflater.inflate(R.layout.fragment_news, container, false);
+
+        bindNews();
+
+        return layout_root;
+    }
+
+    private void bindNews() {
+
+        ButterKnife.bind(this, layout_root);
+
+        recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        recycler.setItemAnimator(new DefaultItemAnimator());
+
         getActivity().setTitle(R.string.drawer_news);
 
         StorySyncAdapter.syncImmediately(getContext());
-
-        return inflater.inflate(R.layout.fragment_news, container, false);
     }
-
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -70,7 +93,17 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
 
         if(loader.getId() == LOADER_ID) {
 
-            Log.v("DREADER", DatabaseUtils.dumpCursorToString(data));
+            //Log.v("DREADER", DatabaseUtils.dumpCursorToString(data));
+
+            if(mAdapter == null) {
+
+                mAdapter = new StoryAdapter(data, NewsFragment.class.getSimpleName());
+                recycler.setAdapter(mAdapter);
+
+            } else {
+
+                mAdapter.swapCursor(data);
+            }
         }
     }
 

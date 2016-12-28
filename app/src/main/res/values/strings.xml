@@ -12,4 +12,7 @@
     <string name="content_authority">com.example.dreader.devilreader</string>
     <string name="sync_account_type">com.example.dreader.devilreader.SYNC_ACCOUNT_TYPE</string>
 
+    <string name="typeface_arvo_normal">fonts/arvo.ttf</string>
+    <string name="typeface_arvo_bold">fonts/arvo_bold.ttf</string>
+
 </resources>
