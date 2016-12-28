@@ -19,4 +19,7 @@
         http://www.prucenter.com/partner-resources/devils/NJ_Devils_Logo.250x250.png
     </string>
 
+    <string name="story_saved">Saved</string>
+    <string name="story_unsaved">Unsaved</string>
+
 </resources>

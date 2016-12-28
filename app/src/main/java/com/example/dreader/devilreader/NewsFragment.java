@@ -138,6 +138,8 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
 
                         Story item = mAdapter.getItemAt(pos);
 
+                        item.markAsRead();
+
                         ContentValues values = new ContentValues();
                         values.put(StoryEntry.COL_IS_READ, 1);
 

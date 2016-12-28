@@ -11,6 +11,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.util.Log;
 
+import com.example.dreader.devilreader.Util;
 import com.example.dreader.devilreader.data.StoryContract.StoryEntry;
 
 
@@ -31,7 +32,7 @@ public class Story {
     private List<String> content;
 
     private boolean isRead;
-    private boolean isSaved;
+    private long isSaved;
 
     private Cursor mData;
 
@@ -58,7 +59,7 @@ public class Story {
         source = getCursorString(StoryEntry.COL_SOURCE);
 
         isRead = getCursorBool(StoryEntry.COL_IS_READ);
-        isSaved = getCursorBool(StoryEntry.COL_IS_SAVED);
+        isSaved = getCursorLong(StoryEntry.COL_IS_SAVED);
 
         String _author = getCursorString(StoryEntry.COL_AUTHOR);
         if(_author != null) { author = _author; }
@@ -183,7 +184,13 @@ public class Story {
 
     public boolean isSaved() {
 
-        return isSaved;
+        return isSaved > 0;
+    }
+
+
+    public long getSavedTimestamp() {
+
+        return Math.abs(isSaved);
     }
 
 
@@ -252,6 +259,18 @@ public class Story {
     }
 
 
+    public void markAsRead() {
+
+        isRead = true;
+    }
+
+
+    public void toggleIsSaved() {
+
+        isSaved = isSaved()
+                ? 0 - Util.getCurrentTimestamp() : Util.getCurrentTimestamp();
+    }
+
     /**
      * Creates ContentValues for the purpose of saving to SQLite database
      *
@@ -287,8 +306,8 @@ public class Story {
             values.put(StoryEntry.COL_MEDIA, media);
         }
 
-        values.put(StoryEntry.COL_IS_READ, 0);
-        values.put(StoryEntry.COL_IS_SAVED, 0);
+        values.put(StoryEntry.COL_IS_READ, isRead ? 1 : 0);
+        values.put(StoryEntry.COL_IS_SAVED, isSaved);
 
         return values;
     }
@@ -328,7 +347,8 @@ public class Story {
                 + " paragraphs");
 
         Log.v(LOG_TAG, "isRead? = " + isRead);
-        Log.v(LOG_TAG, "isSaved? = " + isSaved);
+        Log.v(LOG_TAG, "isSaved? = " + isSaved());
+        Log.v(LOG_TAG, "saved timestamp = " + isSaved);
 
         Log.v(LOG_TAG, "=====");
     }

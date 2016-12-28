@@ -1,11 +1,13 @@
 package com.example.dreader.devilreader;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.dreader.devilreader.data.StoryContract.StoryEntry;
 import com.example.dreader.devilreader.model.Story;
 
 import butterknife.BindString;
@@ -48,7 +51,7 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
 
 
     @Override
-    public void onBindViewHolder(StoryViewHolder holder, int position) {
+    public void onBindViewHolder(final StoryViewHolder holder, int position) {
 
         final Context context = holder.layout_root.getContext();
 
@@ -116,8 +119,7 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
                 .fitCenter()
                 .into(holder.thumbnail);
 
-        holder.save_icon.setImageResource(item.isSaved()
-                ? R.drawable.ic_menu_saved_dark : R.drawable.ic_menu_save_dark);
+        holder.toggleSaveIcon(item.isSaved());
 
         holder.layout_root.setOnClickListener(new View.OnClickListener() {
 
@@ -133,7 +135,21 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
             @Override
             public boolean onLongClick(View view) {
 
-                // TODO: implement long press to save
+                item.toggleIsSaved();
+
+                holder.toggleSaveIcon(item.isSaved());
+
+                ContentValues values = new ContentValues();
+                values.put(StoryEntry.COL_IS_SAVED, item.isSaved()
+                        ? item.getSavedTimestamp() : - item.getSavedTimestamp());
+
+                context.getContentResolver().update(StoryEntry.buildUri(item.getKey()),
+                        values, null, null);
+
+                String message = context.getString(item.isSaved()
+                        ? R.string.story_saved : R.string.story_unsaved);
+
+                Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
 
                 return true;
             }
@@ -208,6 +224,12 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
 
                 TypefaceArvoNormal = Typeface.createFromAsset(assets, TYPEFACE_ARVO_NORMAL);
             }
+        }
+
+        public void toggleSaveIcon(boolean isSaved) {
+
+            save_icon.setImageResource(isSaved
+                    ? R.drawable.ic_menu_saved_dark : R.drawable.ic_menu_save_dark);
         }
     }
 }
