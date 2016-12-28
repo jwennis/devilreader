@@ -36,6 +36,11 @@ public class StoryActivity extends AppCompatActivity {
 
             mStory = getIntent().getExtras().getParcelable(Story.PARAM_STORY_PARCEL);
         }
+
+        if(!mStory.isRead()) {
+
+            markAsRead();
+        }
     }
 
 
@@ -99,6 +104,25 @@ public class StoryActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Marks the Story as read, persists
+     * the change in the database
+     */
+    private void markAsRead() {
+
+        mStory.markAsRead();
+
+        ContentValues values = new ContentValues();
+        values.put(StoryEntry.COL_IS_READ, 1);
+
+        getContentResolver().update(StoryEntry.buildUri(mStory.getKey()), values, null, null);
+    }
+
+
+    /**
+     * Toggles the saved/unsaved status of the Story,
+     * persists the change in the database
+     */
     private void toggleSaved() {
 
         mStory.toggleIsSaved();
@@ -119,6 +143,10 @@ public class StoryActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Opens the Share menu, passing the external link (URL)
+     * of the Story
+     */
     private void shareLink() {
 
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
