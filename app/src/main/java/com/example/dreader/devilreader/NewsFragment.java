@@ -16,10 +16,12 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -200,7 +202,9 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
 
         ButterKnife.bind(this, layout_root);
 
-        getActivity().setTitle(R.string.drawer_news);
+        ((AppCompatActivity) getActivity()).getSupportActionBar()
+                .setTitle(R.string.drawer_news);
+
         setHasOptionsMenu(true);
 
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));

@@ -2,6 +2,7 @@ package com.example.dreader.devilreader.model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -9,13 +10,17 @@ import java.util.TimeZone;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.example.dreader.devilreader.Util;
 import com.example.dreader.devilreader.data.StoryContract.StoryEntry;
 
 
-public class Story {
+public class Story implements Parcelable {
+
+    public static final String PARAM_STORY_PARCEL = "PARAM_STORY_PARCEL";
 
     private long _id; // SQLite key
     private String id; // Firebase key
@@ -47,7 +52,7 @@ public class Story {
      *
      * @param data Cursor containing Story data
      */
-    public Story (Cursor data) {
+    public Story(Cursor data) {
 
         mData = data;
 
@@ -58,7 +63,7 @@ public class Story {
         pubdate = getCursorLong(StoryEntry.COL_PUBDATE);
         source = getCursorString(StoryEntry.COL_SOURCE);
 
-        isRead = getCursorBool(StoryEntry.COL_IS_READ);
+        isRead = getCursorLong(StoryEntry.COL_IS_READ) == 1;
         isSaved = getCursorLong(StoryEntry.COL_IS_SAVED);
 
         String _author = getCursorString(StoryEntry.COL_AUTHOR);
@@ -75,6 +80,40 @@ public class Story {
     }
 
 
+    /**
+     * Construct StoryModel from a Parcel for the purpose of passing data from
+     * NewsActivity to StoryActivity, as well as restoring StoryActivity state
+     *
+     * @param in Parcel containing StoryModel data
+     */
+    public Story(Parcel in) {
+
+        _id = in.readLong();
+        id = in.readString();
+        title = in.readString();
+        link = in.readString();
+        pubdate = in.readLong();
+        source = in.readString();
+        isRead = in.readLong() == 1;
+        isSaved = in.readLong();
+
+        String _author = in.readString();
+        if (!_author.isEmpty()) { author = _author; }
+
+        String _tagline = in.readString();
+        if (!_tagline.isEmpty()) { tagline = _tagline; }
+
+        String _attachment = in.readString();
+        if (!_attachment.isEmpty()) { attachment = _attachment; }
+
+        String _media = in.readString();
+        if (!_media.isEmpty()) { media = _media; }
+
+        String[] _content = in.createStringArray();
+        if(_content.length > 0) { content = Arrays.asList(_content); }
+    }
+
+
     private String getCursorString(String columnName) {
 
         int index = mData.getColumnIndex(columnName);
@@ -88,12 +127,6 @@ public class Story {
         int index = mData.getColumnIndex(columnName);
 
         return index > -1 ? mData.getLong(index) : -1;
-    }
-
-
-    private boolean getCursorBool(String columnName) {
-
-        return getCursorLong(columnName) == 1;
     }
 
 
@@ -271,6 +304,7 @@ public class Story {
                 ? 0 - Util.getCurrentTimestamp() : Util.getCurrentTimestamp();
     }
 
+
     /**
      * Creates ContentValues for the purpose of saving to SQLite database
      *
@@ -352,4 +386,58 @@ public class Story {
 
         Log.v(LOG_TAG, "=====");
     }
+
+
+    /**
+     * Writes Story data to Parcel
+     *
+     * @param out Parcel containing Story data
+     * @param flags Additional flags about how the object should be written
+     */
+    public void writeToParcel(Parcel out, int flags) {
+
+        out.writeLong(_id);
+        out.writeString(id);
+        out.writeString(title);
+        out.writeString(link);
+        out.writeLong(pubdate);
+        out.writeString(source);
+        out.writeLong(isRead ? 1 : 0);
+        out.writeLong(isSaved);
+
+        out.writeString(author != null ? author : "");
+        out.writeString(tagline != null ? tagline : "");
+        out.writeString(attachment != null ? attachment : "");
+        out.writeString(media != null ? media : "");
+
+        out.writeStringArray(content != null ? content.toArray(new String[content.size()]) : new String[0]);
+    }
+
+    /**
+     * Describe the kinds of special objects contained in this Parcelable
+     * instance's marshaled representation
+     *
+     * @return bitmask indicating the set of special object types marshaled
+     * by this Parcelable object instance
+     */
+    public int describeContents() {
+
+        return 0;
+    }
+
+    /**
+     * Creates Story from Parcel
+     */
+    public static final Creator<Story> CREATOR = new Creator<Story> () {
+
+        public Story createFromParcel(Parcel in) {
+
+            return new Story(in);
+        }
+
+        public Story[] newArray(int size) {
+
+            return new Story[size];
+        }
+    };
 }
