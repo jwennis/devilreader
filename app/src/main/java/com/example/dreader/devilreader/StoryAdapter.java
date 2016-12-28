@@ -2,6 +2,7 @@ package com.example.dreader.devilreader;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -87,8 +88,13 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
         ViewGroup.LayoutParams layoutParams = holder.thumbnail.getLayoutParams();
 
         final float DENSITY = context.getResources().getDisplayMetrics().density;
-        final int DEFAULT_WIDTH = (int) (96 * DENSITY);
-        final int PLACEHOLDER_WIDTH = (int) (54 * DENSITY);
+        Resources res = context.getResources();
+
+        final int DEFAULT_WIDTH =
+                (int) (res.getDimension(R.dimen.story_thumbnail_width) * DENSITY);
+
+        final int PLACEHOLDER_WIDTH =
+                (int) (res.getDimension(R.dimen.story_thumbnail_height) * DENSITY);
 
         String attachment = item.getAttachment();
 
@@ -107,7 +113,7 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
 
         Glide.with(context)
                 .load(attachment)
-                .centerCrop()
+                .fitCenter()
                 .into(holder.thumbnail);
 
         holder.save_icon.setImageResource(item.isSaved()
