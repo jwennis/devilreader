@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.dreader.devilreader.data.StoryContract;
+import com.example.dreader.devilreader.model.Story;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -44,11 +45,9 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
     @Override
     public void onBindViewHolder(StoryViewHolder holder, int position) {
 
-        mData.moveToPosition(position);
+        Story item = getItemAt(position);
 
-        Log.v("DREADER", "ITEM # " + position);
-        Log.v("DREADER", mData.getString(mData.getColumnIndex(StoryContract.StoryEntry.COL_TITLE)));
-        holder.title.setText(mData.getString(mData.getColumnIndex(StoryContract.StoryEntry.COL_TITLE)));
+        holder.title.setText(item.getTitle());
         holder.title.setTypeface(TypefaceArvoNormal);
     }
 
@@ -57,6 +56,19 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
     public int getItemCount() {
 
         return mData != null ? mData.getCount() : 0;
+    }
+
+
+    public Story getItemAt(int pos) {
+
+        if(pos < getItemCount()) {
+
+            mData.moveToPosition(pos);
+
+            return new Story(mData);
+        }
+
+        return null;
     }
 
 

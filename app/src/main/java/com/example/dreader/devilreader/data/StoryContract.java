@@ -28,7 +28,7 @@ public class StoryContract {
         public static final String TABLE_NAME = "story";
 
         // required
-        public static final String COL_FIREBASE_KEY = "firebase_key";
+        public static final String COL_ID = "id";
         public static final String COL_TITLE = "title";
         public static final String COL_LINK = "link";
         public static final String COL_PUBDATE = "pubdate";

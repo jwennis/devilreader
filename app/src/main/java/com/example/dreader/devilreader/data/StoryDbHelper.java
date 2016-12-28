@@ -24,7 +24,7 @@ public class StoryDbHelper extends SQLiteOpenHelper {
                 StoryEntry.TABLE_NAME + " (" +
                 StoryEntry._ID + " INTEGER PRIMARY KEY, " +
 
-                StoryEntry.COL_FIREBASE_KEY + " TEXT UNIQUE NOT NULL, " +
+                StoryEntry.COL_ID + " TEXT UNIQUE NOT NULL, " +
                 StoryEntry.COL_TITLE + " TEXT NOT NULL, " +
                 StoryEntry.COL_LINK + " TEXT NOT NULL, " +
                 StoryEntry.COL_PUBDATE + " INTEGER NOT NULL, " +

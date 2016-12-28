@@ -3,6 +3,7 @@ package com.example.dreader.devilreader.model;
 import java.util.List;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.util.Log;
 
 import com.example.dreader.devilreader.data.StoryContract.StoryEntry;
@@ -27,9 +28,66 @@ public class Story {
     private boolean isRead;
     private boolean isSaved;
 
+    private Cursor mData;
 
     public Story() {
 
+    }
+
+
+    /**
+     * Construct Story from Cursor (via NewsFragment)
+     * for the purposes of populating a RecyclerView
+     *
+     * @param data Cursor containing Story data
+     */
+    public Story (Cursor data) {
+
+        mData = data;
+
+        _id = getCursorLong(StoryEntry._ID);
+        id = getCursorString(StoryEntry.COL_ID);
+        title = getCursorString(StoryEntry.COL_TITLE);
+        link = getCursorString(StoryEntry.COL_LINK);
+        pubdate = getCursorLong(StoryEntry.COL_PUBDATE);
+        source = getCursorString(StoryEntry.COL_SOURCE);
+
+        isRead = getCursorBool(StoryEntry.COL_IS_READ);
+        isSaved = getCursorBool(StoryEntry.COL_IS_SAVED);
+
+        String _author = getCursorString(StoryEntry.COL_AUTHOR);
+        if(_author != null) { author = _author; }
+
+        String _tagline = getCursorString(StoryEntry.COL_TAGLINE);
+        if(_tagline != null) { tagline = _tagline; }
+
+        String _attachment = getCursorString(StoryEntry.COL_ATTACHMENT);
+        if(_attachment != null) { attachment = _attachment; }
+
+        String _media = getCursorString(StoryEntry.COL_MEDIA);
+        if(_media != null) { media = _media; }
+    }
+
+
+    private String getCursorString(String columnName) {
+
+        int index = mData.getColumnIndex(columnName);
+
+        return index > -1 ? mData.getString(index) : null;
+    }
+
+
+    private long getCursorLong(String columnName) {
+
+        int index = mData.getColumnIndex(columnName);
+
+        return index > -1 ? mData.getLong(index) : -1;
+    }
+
+
+    private boolean getCursorBool(String columnName) {
+
+        return getCursorLong(columnName) == 1;
     }
 
 
@@ -133,7 +191,7 @@ public class Story {
 
         ContentValues values = new ContentValues();
 
-        values.put(StoryEntry.COL_FIREBASE_KEY, id);
+        values.put(StoryEntry.COL_ID, id);
         values.put(StoryEntry.COL_TITLE, title);
         values.put(StoryEntry.COL_LINK, link);
         values.put(StoryEntry.COL_PUBDATE, pubdate);
