@@ -1,11 +1,14 @@
 package com.example.dreader.devilreader;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.dreader.devilreader.data.StoryContract.StoryEntry;
 import com.example.dreader.devilreader.model.Story;
 
 
@@ -98,7 +101,21 @@ public class StoryActivity extends AppCompatActivity {
 
     private void toggleSaved() {
 
-        // TODO: implement this
+        mStory.toggleIsSaved();
+
+        ContentValues values = new ContentValues();
+        values.put(StoryEntry.COL_IS_SAVED, mStory.isSaved()
+                ? mStory.getSavedTimestamp() : - mStory.getSavedTimestamp());
+
+        invalidateOptionsMenu();
+
+        String message = getString(mStory.isSaved()
+                ? R.string.story_saved : R.string.story_unsaved);
+
+        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT).show();
+
+        getContentResolver().update(StoryEntry.buildUri(mStory.getKey()),
+                values, null, null);
     }
 
 
