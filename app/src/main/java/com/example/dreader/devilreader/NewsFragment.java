@@ -1,5 +1,6 @@
 package com.example.dreader.devilreader;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.os.Bundle;
@@ -10,12 +11,15 @@ import android.support.v4.content.Loader;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.dreader.devilreader.data.StoryContract.StoryEntry;
+import com.example.dreader.devilreader.firebase.FirebaseUtil;
+import com.example.dreader.devilreader.model.Story;
 import com.example.dreader.devilreader.sync.StorySyncAdapter;
 
 import butterknife.BindView;
@@ -93,8 +97,6 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
 
         if(loader.getId() == LOADER_ID) {
 
-            //Log.v("DREADER", DatabaseUtils.dumpCursorToString(data));
-
             if(mAdapter == null) {
 
                 mAdapter = new StoryAdapter(data, NewsFragment.class.getSimpleName());
@@ -104,6 +106,8 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
 
                 mAdapter.swapCursor(data);
             }
+
+            initSwipeToDismiss();
         }
     }
 
@@ -115,5 +119,42 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
 
             // TODO: swap cursor
         }
+    }
+
+
+    /**
+     * Marks a Story as read in the database and removes from the RecyclerView
+     * upon swiping the element from left right
+     */
+    private void initSwipeToDismiss() {
+
+        ItemTouchHelper.SimpleCallback swipeCallback =
+                new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+
+                    @Override
+                    public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+
+                        int pos = viewHolder.getAdapterPosition();
+
+                        Story item = mAdapter.getItemAt(pos);
+
+                        ContentValues values = new ContentValues();
+                        values.put(StoryEntry.COL_IS_READ, 1);
+
+                        getContext().getContentResolver()
+                                .update(StoryEntry.buildUri(item.getKey()), values, null, null);
+
+                        mAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public boolean onMove(RecyclerView view, RecyclerView.ViewHolder holder,
+                                          RecyclerView.ViewHolder target) {
+                        return false;
+                    }
+                };
+
+        ItemTouchHelper swipeHelper = new ItemTouchHelper(swipeCallback);
+        swipeHelper.attachToRecyclerView(recycler);
     }
 }
