@@ -4,31 +4,21 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/margin_small"
+    android:layout_margin="@dimen/margin_xsmall"
     android:background="@color/white">
 
     <TextView
         android:id="@+id/story_item_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_small"
-        android:textColor="@color/darkgrey"
-        android:textSize="15sp" />
+        style="@style/story_item_title" />
 
     <FrameLayout
         android:id="@+id/story_item_thumbnail_frame"
         android:layout_below="@id/story_item_title"
-        android:layout_width="96dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="@dimen/margin_small"
-        android:layout_marginEnd="@dimen/margin_small"
-        android:layout_marginBottom="@dimen/margin_small">
+        style="@style/story_item_thumbnail_frame">
 
         <ImageView
             android:id="@+id/story_item_thumbnail"
-            android:layout_width="96dp"
-            android:layout_height="54dp"
-            android:layout_gravity="top|center_horizontal" />
+            style="@style/story_item_thumbnail" />
 
     </FrameLayout>
 
@@ -36,36 +26,22 @@
         android:id="@+id/story_item_save_icon"
         android:layout_below="@id/story_item_title"
         android:layout_toEndOf="@id/story_item_thumbnail_frame"
-        android:layout_width="16dp"
-        android:layout_height="16dp" />
+        style="@style/story_item_save_icon" />
 
     <TextView
         android:id="@+id/story_item_byline"
         android:layout_below="@id/story_item_title"
         android:layout_toEndOf="@id/story_item_save_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_small"
-        android:textColor="#555555"
-        android:textSize="12sp" />
+        style="@style/story_item_byline" />
 
     <TextView
         android:id="@+id/story_item_tagline"
         android:layout_below="@id/story_item_byline"
         android:layout_toEndOf="@id/story_item_thumbnail_frame"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_small"
-        android:textColor="#555555"
-        android:textSize="12sp" />
+        style="@style/story_item_tagline" />
 
     <View
         android:id="@+id/story_item_divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginStart="@dimen/margin_medium"
-        android:layout_marginEnd="@dimen/margin_medium"
-        android:background="@android:color/darker_gray"
-        android:visibility="gone"/>
+        style="@style/story_item_divider" />
 
 </RelativeLayout>

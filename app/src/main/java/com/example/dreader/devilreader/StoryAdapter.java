@@ -73,15 +73,15 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
 
         if(item.isRead()) {
 
-            holder.title.setTextColor(Color.parseColor("#888888"));
-            holder.byline.setTextColor(Color.parseColor("#aaaaaa"));
-            holder.tagline.setTextColor(Color.parseColor("#aaaaaa"));
+            holder.title.setTextColor(0xff888888);
+            holder.byline.setTextColor(0xffaaaaaa);
+            holder.tagline.setTextColor(0xffaaaaaa);
 
         } else {
 
-            holder.title.setTextColor(Color.parseColor("#444444"));
-            holder.byline.setTextColor(Color.parseColor("#555555"));
-            holder.tagline.setTextColor(Color.parseColor("#555555"));
+            holder.title.setTextColor(0xff444444);
+            holder.byline.setTextColor(0xff555555);
+            holder.tagline.setTextColor(0xff555555);
         }
 
         ViewGroup.LayoutParams layoutParams = holder.thumbnail.getLayoutParams();

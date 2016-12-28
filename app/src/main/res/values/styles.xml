@@ -11,8 +11,66 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style
+        name="AppTheme.AppBarOverlay"
+        parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style
+        name="AppTheme.PopupOverlay"
+        parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- NewsFragment list item -->
+
+    <style name="story_item_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/margin_small</item>
+        <item name="android:textColor">@color/darkgrey</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="story_item_thumbnail_frame">
+        <item name="android:layout_width">@dimen/story_thumbnail_width</item>
+        <item name="android:layout_height">@dimen/story_thumbnail_height</item>
+        <item name="android:layout_marginStart">@dimen/margin_small</item>
+        <item name="android:layout_marginEnd">@dimen/margin_small</item>
+        <item name="android:layout_marginBottom">@dimen/margin_small</item>
+    </style>
+
+    <style name="story_item_thumbnail">
+        <item name="android:layout_width">@dimen/story_thumbnail_width</item>
+        <item name="android:layout_height">@dimen/story_thumbnail_height</item>
+        <item name="android:layout_gravity">top|center_horizontal</item>
+    </style>
+
+    <style name="story_item_save_icon">
+        <item name="android:layout_width">@dimen/margin_large</item>
+        <item name="android:layout_height">@dimen/margin_large</item>
+    </style>
+
+    <style name="story_item_byline">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/margin_small</item>
+        <item name="android:textColor">#555555</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="story_item_tagline">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/margin_small</item>
+        <item name="android:textColor">#555555</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="story_item_divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginStart">@dimen/margin_medium</item>
+        <item name="android:layout_marginEnd">@dimen/margin_medium</item>
+        <item name="android:background">@android:color/darker_gray</item>
+        <item name="android:visibility">gone</item>
+    </style>
 
 </resources>

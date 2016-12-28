@@ -15,4 +15,7 @@
 
     <dimen name="default_elevation">4dp</dimen>
 
+    <dimen name="story_thumbnail_width">96dp</dimen>
+    <dimen name="story_thumbnail_height">54dp</dimen>
+
 </resources>
