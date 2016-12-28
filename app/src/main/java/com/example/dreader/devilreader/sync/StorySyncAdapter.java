@@ -1,5 +1,6 @@
 package com.example.dreader.devilreader.sync;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.accounts.Account;
@@ -7,13 +8,16 @@ import android.accounts.AccountManager;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.os.Build;
 import android.os.Bundle;
 
 import com.example.dreader.devilreader.R;
+import com.example.dreader.devilreader.data.StoryContract.StoryEntry;
 import com.example.dreader.devilreader.firebase.FirebaseCallback;
 import com.example.dreader.devilreader.firebase.FirebaseUtil;
 import com.example.dreader.devilreader.model.Story;
@@ -40,10 +44,17 @@ public class StorySyncAdapter extends AbstractThreadedSyncAdapter {
             @Override
             public void onResult(List<Story> list) {
 
+                List<ContentValues> values = new ArrayList<>();
+
                 for(Story item : list) {
 
-                    item.print();
+                    values.add(item.getInsertValues());
                 }
+
+                getContext().getContentResolver().bulkInsert(StoryEntry.CONTENT_URI,
+                        values.toArray(new ContentValues[ values.size() ]));
+
+                //getContext().sendBroadcast(new Intent(ACTION_DB_UPDATE));
             }
         });
     }
