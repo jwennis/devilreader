@@ -1,8 +1,12 @@
 package com.example.dreader.devilreader.model;
 
+import java.util.List;
+
+import android.content.ContentValues;
 import android.util.Log;
 
-import java.util.List;
+import com.example.dreader.devilreader.data.StoryContract.StoryEntry;
+
 
 public class Story {
 
@@ -120,6 +124,51 @@ public class Story {
     }
 
 
+    /**
+     * Creates ContentValues for the purpose of saving to SQLite database
+     *
+     * @return ContentValues containing data properties of this instance
+     */
+    public ContentValues getInsertValues() {
+
+        ContentValues values = new ContentValues();
+
+        values.put(StoryEntry.COL_FIREBASE_KEY, id);
+        values.put(StoryEntry.COL_TITLE, title);
+        values.put(StoryEntry.COL_LINK, link);
+        values.put(StoryEntry.COL_PUBDATE, pubdate);
+        values.put(StoryEntry.COL_SOURCE, source);
+
+        if(author != null) {
+
+            values.put(StoryEntry.COL_AUTHOR, author);
+        }
+
+        if(tagline != null) {
+
+            values.put(StoryEntry.COL_TAGLINE, tagline);
+        }
+
+        if(attachment != null) {
+
+            values.put(StoryEntry.COL_ATTACHMENT, attachment);
+        }
+
+        if(media != null) {
+
+            values.put(StoryEntry.COL_MEDIA, media);
+        }
+
+        values.put(StoryEntry.COL_IS_READ, 0);
+        values.put(StoryEntry.COL_IS_SAVED, 0);
+
+        return values;
+    }
+
+
+    /**
+     * Log the Story attributes to console for testing/debug purposes.
+     */
     public void print() {
 
         final String LOG_TAG = "DREADER";
