@@ -8,6 +8,7 @@
     <string name="drawer_news">News</string>
 
     <string name="action_settings">Settings</string>
+    <string name="action_filter">Filter</string>
 
     <string name="content_authority">com.example.dreader.devilreader</string>
     <string name="sync_account_type">com.example.dreader.devilreader.SYNC_ACCOUNT_TYPE</string>
@@ -15,11 +16,19 @@
     <string name="typeface_arvo_normal">fonts/arvo.ttf</string>
     <string name="typeface_arvo_bold">fonts/arvo_bold.ttf</string>
 
+    <!-- NewsFragment -->
+
     <string name="story_thumbnail_placeholder">
         http://www.prucenter.com/partner-resources/devils/NJ_Devils_Logo.250x250.png
     </string>
 
     <string name="story_saved">Saved</string>
     <string name="story_unsaved">Unsaved</string>
+
+    <string-array name="settings_news_filters">
+        <item>Show All</item>
+        <item>Saved</item>
+        <item>Unread</item>
+    </string-array>
 
 </resources>
