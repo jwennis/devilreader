@@ -1,5 +1,6 @@
 package com.example.dreader.devilreader;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -73,10 +74,10 @@ public class StoryActivity extends AppCompatActivity {
 
         switch(item.getItemId()) {
 
-            case android.R.id.home: {
-
-                onBackPressed();
-            }
+            case android.R.id.home: { onBackPressed(); return true; }
+            case R.id.action_browser: { openLinkExternal(); return true; }
+            case R.id.action_save: { toggleSaved(); return true; }
+            case R.id.action_share: { shareLink(); return true; }
 
             default: {
 
@@ -93,4 +94,26 @@ public class StoryActivity extends AppCompatActivity {
 
         overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
     }
+
+
+    private void toggleSaved() {
+
+        // TODO: implement this
+    }
+
+
+    private void shareLink() {
+
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, mStory.getLink());
+        startActivity(Intent.createChooser(shareIntent, "Share link using"));
+    }
+
+
+    private void openLinkExternal() {
+
+        // TODO: implement this
+    }
+
 }
