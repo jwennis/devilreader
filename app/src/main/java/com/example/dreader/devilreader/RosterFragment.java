@@ -31,6 +31,11 @@ import butterknife.ButterKnife;
 public class RosterFragment extends Fragment {
 
     private List<Player> mRoster;
+    private List<Player> mForwards;
+    private List<Player> mDefensemen;
+    private List<Player> mGoaltenders;
+    private List<Player> mInjured;
+    private List<Player> mNonroster;
 
     private ViewGroup layout_root;
 
@@ -94,20 +99,15 @@ public class RosterFragment extends Fragment {
         });
     }
 
-    private AsyncTask mProcessPlayersTask = new AsyncTask<Player, Player, Void>() {
+
+    private AsyncTask mProcessPlayersTask = new AsyncTask<Player, Integer, Void>() {
 
         @Override
-        protected void onPreExecute() {
+        protected Void doInBackground(final Player... players) {
 
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Void doInBackground(Player... players) {
+            final List<Player> processed = new ArrayList<>();
 
             for(final Player player : players) {
-
-                Log.v("DREADER", "Processing " + player.getName());
 
                 FirebaseUtil.queryContract(player.getNhl_id(), new FirebaseCallback() {
 
@@ -115,24 +115,66 @@ public class RosterFragment extends Fragment {
                     public void onContractResult(List<PlayerContract> list) {
 
                         player.setContracts(list);
+
+                        processed.add(player);
+
+                        if(processed.size() == players.length) {
+
+                            sortRoster(processed);
+                        }
                     }
                 });
             }
 
-
             return null;
         }
 
-        @Override
-        protected void onProgressUpdate(Player... params) {
+        private void sortRoster(List<Player> roster) {
 
-            super.onProgressUpdate(params);
+            Collections.sort(roster, new Comparator<Player>() {
+
+                @Override
+                public int compare(Player p1, Player p2) {
+
+                    return p2.getCapHit() - p1.getCapHit();
+                }
+            });
+
+            mForwards = new ArrayList<>();
+            mDefensemen = new ArrayList<>();
+            mGoaltenders = new ArrayList<>();
+            mInjured = new ArrayList<>();
+            mNonroster = new ArrayList<>();
+
+            for(Player player : roster) {
+
+                if(player.getIs_injured()) {
+
+                    mInjured.add(player);
+
+                } else if (!player.getIs_roster()) {
+
+                    mNonroster.add(player);
+
+                } else if(Pattern.matches("C|LW|RW", player.getPosition())) {
+
+                    mForwards.add(player);
+
+                } else if (player.getPosition().equals("D")) {
+
+                    mDefensemen.add(player);
+
+                } else {
+
+                    mGoaltenders.add(player);
+                }
+            }
+
+            onPostExecute(null);
         }
 
         @Override
-        protected void onPostExecute(Void args) {
-
-            super.onPostExecute(args);
+        protected void onPostExecute(Void voidArgs) {
 
             bindRoster();
         }

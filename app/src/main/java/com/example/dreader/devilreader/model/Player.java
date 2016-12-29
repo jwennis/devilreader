@@ -208,6 +208,22 @@ public class Player {
     }
 
 
+    public int getCapHit() {
+
+        for(PlayerContract contract : mContracts) {
+
+            for(PlayerContract.ContractYear year : contract.getYears()) {
+
+                if(year.getSeason().equals("2016-17")) {
+
+                    return contract.getCapHit();
+                }
+            }
+        }
+
+        return 0;
+    }
+
     public void setContracts(List<PlayerContract> contracts) {
 
         mContracts = contracts;

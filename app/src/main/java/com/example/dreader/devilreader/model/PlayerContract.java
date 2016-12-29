@@ -45,6 +45,30 @@ public class PlayerContract {
     }
 
 
+    public List<ContractYear> getYears() {
+
+        return years;
+    }
+
+
+    public int getCapHit() {
+
+        int totalSalary = 0;
+        int numYears = 0;
+
+        for(ContractYear year : years) {
+
+            if(year.getNhlSalary() > 0) {
+
+                totalSalary += year.getNhlSalary();
+                numYears++;
+            }
+        }
+
+        return numYears > 0 ? totalSalary / numYears : 0;
+    }
+
+
     public void print() {
 
         Log.v("DREADER", "Contract for " + playerId);
@@ -57,6 +81,7 @@ public class PlayerContract {
         }
     }
 
+
     protected class ContractYear {
 
         private String season;
@@ -66,6 +91,7 @@ public class PlayerContract {
         private long bonus_performance;
         private boolean clause_nomove;
         private boolean clause_notrade;
+
 
         public ContractYear(String s, long nSalary, long aSalary,
                             long sBonus, long pBonus, boolean mClause, boolean tClause) {
@@ -78,6 +104,19 @@ public class PlayerContract {
             clause_nomove = mClause;
             clause_notrade = tClause;
         }
+
+
+        public String getSeason() {
+
+            return season;
+        }
+
+
+        public long getNhlSalary() {
+
+            return salary_nhl;
+        }
+
 
         public void print() {
 
