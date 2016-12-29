@@ -27,15 +27,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import butterknife.BindString;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
+
 import com.example.dreader.devilreader.data.StoryContract.StoryEntry;
 import com.example.dreader.devilreader.firebase.FirebaseCallback;
 import com.example.dreader.devilreader.firebase.FirebaseUtil;
 import com.example.dreader.devilreader.model.Story;
-
-import butterknife.BindString;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 
 public class StoryActivity extends AppCompatActivity {
@@ -418,21 +418,21 @@ public class StoryActivity extends AppCompatActivity {
 
 
     /**
-     * Opens the URL in a Chrome Custom Tab; falls back to
-     * regular browser if not supported on user device
-     *
-     * TODO: decide which to use setting in SharedPreferences
+     * Opens the Story URL in the users' preferred method - Chrome custom Tab or otherwise
      */
     private void openLinkExternal() {
 
-        if (sChromeTabPackageName != null) {
+        boolean isChromeTabPreferred = Util.getOpenExternalLinkMethod(this).equals("1");
+
+        if (isChromeTabPreferred && sChromeTabPackageName != null) {
 
             CustomTabsIntent.Builder builder =
                     new CustomTabsIntent.Builder(mChromeTabSession);
 
             //builder.setToolbarColor(colorInt);
             builder.setStartAnimations(this, R.anim.slide_in_right, R.anim.slide_out_left);
-            builder.setExitAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            builder.setExitAnimations(this,
+                    android.R.anim.slide_in_left, android.R.anim.slide_out_right);
 
             CustomTabsIntent tabIntent = builder.build();
 
@@ -444,5 +444,4 @@ public class StoryActivity extends AppCompatActivity {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mStory.getLink())));
         }
     }
-
 }

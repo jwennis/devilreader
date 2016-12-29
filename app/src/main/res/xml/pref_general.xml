@@ -2,7 +2,7 @@
 
     <CheckBoxPreference
         android:defaultValue="true"
-        android:key="pref_general_puckdrop_notification"
+        android:key="@string/pref_general_puckdrop_notification"
         android:summary="@string/pref_description_puckdrop_notification"
         android:title="@string/pref_title_puckdrop_notification" />
 
@@ -10,7 +10,7 @@
         android:defaultValue="0"
         android:entries="@array/pref_titles_start_screen"
         android:entryValues="@array/pref_values_start_screen"
-        android:key="pref_general_start_screen"
+        android:key="@string/pref_general_start_screen"
         android:negativeButtonText="@null"
         android:positiveButtonText="@null"
         android:title="@string/pref_title_start_screen" />
@@ -19,7 +19,7 @@
         android:defaultValue="1"
         android:entries="@array/pref_titles_open_link_method"
         android:entryValues="@array/pref_values_open_link_method"
-        android:key="pref_general_open_link_method"
+        android:key="@string/pref_general_open_link_method"
         android:negativeButtonText="@null"
         android:positiveButtonText="@null"
         android:title="@string/pref_title_open_link_method" />

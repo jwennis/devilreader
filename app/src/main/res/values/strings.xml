@@ -39,8 +39,21 @@
     <string name="title_activity_settings">Settings</string>
 
 
+    <!-- SharedPreferences -->
+
     <string name="pref_header_general">General Settings</string>
     <string name="pref_header_sources">News Sources</string>
+
+    <!-- Keys -->
+    <string name="pref_general_puckdrop_notification">pref_general_puckdrop_notification</string>
+    <string name="pref_general_start_screen">pref_general_start_screen</string>
+    <string name="pref_general_open_link_method">pref_general_open_link_method</string>
+    <string name="pref_sources_nhl">pref_sources_nhl</string>
+    <string name="pref_sources_tsn">pref_sources_tsn</string>
+    <string name="pref_sources_fib">pref_sources_fib</string>
+    <string name="pref_sources_yt">pref_sources_yt</string>
+    <string name="pref_sources_ppf">pref_sources_ppf</string>
+    <string name="pref_sources_had">pref_sources_had</string>
 
     <string name="pref_title_puckdrop_notification">Puck drop notification</string>
 
