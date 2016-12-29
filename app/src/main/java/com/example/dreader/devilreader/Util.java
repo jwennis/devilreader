@@ -1,8 +1,10 @@
 package com.example.dreader.devilreader;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 
 import java.util.Calendar;
 
@@ -15,6 +17,11 @@ public class Util {
     public static long getCurrentTimestamp() {
 
         return Calendar.getInstance().getTimeInMillis();
+    }
+
+    public static void setTitle(Activity activity, int resId) {
+
+        ((AppCompatActivity) activity).getSupportActionBar().setTitle(resId);
     }
 
     public static SharedPreferences getPreferences(Context context) {

@@ -1,13 +1,62 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.dreader.devilreader.RosterFragment">
+    android:background="#ffffff"
+    tools:context=".RosterFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello RosterFragment!" />
+        android:orientation="horizontal">
 
-</FrameLayout>
+        <!-- Player labels -->
+
+        <LinearLayout
+            android:id="@+id/roster_label_container"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <TextView
+                android:text="Forwards"
+                android:id="@+id/roster_forward_heading"
+                style="@style/roster_section_heading" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/roster_forward_labels"
+                style="@style/roster_list" />
+
+        </LinearLayout>
+
+        <!-- Player salaries -->
+
+        <HorizontalScrollView
+            android:id="@+id/roster_salary_container"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:visibility="invisible">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/roster_heading_years"
+                    android:id="@+id/roster_salary_heading_1" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/roster_forward_salaries"
+                    style="@style/roster_list" />
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

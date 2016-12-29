@@ -231,7 +231,7 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
 
         ButterKnife.bind(this, layout_root);
 
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.drawer_news);
+        Util.setTitle(getActivity(), R.string.drawer_news);
 
         setHasOptionsMenu(true);
 

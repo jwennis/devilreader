@@ -18,4 +18,6 @@
     <dimen name="story_thumbnail_width">96dp</dimen>
     <dimen name="story_thumbnail_height">54dp</dimen>
 
+    <dimen name="roster_salary_item_width">128dp</dimen>
+
 </resources>
