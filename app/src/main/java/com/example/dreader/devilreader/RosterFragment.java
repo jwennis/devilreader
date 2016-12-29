@@ -1,6 +1,7 @@
 package com.example.dreader.devilreader;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +18,10 @@ import com.example.dreader.devilreader.firebase.FirebaseUtil;
 import com.example.dreader.devilreader.model.Player;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -82,14 +86,54 @@ public class RosterFragment extends Fragment {
         FirebaseUtil.queryPlayer(FirebaseUtil.TEAM, "NJD", new FirebaseCallback() {
 
             @Override
-            public void onPlayerResult(List<Player> list) {
+            public void onPlayerResult(final List<Player> list) {
 
-                mRoster = list;
-
-                bindRoster();
+                mProcessPlayersTask.execute(list.toArray(new Player[list.size()]));
             }
         });
     }
+
+    private AsyncTask mProcessPlayersTask = new AsyncTask<Player, Player, Void>() {
+
+        @Override
+        protected void onPreExecute() {
+
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Player... players) {
+
+            for(Player player : players) {
+
+
+
+
+
+
+
+
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Player... params) {
+
+            super.onProgressUpdate(params);
+        }
+
+        @Override
+        protected void onPostExecute(Void args) {
+
+            super.onPostExecute(args);
+
+            bindRoster();
+        }
+    };
+
 
     private void bindRoster() {
 
