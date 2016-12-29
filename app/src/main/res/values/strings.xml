@@ -40,6 +40,10 @@
     </string-array>
     <string name="title_activity_settings">Settings</string>
 
+    <!-- Player -->
+
+    <string name="player_backdrop_root">https://nhl.bamcontent.com/images/actionshots/</string>
+    <string name="player_mugshot_root">https://nhl.bamcontent.com/images/headshots/current/168x168/</string>
 
     <!-- SharedPreferences -->
 

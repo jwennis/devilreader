@@ -17,6 +17,7 @@ import com.example.dreader.devilreader.firebase.FirebaseCallback;
 import com.example.dreader.devilreader.firebase.FirebaseUtil;
 import com.example.dreader.devilreader.model.Player;
 import com.example.dreader.devilreader.model.PlayerContract;
+import com.example.dreader.devilreader.ui.RosterLabelAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -100,10 +101,10 @@ public class RosterFragment extends Fragment {
     }
 
 
-    private AsyncTask mProcessPlayersTask = new AsyncTask<Player, Integer, Void>() {
+    private AsyncTask mProcessPlayersTask = new AsyncTask<Player, Integer, Boolean>() {
 
         @Override
-        protected Void doInBackground(final Player... players) {
+        protected Boolean doInBackground(final Player... players) {
 
             final List<Player> processed = new ArrayList<>();
 
@@ -126,7 +127,7 @@ public class RosterFragment extends Fragment {
                 });
             }
 
-            return null;
+            return false;
         }
 
         private void sortRoster(List<Player> roster) {
@@ -170,13 +171,16 @@ public class RosterFragment extends Fragment {
                 }
             }
 
-            onPostExecute(null);
+            onPostExecute(true);
         }
 
         @Override
-        protected void onPostExecute(Void voidArgs) {
+        protected void onPostExecute(Boolean isSorted) {
 
-            bindRoster();
+            if(isSorted) {
+
+                bindRoster();
+            }
         }
     };
 
@@ -187,16 +191,23 @@ public class RosterFragment extends Fragment {
 
         Util.setTitle(getActivity(), R.string.drawer_roster);
 
-        initRecycler(forward_labels);
-        initRecycler(forward_salaries);
+        initRecycler(mForwards, forward_labels, forward_salaries);
 
         label_container.setVisibility(View.VISIBLE);
         salary_container.setVisibility(View.VISIBLE);
     }
 
-    private void initRecycler(RecyclerView recycler) {
+    private void initRecycler(List<Player> players,
+                              RecyclerView labelRecycler, RecyclerView salaryRecycler) {
 
-        recycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        recycler.setItemAnimator(new DefaultItemAnimator());
+        labelRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        labelRecycler.setItemAnimator(new DefaultItemAnimator());
+        labelRecycler.setAdapter(new RosterLabelAdapter(players));
+
+//        salaryRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+//        salaryRecycler.setItemAnimator(new DefaultItemAnimator());
+        //salaryRecycler.setAdapter(new RosterSalaryAdapter(getContext(), players));
+
+
     }
 }
