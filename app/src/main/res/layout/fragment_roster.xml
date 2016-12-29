@@ -31,6 +31,42 @@
                 android:id="@+id/roster_forward_labels"
                 style="@style/roster_list" />
 
+            <TextView
+                android:text="Defensemen"
+                android:id="@+id/roster_defense_heading"
+                style="@style/roster_section_heading" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/roster_defense_labels"
+                style="@style/roster_list" />
+
+            <TextView
+                android:text="Goaltenders"
+                android:id="@+id/roster_goaltender_heading"
+                style="@style/roster_section_heading" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/roster_goaltender_labels"
+                style="@style/roster_list" />
+
+            <TextView
+                android:text="Injury Reserve"
+                android:id="@+id/roster_injured_heading"
+                style="@style/roster_section_heading" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/roster_injured_labels"
+                style="@style/roster_list" />
+
+            <TextView
+                android:text="Non-roster"
+                android:id="@+id/roster_nonroster_heading"
+                style="@style/roster_section_heading" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/roster_nonroster_labels"
+                style="@style/roster_list" />
+
         </LinearLayout>
 
         <!-- Player salaries -->
@@ -51,6 +87,34 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/roster_forward_salaries"
+                    style="@style/roster_list" />
+
+                <include layout="@layout/roster_heading_years"
+                    android:id="@+id/roster_salary_heading_2" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/roster_defense_salaries"
+                    style="@style/roster_list" />
+
+                <include layout="@layout/roster_heading_years"
+                    android:id="@+id/roster_salary_heading_3" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/roster_goaltender_salaries"
+                    style="@style/roster_list" />
+
+                <include layout="@layout/roster_heading_years"
+                    android:id="@+id/roster_salary_heading_4" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/roster_injured_salaries"
+                    style="@style/roster_list" />
+
+                <include layout="@layout/roster_heading_years"
+                    android:id="@+id/roster_salary_heading_5" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/roster_nonroster_salaries"
                     style="@style/roster_list" />
 
             </LinearLayout>

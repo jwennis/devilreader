@@ -1,17 +1,23 @@
 package com.example.dreader.devilreader;
 
-import android.content.Context;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.regex.Pattern;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 import com.example.dreader.devilreader.firebase.FirebaseCallback;
 import com.example.dreader.devilreader.firebase.FirebaseUtil;
@@ -19,15 +25,6 @@ import com.example.dreader.devilreader.model.Player;
 import com.example.dreader.devilreader.model.PlayerContract;
 import com.example.dreader.devilreader.ui.RosterLabelAdapter;
 import com.example.dreader.devilreader.ui.RosterSalaryAdapter;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.regex.Pattern;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 
 public class RosterFragment extends Fragment {
@@ -52,6 +49,30 @@ public class RosterFragment extends Fragment {
 
     @BindView(R.id.roster_forward_salaries)
     RecyclerView forward_salaries;
+
+    @BindView(R.id.roster_defense_labels)
+    RecyclerView defense_labels;
+
+    @BindView(R.id.roster_defense_salaries)
+    RecyclerView defense_salaries;
+
+    @BindView(R.id.roster_goaltender_labels)
+    RecyclerView goaltender_labels;
+
+    @BindView(R.id.roster_goaltender_salaries)
+    RecyclerView goaltender_salaries;
+
+    @BindView(R.id.roster_injured_labels)
+    RecyclerView injured_labels;
+
+    @BindView(R.id.roster_injured_salaries)
+    RecyclerView injured_salaries;
+
+    @BindView(R.id.roster_nonroster_labels)
+    RecyclerView nonroster_labels;
+
+    @BindView(R.id.roster_nonroster_salaries)
+    RecyclerView nonroster_salaries;
 
 
     public RosterFragment() {
@@ -192,21 +213,32 @@ public class RosterFragment extends Fragment {
 
         Util.setTitle(getActivity(), R.string.drawer_roster);
 
-        initRecycler(mForwards, forward_labels, forward_salaries);
+        setAdapter(mForwards, forward_labels, forward_salaries);
+        setAdapter(mDefensemen, defense_labels, defense_salaries);
+        setAdapter(mGoaltenders, goaltender_labels, goaltender_salaries);
+        setAdapter(mInjured, injured_labels, injured_salaries);
+        setAdapter(mNonroster, nonroster_labels, nonroster_salaries);
 
         label_container.setVisibility(View.VISIBLE);
         salary_container.setVisibility(View.VISIBLE);
     }
 
-    private void initRecycler(List<Player> players,
+    private void setAdapter(List<Player> players,
                               RecyclerView labelRecycler, RecyclerView salaryRecycler) {
 
-        labelRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        labelRecycler.setItemAnimator(new DefaultItemAnimator());
-        labelRecycler.setAdapter(new RosterLabelAdapter(players));
+        initRecyclers(labelRecycler, salaryRecycler);
 
-        salaryRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        salaryRecycler.setItemAnimator(new DefaultItemAnimator());
+        labelRecycler.setAdapter(new RosterLabelAdapter(players));
         salaryRecycler.setAdapter(new RosterSalaryAdapter(players));
+    }
+
+
+    private void initRecyclers(RecyclerView... recyclers) {
+
+        for(RecyclerView recycler : recyclers) {
+
+            recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+            recycler.setItemAnimator(new DefaultItemAnimator());
+        }
     }
 }
