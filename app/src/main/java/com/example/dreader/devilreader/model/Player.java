@@ -1,14 +1,17 @@
 package com.example.dreader.devilreader.model;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 public class Player {
 
+    public static final String PARAM_PLAYER_PARCEL = "PARAM_PLAYER_PARCEL";
+
     private long nhl_id;
 
     private String name;
-
     private String team;
     private String position;
     private String hand;
@@ -32,6 +35,36 @@ public class Player {
 
     public Player() {
 
+    }
+
+
+    public Player(Parcel in) {
+
+        nhl_id = in.readLong();
+
+        name = in.readString();
+        team = in.readString();
+        position = in.readString();
+        hand= in.readString();
+        number= in.readLong();
+
+        is_assistant = in.readInt() == 1;
+        is_captain= in.readInt() == 1;
+        is_injured = in.readInt() == 1;
+        is_roster = in.readInt() == 1;
+        is_drafted = in.readInt() == 1;
+
+        if(is_drafted) {
+
+            draft_team = in.readString();
+            draft_year = in.readLong();
+            draft_round = in.readLong();
+            draft_position = in.readLong();
+        }
+
+        dob = in.readLong();
+        height= in.readLong();
+        weight= in.readLong();
     }
 
 
@@ -169,4 +202,68 @@ public class Player {
         Log.v("DREADER", "HEIGHT = " + height);
         Log.v("DREADER", "WEIGHT = " + weight);
     }
+
+
+    /**
+     * Writes Player data to Parcel
+     *
+     * @param out Parcel containing Player data
+     * @param flags Additional flags about how the object should be written
+     */
+    public void writeToParcel(Parcel out, int flags) {
+
+        out.writeLong(nhl_id);
+
+        out.writeString(name);
+        out.writeString(team);
+        out.writeString(position);
+        out.writeString(hand);
+        out.writeLong(number);
+
+        out.writeInt(is_assistant ? 1 : 0);
+        out.writeInt(is_captain ? 1 : 0);
+        out.writeInt(is_injured ? 1 : 0);
+        out.writeInt(is_roster ? 1 : 0);
+        out.writeInt(is_drafted ? 1 : 0);
+
+        if(is_drafted) {
+
+            out.writeString(draft_team);
+            out.writeLong(draft_year);
+            out.writeLong(draft_round);
+            out.writeLong(draft_position);
+        }
+
+        out.writeLong(dob);
+        out.writeLong(height);
+        out.writeLong(weight);
+    }
+
+    /**
+     * Describe the kinds of special objects contained in this Parcelable
+     * instance's marshaled representation
+     *
+     * @return bitmask indicating the set of special object types marshaled
+     * by this Parcelable object instance
+     */
+    public int describeContents() {
+
+        return 0;
+    }
+
+    /**
+     * Creates Player from Parcel
+     */
+    public static final Parcelable.Creator<Player> CREATOR = new Parcelable.Creator<Player>() {
+
+        public Player createFromParcel(Parcel in) {
+
+            return new Player(in);
+        }
+
+        public Player[] newArray(int size) {
+
+            return new Player[size];
+        }
+    };
 }

@@ -84,9 +84,13 @@ public class StoryActivity extends AppCompatActivity {
 
             mStory = savedInstanceState.getParcelable(Story.PARAM_STORY_PARCEL);
 
+            mTags = savedInstanceState.containsKey(Player.PARAM_PLAYER_PARCEL)
+                    ? (ArrayList) savedInstanceState.getParcelableArrayList(Player.PARAM_PLAYER_PARCEL) : null;
+
         } else {
 
             mStory = getIntent().getExtras().getParcelable(Story.PARAM_STORY_PARCEL);
+            mTags = null;
         }
 
         bindStory();
@@ -240,6 +244,11 @@ public class StoryActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
 
         outState.putParcelable(Story.PARAM_STORY_PARCEL, mStory);
+
+        if(mTags != null) {
+
+            outState.putParcelableArrayList(Player.PARAM_PLAYER_PARCEL, (ArrayList) mTags);
+        }
 
         super.onSaveInstanceState(outState);
     }
