@@ -2,10 +2,14 @@ package com.example.dreader.devilreader.firebase;
 
 import java.util.List;
 
+import com.example.dreader.devilreader.model.Player;
 import com.example.dreader.devilreader.model.Story;
 
 public class FirebaseCallback {
 
-    public void onResult(List<Story> list) { }
-    public void onResult(Story item) { }
+    public void onStoryResult(List<Story> list) { }
+    public void onStoryResult(Story item) { }
+
+    public void onPlayerResult(List<Player> list) { }
+    public void onPlayerResult(Player item) { }
 }

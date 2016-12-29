@@ -42,7 +42,7 @@ public class StorySyncAdapter extends AbstractThreadedSyncAdapter {
         FirebaseUtil.queryStory(FirebaseUtil.ORDER_BY, "pubdate", new FirebaseCallback() {
 
             @Override
-            public void onResult(List<Story> list) {
+            public void onStoryResult(List<Story> list) {
 
                 List<ContentValues> values = new ArrayList<>();
 

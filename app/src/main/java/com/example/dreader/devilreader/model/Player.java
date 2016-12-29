@@ -1,6 +1,8 @@
 package com.example.dreader.devilreader.model;
 
 
+import android.util.Log;
+
 public class Player {
 
     private long nhl_id;
@@ -61,27 +63,27 @@ public class Player {
         return number;
     }
 
-    public boolean is_assistant() {
+    public boolean getIs_assistant() {
 
         return is_assistant;
     }
 
-    public boolean is_captain() {
+    public boolean getIs_captain() {
 
         return is_captain;
     }
 
-    public boolean is_injured() {
+    public boolean getIs_injured() {
 
         return is_injured;
     }
 
-    public boolean is_roster() {
+    public boolean getIs_roster() {
 
         return is_roster;
     }
 
-    public boolean is_drafted() {
+    public boolean getIs_drafted() {
 
         return is_drafted;
     }
@@ -119,5 +121,32 @@ public class Player {
     public long getWeight() {
 
         return weight;
+    }
+
+    public void print() {
+
+        Log.v("DREADER", "ID = " + nhl_id);
+
+        Log.v("DREADER", "Name = " + name);
+
+        Log.v("DREADER", "Team = " + team);
+        Log.v("DREADER", "Position = " + position);
+        Log.v("DREADER", "Hand = " + hand);
+        Log.v("DREADER", "Number = " + number);
+
+        Log.v("DREADER", "isAssistant? = " + is_assistant);
+        Log.v("DREADER", "isCaptain? = " + is_captain);
+        Log.v("DREADER", "isInjured? = " + is_injured);
+        Log.v("DREADER", "isRoster? = " + is_roster);
+        Log.v("DREADER", "isDrafted? = " + is_drafted);
+
+        Log.v("DREADER", "Draft team = " + (draft_team != null ? draft_team : "N/A"));
+        Log.v("DREADER", "Draft team = " + (draft_year > 0 ? draft_year : "N/A"));
+        Log.v("DREADER", "Draft team = " + (draft_round > 0 ? draft_round : "N/A"));
+        Log.v("DREADER", "Draft team = " + (draft_position > 0 ? draft_position : "N/A"));
+
+        Log.v("DREADER", "DOB = " + dob);
+        Log.v("DREADER", "HEIGHT = " + height);
+        Log.v("DREADER", "WEIGHT = " + weight);
     }
 }

@@ -342,7 +342,7 @@ public class StoryActivity extends AppCompatActivity {
         FirebaseUtil.queryStory(FirebaseUtil.KEY, mStory.getId(), new FirebaseCallback() {
 
             @Override
-            public void onResult(Story item) {
+            public void onStoryResult(Story item) {
 
                 mStory.setContent(item.getContent());
 
