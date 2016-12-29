@@ -68,13 +68,16 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        Fragment fragment = null;
-
         switch(item.getItemId()) {
 
-            case R.id.nav_news: {
+            case R.id.drawer_discover: {
 
-                fragment = new NewsFragment();
+                break;
+            }
+
+            case R.id.drawer_news: {
+
+                swapFragment(new NewsFragment(), true);
 
                 break;
             }
@@ -85,11 +88,6 @@ public class MainActivity extends AppCompatActivity implements
 
                 break;
             }
-        }
-
-        if(fragment != null) {
-
-            swapFragment(fragment, true);
         }
 
         drawer.closeDrawer(GravityCompat.START);

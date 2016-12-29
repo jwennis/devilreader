@@ -2,6 +2,7 @@
 
     <string name="app_name">Devil Reader</string>
 
+    <string name="drawer_discover">Discover</string>
     <string name="drawer_news">News</string>
     <string name="drawer_settings">Settings</string>
 
