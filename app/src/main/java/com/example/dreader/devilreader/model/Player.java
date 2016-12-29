@@ -72,6 +72,38 @@ public class Player {
         dob = in.readLong();
         height= in.readLong();
         weight= in.readLong();
+
+        int numContracts = in.readInt();
+
+        if(numContracts > 0) {
+
+            mContracts = new ArrayList<>();
+
+            for(int i = 0; i < numContracts; i++) {
+
+                String type = in.readString();
+                String expiry = in.readString();
+
+                PlayerContract contract = new PlayerContract(type, expiry);
+
+                int numYears = in.readInt();
+
+                for(int j = 0; j < numYears; j++) {
+
+                    String season = in.readString();
+                    long nSalary = in.readLong();
+                    long aSalary = in.readLong();
+                    long sBonus = in.readLong();
+                    long pBonus = in.readLong();
+                    boolean mClause = in.readInt() == 1;
+                    boolean tClause = in.readInt() == 1;
+
+                    contract.addYear(season, nSalary, aSalary, sBonus, pBonus, mClause, tClause);
+                }
+
+                mContracts.add(contract);
+            }
+        }
     }
 
 
@@ -291,6 +323,30 @@ public class Player {
         out.writeLong(dob);
         out.writeLong(height);
         out.writeLong(weight);
+
+        if(mContracts != null && mContracts.size() > 0) {
+
+            out.writeInt(mContracts.size());
+
+            for(PlayerContract contract : mContracts) {
+
+                out.writeString(contract.getType());
+                out.writeString(contract.getExpiry());
+
+                out.writeInt(contract.getYears().size());
+
+                for(PlayerContract.ContractYear year : contract.getYears()) {
+
+                    out.writeString(year.getSeason());
+                    out.writeLong(year.getNhlSalary());
+                    out.writeLong(year.getAhlSalary());
+                    out.writeLong(year.getSigningBonus());
+                    out.writeLong(year.getPerformanceBonus());
+                    out.writeInt(year.isNoMove() ? 1 : 0);
+                    out.writeInt(year.isNoTrade() ? 1 : 0);
+                }
+            }
+        }
     }
 
     /**

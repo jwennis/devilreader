@@ -29,7 +29,12 @@ import com.example.dreader.devilreader.ui.RosterSalaryAdapter;
 
 public class RosterFragment extends Fragment {
 
-    private List<Player> mRoster;
+    private static final String PARAM_ROSTER_FORWARDS = "PARAM_ROSTER_FORWARDS";
+    private static final String PARAM_ROSTER_DEFENSEMEN = "PARAM_ROSTER_DEFENSEMEN";
+    private static final String PARAM_ROSTER_GOALTENDERS = "PARAM_ROSTER_GOALTENDERS";
+    private static final String PARAM_ROSTER_INJURED = "PARAM_ROSTER_INJURED";
+    private static final String PARAM_ROSTER_NONROSTER = "PARAM_ROSTER_NONROSTER";
+
     private List<Player> mForwards;
     private List<Player> mDefensemen;
     private List<Player> mGoaltenders;
@@ -88,11 +93,21 @@ public class RosterFragment extends Fragment {
 
         if(savedInstanceState != null) {
 
-            mRoster = (ArrayList) savedInstanceState.getParcelableArrayList(Player.PARAM_PLAYER_PARCEL);
+            mForwards = (ArrayList) savedInstanceState.getParcelableArrayList(PARAM_ROSTER_FORWARDS);
+            mDefensemen = (ArrayList) savedInstanceState.getParcelableArrayList(PARAM_ROSTER_DEFENSEMEN);
+            mGoaltenders = (ArrayList) savedInstanceState.getParcelableArrayList(PARAM_ROSTER_GOALTENDERS);
+            mInjured = (ArrayList) savedInstanceState.getParcelableArrayList(PARAM_ROSTER_INJURED);
+            mNonroster = (ArrayList) savedInstanceState.getParcelableArrayList(PARAM_ROSTER_NONROSTER);
 
             bindRoster();
 
         } else {
+
+            mForwards = new ArrayList<>();
+            mDefensemen = new ArrayList<>();
+            mGoaltenders = new ArrayList<>();
+            mInjured = new ArrayList<>();
+            mNonroster = new ArrayList<>();
 
             initRoster();
         }
@@ -104,7 +119,11 @@ public class RosterFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
 
-        outState.putParcelableArrayList(Player.PARAM_PLAYER_PARCEL, (ArrayList) mRoster);
+        outState.putParcelableArrayList(PARAM_ROSTER_FORWARDS, (ArrayList) mForwards);
+        outState.putParcelableArrayList(PARAM_ROSTER_DEFENSEMEN, (ArrayList) mDefensemen);
+        outState.putParcelableArrayList(PARAM_ROSTER_GOALTENDERS, (ArrayList) mGoaltenders);
+        outState.putParcelableArrayList(PARAM_ROSTER_INJURED, (ArrayList) mInjured);
+        outState.putParcelableArrayList(PARAM_ROSTER_NONROSTER, (ArrayList) mNonroster);
 
         super.onSaveInstanceState(outState);
     }
@@ -112,14 +131,22 @@ public class RosterFragment extends Fragment {
 
     private void initRoster() {
 
-        FirebaseUtil.queryPlayer(FirebaseUtil.TEAM, "NJD", new FirebaseCallback() {
+        new Thread() {
 
             @Override
-            public void onPlayerResult(final List<Player> list) {
+            public void run(){
 
-                mProcessPlayersTask.execute(list.toArray(new Player[list.size()]));
+                FirebaseUtil.queryPlayer(FirebaseUtil.TEAM, "NJD", new FirebaseCallback() {
+
+                    @Override
+                    public void onPlayerResult(final List<Player> list) {
+
+                        mProcessPlayersTask.execute(list.toArray(new Player[list.size()]));
+                    }
+                });
             }
-        });
+
+        }.start();
     }
 
 
@@ -135,7 +162,7 @@ public class RosterFragment extends Fragment {
                 FirebaseUtil.queryContract(player.getNhl_id(), new FirebaseCallback() {
 
                     @Override
-                    public void onContractResult(List<PlayerContract> list) {
+                    public void onContractResult(final List<PlayerContract> list) {
 
                         player.setContracts(list);
 
@@ -144,6 +171,8 @@ public class RosterFragment extends Fragment {
                         if(processed.size() == players.length) {
 
                             sortRoster(processed);
+
+                            onPostExecute(true);
                         }
                     }
                 });
@@ -162,12 +191,6 @@ public class RosterFragment extends Fragment {
                     return p2.getCapHit() - p1.getCapHit();
                 }
             });
-
-            mForwards = new ArrayList<>();
-            mDefensemen = new ArrayList<>();
-            mGoaltenders = new ArrayList<>();
-            mInjured = new ArrayList<>();
-            mNonroster = new ArrayList<>();
 
             for(Player player : roster) {
 
@@ -192,8 +215,6 @@ public class RosterFragment extends Fragment {
                     mGoaltenders.add(player);
                 }
             }
-
-            onPostExecute(true);
         }
 
         @Override

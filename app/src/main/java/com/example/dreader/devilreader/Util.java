@@ -3,8 +3,10 @@ package com.example.dreader.devilreader;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import java.util.Calendar;
 
@@ -24,6 +26,10 @@ public class Util {
         ((AppCompatActivity) activity).getSupportActionBar().setTitle(resId);
     }
 
+    public static void isUiThread() {
+
+        Log.v("DREADER", Looper.myLooper() == Looper.getMainLooper() ? "UI THREAD" : "BG THREAD");
+    }
 
     /**
      * Formats an integer value to represent currency

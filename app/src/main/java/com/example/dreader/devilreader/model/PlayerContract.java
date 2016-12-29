@@ -12,8 +12,8 @@ public class PlayerContract {
 
     private long playerId;
 
-    private String expiry;
     private String type;
+    private String expiry;
     private List<ContractYear> years;
 
 
@@ -22,11 +22,20 @@ public class PlayerContract {
     }
 
 
+    public PlayerContract(String t, String e) {
+
+        type = t;
+        expiry = e;
+
+        years = new ArrayList<>();
+    }
+
+
     public PlayerContract(DataSnapshot data) {
 
         playerId = (long) data.child("player_id").getValue();
-        expiry = (String) data.child("expiry").getValue();
         type = (String) data.child("type").getValue();
+        expiry = (String) data.child("expiry").getValue();
         years = new ArrayList<>();
 
         for(DataSnapshot year : data.child("years").getChildren()) {
@@ -39,15 +48,30 @@ public class PlayerContract {
             boolean mClause = (boolean) year.child("clause_nomove").getValue();
             boolean tClause = (boolean) year.child("clause_notrade").getValue();
 
-            years.add(new ContractYear(season, nSalary, aSalary,
-                    sBonus, pBonus, mClause, tClause));
+            addYear(season, nSalary, aSalary, sBonus, pBonus, mClause, tClause);
         }
     }
+
+
+    public void addYear(String season, long nSalary, long aSalary,
+                        long sBonus, long pBonus, boolean mClause, boolean tClause) {
+
+        years.add(new ContractYear(season, nSalary, aSalary,
+                sBonus, pBonus, mClause, tClause));
+    }
+
+
+    public String getType() {
+
+        return type;
+    }
+
 
     public String getExpiry() {
 
         return expiry;
     }
+
 
     public List<ContractYear> getYears() {
 
@@ -86,7 +110,7 @@ public class PlayerContract {
     }
 
 
-    protected class ContractYear {
+    public class ContractYear {
 
         private String season;
         private long salary_nhl;
@@ -119,6 +143,36 @@ public class PlayerContract {
         public long getNhlSalary() {
 
             return salary_nhl;
+        }
+
+
+        public long getAhlSalary() {
+
+            return salary_ahl;
+        }
+
+
+        public long getSigningBonus() {
+
+            return bonus_signing;
+        }
+
+
+        public long getPerformanceBonus() {
+
+            return bonus_performance;
+        }
+
+
+        public boolean isNoMove() {
+
+            return clause_nomove;
+        }
+
+
+        public boolean isNoTrade() {
+
+            return clause_notrade;
         }
 
 
