@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import com.example.dreader.devilreader.model.Player;
+import com.example.dreader.devilreader.model.PlayerContract;
 import com.example.dreader.devilreader.model.Story;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -264,6 +265,33 @@ public class FirebaseUtil {
             public void onCancelled(DatabaseError databaseError) {
 
                 // TODO: log error + handle gracefully
+            }
+        });
+    }
+
+    public static void queryContract(long playerId, final FirebaseCallback callback) {
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Contract");
+        Query query = ref.orderByChild("player_id").equalTo(playerId);
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot data) {
+
+                List<PlayerContract> list = new ArrayList<>();
+
+                for(DataSnapshot child : data.getChildren()) {
+
+                    list.add(new PlayerContract(child));
+                }
+
+                callback.onContractResult(list);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
     }

@@ -5,6 +5,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import java.util.List;
+
 public class Player {
 
     public static final String PARAM_PLAYER_PARCEL = "PARAM_PLAYER_PARCEL";
@@ -31,6 +33,8 @@ public class Player {
     private long dob;
     private long height;
     private long weight;
+
+    private List<PlayerContract> mContracts;
 
 
     public Player() {
@@ -201,6 +205,12 @@ public class Player {
         Log.v("DREADER", "DOB = " + dob);
         Log.v("DREADER", "HEIGHT = " + height);
         Log.v("DREADER", "WEIGHT = " + weight);
+    }
+
+
+    public void setContracts(List<PlayerContract> contracts) {
+
+        mContracts = contracts;
     }
 
 

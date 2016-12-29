@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.example.dreader.devilreader.firebase.FirebaseCallback;
 import com.example.dreader.devilreader.firebase.FirebaseUtil;
 import com.example.dreader.devilreader.model.Player;
+import com.example.dreader.devilreader.model.PlayerContract;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -104,15 +105,18 @@ public class RosterFragment extends Fragment {
         @Override
         protected Void doInBackground(Player... players) {
 
-            for(Player player : players) {
+            for(final Player player : players) {
 
+                Log.v("DREADER", "Processing " + player.getName());
 
+                FirebaseUtil.queryContract(player.getNhl_id(), new FirebaseCallback() {
 
+                    @Override
+                    public void onContractResult(List<PlayerContract> list) {
 
-
-
-
-
+                        player.setContracts(list);
+                    }
+                });
             }
 
 
