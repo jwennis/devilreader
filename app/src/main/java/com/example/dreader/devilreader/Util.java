@@ -24,6 +24,19 @@ public class Util {
         ((AppCompatActivity) activity).getSupportActionBar().setTitle(resId);
     }
 
+
+    /**
+     * Formats an integer value to represent currency
+     *
+     * @param number dollars
+     * @return formatted String
+     */
+    public static String format$(int number) {
+
+        return "$" + String.format("%,d", number);
+    }
+
+
     public static SharedPreferences getPreferences(Context context) {
 
         return PreferenceManager.getDefaultSharedPreferences(context);

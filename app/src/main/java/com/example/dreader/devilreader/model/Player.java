@@ -5,6 +5,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import com.example.dreader.devilreader.Util;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
@@ -223,6 +226,31 @@ public class Player {
 
         return 0;
     }
+
+    public List<String> getCapLabelValues() {
+
+        List<String> values = new ArrayList<>();
+        String expiryStatus = "";
+
+        for(PlayerContract contract : mContracts) {
+
+            for(PlayerContract.ContractYear year : contract.getYears()) {
+
+                int contractSeason = Integer.parseInt(year.getSeason().substring(0, 4));
+
+                if(contractSeason >= 2016) {
+
+                    values.add(Util.format$(contract.getCapHit()));
+                    expiryStatus = contract.getExpiry();
+                }
+            }
+        }
+
+        values.add(expiryStatus);
+
+        return values;
+    }
+
 
     public void setContracts(List<PlayerContract> contracts) {
 

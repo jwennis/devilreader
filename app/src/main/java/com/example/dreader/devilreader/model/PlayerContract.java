@@ -44,6 +44,10 @@ public class PlayerContract {
         }
     }
 
+    public String getExpiry() {
+
+        return expiry;
+    }
 
     public List<ContractYear> getYears() {
 

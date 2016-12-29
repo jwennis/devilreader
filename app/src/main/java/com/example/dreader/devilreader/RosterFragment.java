@@ -18,6 +18,7 @@ import com.example.dreader.devilreader.firebase.FirebaseUtil;
 import com.example.dreader.devilreader.model.Player;
 import com.example.dreader.devilreader.model.PlayerContract;
 import com.example.dreader.devilreader.ui.RosterLabelAdapter;
+import com.example.dreader.devilreader.ui.RosterSalaryAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -204,10 +205,8 @@ public class RosterFragment extends Fragment {
         labelRecycler.setItemAnimator(new DefaultItemAnimator());
         labelRecycler.setAdapter(new RosterLabelAdapter(players));
 
-//        salaryRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-//        salaryRecycler.setItemAnimator(new DefaultItemAnimator());
-        //salaryRecycler.setAdapter(new RosterSalaryAdapter(getContext(), players));
-
-
+        salaryRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        salaryRecycler.setItemAnimator(new DefaultItemAnimator());
+        salaryRecycler.setAdapter(new RosterSalaryAdapter(players));
     }
 }
