@@ -14,19 +14,30 @@ import com.google.firebase.database.ValueEventListener;
 
 public class FirebaseUtil {
 
+    public static final String KEY = "KEY";
     public static final String ORDER_BY = "ORDER_BY";
 
-    public static void queryStory(String param, String paramValue,
-                                  final FirebaseCallback callback) {
+    public static void queryStory(String param, String paramValue, FirebaseCallback callback) {
 
         DatabaseReference ref =  FirebaseDatabase.getInstance().getReference("Story");
         Query query;
+
+        QueryType queryType = QueryType.LIST;
 
         switch(param) {
 
             case ORDER_BY: {
 
                 query = ref.orderByChild(paramValue).limitToLast(30);
+                queryType = QueryType.LIST;
+
+                break;
+            }
+
+            case KEY: {
+
+                query = ref.child(paramValue);
+                queryType = QueryType.ITEM;
 
                 break;
             }
@@ -39,27 +50,80 @@ public class FirebaseUtil {
 
         if(query != null) {
 
-            query.addListenerForSingleValueEvent(new ValueEventListener() {
+            queryStory(query, queryType, callback);
+        }
 
-                @Override
-                public void onDataChange(DataSnapshot data) {
+//        if(query != null) {
+//
+//            query.addListenerForSingleValueEvent(new ValueEventListener() {
+//
+//                @Override
+//                public void onDataChange(DataSnapshot data) {
+//
+//                        List<Story> list = new ArrayList<>();
+//
+//                        for(DataSnapshot child : data.getChildren()) {
+//
+//                            list.add(child.getValue(Story.class));
+//                        }
+//
+//                        callback.onResult(list);
+//
+//                }
+//
+//                @Override
+//                public void onCancelled(DatabaseError databaseError) {
+//
+//                    // TODO: log error + handle gracefully
+//                }
+//            });
+//        }
+    }
 
-                    List<Story> list = new ArrayList<>();
+    private static void queryStory(Query query, final QueryType type,
+                                   final FirebaseCallback callback) {
 
-                    for(DataSnapshot child : data.getChildren()) {
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
 
-                        list.add(child.getValue(Story.class));
+            @Override
+            public void onDataChange(DataSnapshot data) {
+
+                switch(type) {
+
+                    case LIST: {
+
+                        List<Story> list = new ArrayList<>();
+
+                        for(DataSnapshot child : data.getChildren()) {
+
+                            list.add(child.getValue(Story.class));
+                        }
+
+                        callback.onResult(list);
+
+                        break;
                     }
 
-                    callback.onResult(list);
+                    case ITEM: {
+
+                        Story item = data.getValue(Story.class);
+
+                        callback.onResult(item);
+
+                        break;
+                    }
                 }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
 
-                    // TODO: log error + handle gracefully
-                }
-            });
-        }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+                // TODO: log error + handle gracefully
+            }
+        });
     }
+
+    private enum QueryType { ITEM, LIST }
 }

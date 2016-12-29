@@ -9,7 +9,7 @@ import com.example.dreader.devilreader.data.StoryContract.StoryEntry;
 public class StoryDbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "story.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public StoryDbHelper(Context context) {
 

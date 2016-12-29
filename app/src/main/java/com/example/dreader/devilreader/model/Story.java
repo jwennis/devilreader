@@ -41,6 +41,7 @@ public class Story implements Parcelable {
 
     private Cursor mData;
 
+
     public Story() {
 
     }
@@ -215,6 +216,9 @@ public class Story implements Parcelable {
     }
 
 
+    //...
+
+
     public boolean isSaved() {
 
         return isSaved > 0;
@@ -227,9 +231,50 @@ public class Story implements Parcelable {
     }
 
 
+    public String getLongByline() {
+
+        StringBuilder builder = new StringBuilder()
+                .append(getSourceName())
+                .append(" | ")
+                .append(getDate());
+
+        if(author != null) {
+
+            builder.append("\nWritten by ");
+            builder.append(author);
+        }
+
+        return builder.toString();
+    }
+
+
     public String getShortByline() {
 
         return String.format("%1$s / %2$s", getSource(), getElapsed());
+    }
+
+
+    private String getDate() {
+
+        String datestring = Long.toString(pubdate);
+
+        String y = datestring.substring(0, 4);
+        int m = Integer.parseInt(datestring.substring(4, 6));
+        int d = Integer.parseInt(datestring.substring(6, 8));
+        int h = Integer.parseInt(datestring.substring(8, 10));
+        String min = datestring.substring(10, 12);
+        String ampm = h < 12 ? "am" : "pm";
+
+        h = h > 12 ? h - 12 : (h == 0 ? 12 : h);
+
+        StringBuilder builder = new StringBuilder()
+                .append(Util.SHORT_MONTH_NAMES[m - 1])
+                .append(" " + d)
+                .append(" " + h)
+                .append(":" + min)
+                .append(" " + ampm);
+
+        return builder.toString();
     }
 
 
@@ -289,6 +334,46 @@ public class Story implements Parcelable {
 
             return iso8601;
         }
+    }
+
+
+    private String getSourceName() {
+
+        switch(source) {
+
+            case "FIB": { return "Fire and Ice"; }
+            case "YT": { return "Youtube"; }
+            case "PPF": { return "Pucks and Pitchforks"; }
+            case "HAD": { return "Have Another Donut"; }
+            default: { return source; }
+        }
+    }
+
+
+    public boolean hasAttachment() {
+
+        return attachment != null && !attachment.isEmpty();
+    }
+
+
+    public boolean hasMedia() {
+
+        return media != null && !media.isEmpty();
+    }
+
+
+    public boolean hasContent() {
+
+        return content != null && content.size() > 0;
+    }
+
+
+    // Mutators
+
+
+    public void setContent(List<String> paragraphs) {
+
+        content = paragraphs;
     }
 
 

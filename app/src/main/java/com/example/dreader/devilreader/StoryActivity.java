@@ -1,30 +1,41 @@
 package com.example.dreader.devilreader;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.customtabs.CustomTabsSession;
+import android.support.customtabs.CustomTabsService;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.dreader.devilreader.data.StoryContract.StoryEntry;
+import com.example.dreader.devilreader.firebase.FirebaseCallback;
+import com.example.dreader.devilreader.firebase.FirebaseUtil;
 import com.example.dreader.devilreader.model.Story;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static android.support.customtabs.CustomTabsService.ACTION_CUSTOM_TABS_CONNECTION;
+import butterknife.BindString;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 public class StoryActivity extends AppCompatActivity {
@@ -37,6 +48,21 @@ public class StoryActivity extends AppCompatActivity {
 
     private Story mStory;
 
+    @BindString(R.string.typeface_arvo_bold)
+    String TYPEFACE_ARVO_BOLD;
+
+    @BindView(R.id.story_title)
+    TextView title;
+
+    @BindView(R.id.story_byline)
+    TextView byline;
+
+    @BindView(R.id.story_attachment)
+    ImageView attachment;
+
+    @BindView(R.id.story_content)
+    TextView content;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +71,12 @@ public class StoryActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_story);
 
+        ButterKnife.bind(this);
+
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("");
 
         if(savedInstanceState != null) {
 
@@ -58,10 +87,7 @@ public class StoryActivity extends AppCompatActivity {
             mStory = getIntent().getExtras().getParcelable(Story.PARAM_STORY_PARCEL);
         }
 
-        if(!mStory.isRead()) {
-
-            markAsRead();
-        }
+        bindStory();
     }
 
 
@@ -92,7 +118,7 @@ public class StoryActivity extends AppCompatActivity {
 
                 Intent serviceIntent = new Intent();
 
-                serviceIntent.setAction(ACTION_CUSTOM_TABS_CONNECTION);
+                serviceIntent.setAction(CustomTabsService.ACTION_CUSTOM_TABS_CONNECTION);
                 serviceIntent.setPackage(info.activityInfo.packageName);
 
                 if (pm.resolveService(serviceIntent, 0) != null) {
@@ -104,7 +130,7 @@ public class StoryActivity extends AppCompatActivity {
             for (ResolveInfo info : resolvedActivityList) {
 
                 Intent serviceIntent = new Intent();
-                serviceIntent.setAction(ACTION_CUSTOM_TABS_CONNECTION);
+                serviceIntent.setAction(CustomTabsService.ACTION_CUSTOM_TABS_CONNECTION);
                 serviceIntent.setPackage(info.activityInfo.packageName);
 
                 if (pm.resolveService(serviceIntent, 0) != null) {
@@ -200,6 +226,15 @@ public class StoryActivity extends AppCompatActivity {
 
 
     @Override
+    protected void onDestroy() {
+
+        super.onDestroy();
+
+        unbindService(mTabServiceConnection);
+    }
+
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
 
         outState.putParcelable(Story.PARAM_STORY_PARCEL, mStory);
@@ -259,6 +294,77 @@ public class StoryActivity extends AppCompatActivity {
     }
 
 
+    private void bindStory() {
+
+        Typeface TypefaceArvoBold = Typeface.createFromAsset(getAssets(), TYPEFACE_ARVO_BOLD);
+
+        title.setText(mStory.getTitle());
+        title.setTypeface(TypefaceArvoBold);
+
+        byline.setText(mStory.getLongByline());
+
+        if(mStory.hasAttachment()) {
+
+            Glide.with(this)
+                    .load(mStory.getAttachment())
+                    .fitCenter()
+                    .into(attachment);
+        } else {
+
+            attachment.setVisibility(View.GONE);
+        }
+
+        if(mStory.hasMedia()) {
+
+            // TODO: implement media player
+
+            Log.v("DREADER", "Media: " + mStory.getMedia());
+        }
+
+        if(!mStory.hasContent()) {
+
+            initContent();
+
+        } else {
+
+            bindContent();
+        }
+
+        if(!mStory.isRead()) {
+
+            markAsRead();
+        }
+    }
+
+
+    private void initContent() {
+
+        FirebaseUtil.queryStory(FirebaseUtil.KEY, mStory.getId(), new FirebaseCallback() {
+
+            @Override
+            public void onResult(Story item) {
+
+                mStory.setContent(item.getContent());
+
+                bindContent();
+            }
+        });
+    }
+
+
+    private void bindContent() {
+
+        StringBuilder builder = new StringBuilder();
+
+        for(String paragraph : mStory.getContent()) {
+
+            builder.append(paragraph + "\n\n");
+        }
+
+        content.setText(builder.toString());
+    }
+
+
     /**
      * Marks the Story as read, persists
      * the change in the database
@@ -311,6 +417,12 @@ public class StoryActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Opens the URL in a Chrome Custom Tab; falls back to
+     * regular browser if not supported on user device
+     *
+     * TODO: decide which to use setting in SharedPreferences
+     */
     private void openLinkExternal() {
 
         if (sChromeTabPackageName != null) {
