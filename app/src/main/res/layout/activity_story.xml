@@ -17,40 +17,19 @@
 
         <TextView
             android:id="@+id/story_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginBottom="@dimen/margin_small"
-            android:layout_marginStart="@dimen/margin_small"
-            android:layout_marginEnd="@dimen/margin_small"
-            android:textColor="@color/darkgrey"
-            android:textSize="22sp" />
+            style="@style/story_title" />
 
         <TextView
             android:id="@+id/story_byline"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_small"
-            android:layout_marginEnd="@dimen/margin_small"
-            android:textColor="@color/darkgrey"
-            android:textSize="16sp"
-            android:fontFamily="sans-serif-condensed"/>
+            style="@style/story_byline" />
 
         <ImageView
             android:id="@+id/story_attachment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_medium" />
+            style="@style/story_attachment" />
 
         <TextView
             android:id="@+id/story_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:textColor="@color/darkgrey"
-            android:textSize="16sp"
-            android:fontFamily="sans-serif-light"/>
+            style="@style/story_content" />
 
     </LinearLayout>
 
