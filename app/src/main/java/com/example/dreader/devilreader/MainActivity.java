@@ -1,5 +1,6 @@
 package com.example.dreader.devilreader;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -74,6 +75,13 @@ public class MainActivity extends AppCompatActivity implements
             case R.id.nav_news: {
 
                 fragment = new NewsFragment();
+
+                break;
+            }
+
+            case R.id.drawer_settings: {
+
+                startActivity(new Intent(this, SettingsActivity.class));
 
                 break;
             }

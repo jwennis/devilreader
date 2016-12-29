@@ -3,6 +3,7 @@
     <string name="app_name">Devil Reader</string>
 
     <string name="drawer_news">News</string>
+    <string name="drawer_settings">Settings</string>
 
     <string name="action_settings">Settings</string>
     <string name="action_filter">Filter</string>
@@ -33,6 +34,68 @@
         <item>Show All</item>
         <item>Saved</item>
         <item>Unread</item>
+    </string-array>
+    <string name="title_activity_settings">Settings</string>
+
+
+    <string name="pref_header_general">General Settings</string>
+    <string name="pref_header_sources">News Sources</string>
+
+    <string name="pref_title_puckdrop_notification">Puck drop notification</string>
+
+    <string name="pref_description_puckdrop_notification">
+        Receive a notification when a game is about to start
+    </string>
+
+    <string name="pref_title_open_link_method">Open external links method</string>
+
+    <string-array name="pref_titles_open_link_method">
+        <item>Web Browser</item>
+        <item>Chrome Tab</item>
+    </string-array>
+
+    <string-array name="pref_values_open_link_method">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string name="pref_title_start_screen">Default Start Screen</string>
+
+    <string-array name="pref_titles_start_screen">
+        <item>Discover</item>
+        <item>News</item>
+    </string-array>
+
+    <string-array name="pref_values_start_screen">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string name="pref_title_sources_nhl">NHL</string>
+    <string name="pref_description_sources_nhl">nhl.com/devils</string>
+
+    <string name="pref_title_sources_tsn">TSN</string>
+    <string name="pref_description_sources_tsn">tsn.ca/nhl/team/new-jersey-devils</string>
+
+    <string name="pref_title_sources_fib">Fire \&amp; Ice Blog</string>
+    <string name="pref_description_sources_fib">northjersey.com/blog/fireandice</string>
+
+    <string name="pref_title_sources_yt">Youtube</string>
+    <string name="pref_description_sources_yt">youtube.com/NJDevilsOfficial</string>
+
+    <string name="pref_title_sources_ppf">Pucks and Pitchforks</string>
+    <string name="pref_description_sources_ppf">pucksandpitchforks.com</string>
+
+    <string name="pref_title_sources_had">Have Another Doughnut Podcast</string>
+    <string name="pref_description_sources_had">hadpodcast.podomatic.com</string>
+
+    <string-array name="pref_titles_sources">
+        <item>@string/pref_title_sources_nhl</item>
+        <item>@string/pref_title_sources_tsn</item>
+        <item>@string/pref_title_sources_fib</item>
+        <item>@string/pref_title_sources_yt</item>
+        <item>@string/pref_title_sources_ppf</item>
+        <item>@string/pref_title_sources_had</item>
     </string-array>
 
 

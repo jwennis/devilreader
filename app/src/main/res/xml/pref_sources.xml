@@ -1,0 +1,39 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="pref_sources_nhl"
+        android:summary="@string/pref_description_sources_nhl"
+        android:title="@string/pref_title_sources_nhl" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="pref_sources_tsn"
+        android:summary="@string/pref_description_sources_tsn"
+        android:title="@string/pref_title_sources_tsn" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="pref_sources_fib"
+        android:summary="@string/pref_description_sources_fib"
+        android:title="@string/pref_title_sources_fib" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="pref_sources_yt"
+        android:summary="@string/pref_description_sources_yt"
+        android:title="@string/pref_title_sources_yt" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="pref_sources_ppf"
+        android:summary="@string/pref_description_sources_ppf"
+        android:title="@string/pref_title_sources_ppf" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="pref_sources_had"
+        android:summary="@string/pref_description_sources_had"
+        android:title="@string/pref_title_sources_had" />
+
+</PreferenceScreen>
