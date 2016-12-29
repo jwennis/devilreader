@@ -3,9 +3,11 @@ package com.example.dreader.devilreader;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -128,6 +130,16 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
                 return true;
             }
 
+            case R.id.action_sources: {
+
+                dialog = new SourceDialogFragment();
+
+                dialog.setTargetFragment(this, 0);
+                dialog.show(manager, SourceDialogFragment.FRGAMENT_TAG);
+
+                return true;
+            }
+
             default: {
 
                 return super.onOptionsItemSelected(item);
@@ -146,14 +158,31 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
 
             if(mFilter == Filter.SAVED) {
 
-                selectionBuilder.append(StoryEntry.COL_IS_SAVED + " > ?");
+                selectionBuilder.append(StoryEntry.COL_IS_SAVED + " > ? AND ");
                 argsList.add("0");
 
             } else if (mFilter == Filter.UNREAD) {
 
-                selectionBuilder.append(StoryEntry.COL_IS_READ + " = ?");
+                selectionBuilder.append(StoryEntry.COL_IS_READ + " = ? AND ");
                 argsList.add("0");
             }
+
+            selectionBuilder.append(StoryEntry.COL_SOURCE + " IN(");
+
+            SharedPreferences prefs = Util.getPreferences(getContext());
+            String[] keys = Util.getPrefsSourceKeys();
+            int numSelected = 0;
+
+            for(int i = 0; i < keys.length; i++) {
+
+                if(prefs.getBoolean(keys[i], true)) {
+
+                    selectionBuilder.append(numSelected++ == 0 ? "?" : ",?");
+                    argsList.add(keys[i].split("_")[2].toUpperCase());
+                }
+            }
+
+            selectionBuilder.append(")");
 
             String[] projection = new String[] { };
             String selection = selectionBuilder.toString();
@@ -202,8 +231,7 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
 
         ButterKnife.bind(this, layout_root);
 
-        ((AppCompatActivity) getActivity()).getSupportActionBar()
-                .setTitle(R.string.drawer_news);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.drawer_news);
 
         setHasOptionsMenu(true);
 
@@ -277,9 +305,15 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
 
             mFilter = filter;
 
-            getActivity().getSupportLoaderManager()
-                    .restartLoader(LOADER_ID, null, this);
+            refresh();
         }
+    }
+
+
+    public void refresh() {
+
+        getActivity().getSupportLoaderManager()
+                .restartLoader(LOADER_ID, null, this);
     }
 
 
@@ -297,7 +331,7 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
             Filter activeFilter = (Filter) getArguments().getSerializable(PARAM_FILTER);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                    .setTitle(R.string.action_filter);
+                    .setTitle(R.string.action_news_filter);
 
             builder.setSingleChoiceItems(R.array.settings_news_filters, activeFilter.getValue(),
                     new DialogInterface.OnClickListener() {
@@ -311,6 +345,72 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
                             dismiss();
                         }
                     });
+
+            return builder.create();
+        }
+    }
+
+
+    /**
+     * Creates a popup dialog to choose the filter criteria
+     */
+    public static class SourceDialogFragment extends DialogFragment {
+
+        public static final String FRGAMENT_TAG = "SourceDialogFragment";
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+            final SharedPreferences prefs = Util.getPreferences(getActivity());
+            final String[] keys = Util.getPrefsSourceKeys();
+
+            final String[] titles = getResources().getStringArray(R.array.pref_titles_sources);
+            final boolean[] values = new boolean[keys.length];
+
+            for(int i = 0; i < keys.length; i++) {
+
+                values[i] = prefs.getBoolean(keys[i], true);
+            }
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+                    .setTitle(R.string.pref_header_sources);
+
+            builder.setMultiChoiceItems(titles, values, new DialogInterface.OnMultiChoiceClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialogInterface, int index, boolean isChecked) {
+
+                    values[index] = isChecked;
+                }
+            });
+
+            builder.setPositiveButton("Set Sources", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+
+                    SharedPreferences.Editor editor = prefs.edit();
+
+                    for(int i = 0; i < keys.length; i++) {
+
+                        editor.putBoolean(keys[i], values[i]);
+                    }
+
+                    editor.commit();
+
+                    ((NewsFragment) getTargetFragment()).refresh();
+                }
+            });
+
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+
+                    // Don't do anything. Dialog closes by itself without saving.
+                    // No need to call .dismiss();
+                }
+            });
 
             return builder.create();
         }

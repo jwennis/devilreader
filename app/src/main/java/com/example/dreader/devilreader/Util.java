@@ -28,4 +28,10 @@ public class Util {
 
         return getPreferences(context).getString(prefkey, "0");
     }
+
+    public static String[] getPrefsSourceKeys() {
+
+        return new String[] { "pref_sources_nhl", "pref_sources_tsn", "pref_sources_fib",
+                "pref_sources_yt", "pref_sources_ppf", "pref_sources_had" };
+    }
 }
