@@ -1,5 +1,6 @@
 package com.example.dreader.devilreader.firebase;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -18,6 +19,8 @@ public class FirebaseUtil {
     public static final String KEY = "KEY";
     public static final String ORDER_BY = "ORDER_BY";
     public static final String TEAM = "TEAM";
+    public static final String TAG_STORY = "TAG_STORY";
+    public static final String TAG_PLAYER = "TAG_PLAYER";
 
     private enum QueryType { ITEM, LIST }
 
@@ -107,42 +110,35 @@ public class FirebaseUtil {
     public static void queryPlayer(String param, String paramValue, FirebaseCallback callback) {
 
         DatabaseReference ref =  FirebaseDatabase.getInstance().getReference("Player");
-        Query query;
-
-        QueryType queryType = QueryType.LIST;
 
         switch(param) {
 
             case TEAM: {
 
-                query = ref.orderByChild(TEAM.toLowerCase()).equalTo(paramValue);
-                queryType = QueryType.LIST;
+                Query query = ref.orderByChild(TEAM.toLowerCase()).equalTo(paramValue);
+
+                queryPlayer(query, QueryType.LIST, callback);
 
                 break;
             }
 
             case KEY: {
 
-                query = ref.child(paramValue);
-                queryType = QueryType.ITEM;
+                queryPlayer(ref.child(paramValue), QueryType.ITEM, callback);
 
                 break;
             }
 
-            default: {
+            case TAG_STORY: {
 
-                query = null;
+                queryTag(param, paramValue, ref, callback);
             }
-        }
-
-        if(query != null) {
-
-            queryPlayer(query, queryType, callback);
         }
     }
 
+
     private static void queryPlayer(Query query, final QueryType type,
-                                   final FirebaseCallback callback) {
+                                    final FirebaseCallback callback) {
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -185,4 +181,90 @@ public class FirebaseUtil {
     }
 
 
+    public static void queryTag(final String param, String paramValue,
+                                final DatabaseReference ref, final FirebaseCallback callback) {
+
+        DatabaseReference tagRef = FirebaseDatabase.getInstance().getReference("Tags");
+        Query query = null;
+
+        switch(param) {
+
+            case TAG_STORY: {
+
+                query = tagRef.orderByChild("story_id").equalTo(paramValue);
+
+                break;
+            }
+
+            case TAG_PLAYER: {
+
+                query = tagRef.orderByChild("player_id").equalTo(paramValue);
+
+                break;
+            }
+        }
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot data) {
+
+                switch(param) {
+
+                    case TAG_STORY: {
+
+                        final List<Long> keys = new ArrayList<>();
+
+                        for(DataSnapshot tag : data.getChildren()) {
+
+                            keys.add(Long.parseLong((String) tag.child("player_id").getValue()));
+                        }
+
+                        queryPlayer(ref, QueryType.LIST, new FirebaseCallback() {
+
+                            @Override
+                            public void onPlayerResult(List<Player> list) {
+
+                                Iterator<Player> iterator = list.iterator();
+
+                                while (iterator.hasNext()) {
+
+                                    Player player = iterator.next();
+
+                                    if(!keys.contains(player.getNhl_id())) {
+
+                                        iterator.remove();
+                                    }
+                                }
+
+                                callback.onPlayerResult(list);
+                            }
+                        });
+
+                        break;
+                    }
+
+                    case TAG_PLAYER: {
+
+                        queryStory(ref, QueryType.LIST, new FirebaseCallback() {
+
+                            @Override
+                            public void onStoryResult(List<Story> list) {
+
+
+                            }
+                        });
+
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+                // TODO: log error + handle gracefully
+            }
+        });
+    }
 }

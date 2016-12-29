@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Parcelable;
 import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.customtabs.CustomTabsServiceConnection;
@@ -35,6 +36,7 @@ import com.bumptech.glide.Glide;
 import com.example.dreader.devilreader.data.StoryContract.StoryEntry;
 import com.example.dreader.devilreader.firebase.FirebaseCallback;
 import com.example.dreader.devilreader.firebase.FirebaseUtil;
+import com.example.dreader.devilreader.model.Player;
 import com.example.dreader.devilreader.model.Story;
 
 
@@ -47,6 +49,7 @@ public class StoryActivity extends AppCompatActivity {
     private CustomTabsServiceConnection mTabServiceConnection;
 
     private Story mStory;
+    private List<Player> mTags;
 
     @BindString(R.string.typeface_arvo_bold)
     String TYPEFACE_ARVO_BOLD;
@@ -362,6 +365,36 @@ public class StoryActivity extends AppCompatActivity {
         }
 
         content.setText(builder.toString());
+
+        if(mTags == null) {
+
+            initTags();
+
+        } else {
+
+            bindTags();
+        }
+    }
+
+
+    private void initTags() {
+
+        FirebaseUtil.queryPlayer(FirebaseUtil.TAG_STORY, mStory.getId(), new FirebaseCallback() {
+
+            @Override
+            public void onPlayerResult(List<Player> list) {
+
+                mTags = list;
+
+                bindTags();
+            }
+        });
+    }
+
+
+    private void bindTags() {
+
+        // TODO: bind player mugshots here
     }
 
 
