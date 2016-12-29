@@ -29,99 +29,119 @@ public class Player {
     private long height;
     private long weight;
 
+
     public Player() {
 
     }
+
 
     public long getNhl_id() {
 
         return nhl_id;
     }
 
+
     public String getName() {
 
         return name;
     }
+
 
     public String getTeam() {
 
         return team;
     }
 
+
     public String getPosition() {
 
         return position;
     }
+
 
     public String getHand() {
 
         return hand;
     }
 
+
     public long getNumber() {
 
         return number;
     }
+
 
     public boolean getIs_assistant() {
 
         return is_assistant;
     }
 
+
     public boolean getIs_captain() {
 
         return is_captain;
     }
+
 
     public boolean getIs_injured() {
 
         return is_injured;
     }
 
+
     public boolean getIs_roster() {
 
         return is_roster;
     }
+
 
     public boolean getIs_drafted() {
 
         return is_drafted;
     }
 
+
     public String getDraft_team() {
 
         return draft_team;
     }
+
 
     public long getDraft_year() {
 
         return draft_year;
     }
 
+
     public long getDraft_round() {
 
         return draft_round;
     }
+
 
     public long getDraft_position() {
 
         return draft_position;
     }
 
+
     public long getDob() {
 
         return dob;
     }
+
 
     public long getHeight() {
 
         return height;
     }
 
+
     public long getWeight() {
 
         return weight;
     }
+
 
     public void print() {
 

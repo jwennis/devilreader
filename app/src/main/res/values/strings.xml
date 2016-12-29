@@ -4,6 +4,7 @@
 
     <string name="drawer_discover">Discover</string>
     <string name="drawer_news">News</string>
+    <string name="drawer_roster">Roster</string>
     <string name="drawer_settings">Settings</string>
 
     <string name="action_settings">Settings</string>
@@ -112,6 +113,5 @@
         <item>@string/pref_title_sources_ppf</item>
         <item>@string/pref_title_sources_had</item>
     </string-array>
-
 
 </resources>

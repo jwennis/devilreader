@@ -82,6 +82,13 @@ public class MainActivity extends AppCompatActivity implements
                 break;
             }
 
+            case R.id.drawer_roster: {
+
+                swapFragment(new RosterFragment(), true);
+
+                break;
+            }
+
             case R.id.drawer_settings: {
 
                 startActivity(new Intent(this, SettingsActivity.class));
