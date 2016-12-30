@@ -1,6 +1,7 @@
 package com.example.dreader.devilreader;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -11,14 +12,23 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.MenuItem;
+import android.widget.TextView;
 
+import java.lang.reflect.Field;
+
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
 public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener {
+
+    @BindString(R.string.typeface_arvo_bold)
+    String TYPEFACE_ARVO_BOLD;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -48,6 +58,30 @@ public class MainActivity extends AppCompatActivity implements
         toggle.syncState();
 
         nav.setNavigationItemSelectedListener(this);
+
+        Typeface TypefaceArvoBold = Typeface.createFromAsset(getAssets(), TYPEFACE_ARVO_BOLD);
+
+        try { // Set the toolbar font
+
+            Field f = toolbar.getClass().getDeclaredField("mTitleTextView");
+            f.setAccessible(true);
+
+            TextView title = (TextView) f.get(toolbar);
+
+            if(title != null) {
+
+                title.setTypeface(TypefaceArvoBold);
+                title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+            }
+
+        } catch (NoSuchFieldException e) {
+
+            e.printStackTrace();
+
+        } catch (IllegalAccessException e) {
+
+            e.printStackTrace();
+        }
     }
 
 
