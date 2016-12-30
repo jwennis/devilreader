@@ -1,5 +1,7 @@
 package com.example.dreader.devilreader.firebase;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
@@ -29,37 +31,31 @@ public class FirebaseUtil {
     public static void queryStory(String param, String paramValue, FirebaseCallback callback) {
 
         DatabaseReference ref =  FirebaseDatabase.getInstance().getReference("Story");
-        Query query;
-
-        QueryType queryType = QueryType.LIST;
 
         switch(param) {
 
             case ORDER_BY: {
 
-                query = ref.orderByChild(paramValue).limitToLast(30);
-                queryType = QueryType.LIST;
+                Query query = ref.orderByChild(paramValue).limitToLast(30);
+
+                queryStory(query, QueryType.LIST, callback);
 
                 break;
             }
 
             case KEY: {
 
-                query = ref.child(paramValue);
-                queryType = QueryType.ITEM;
+                queryStory(ref.child(paramValue), QueryType.ITEM, callback);
 
                 break;
             }
 
-            default: {
+            case TAG_PLAYER: {
 
-                query = null;
+                queryTag(param, paramValue, ref, callback);
+
+                break;
             }
-        }
-
-        if(query != null) {
-
-            queryStory(query, queryType, callback);
         }
     }
 
@@ -133,6 +129,8 @@ public class FirebaseUtil {
             case TAG_STORY: {
 
                 queryTag(param, paramValue, ref, callback);
+
+                break;
             }
         }
     }
@@ -247,12 +245,40 @@ public class FirebaseUtil {
 
                     case TAG_PLAYER: {
 
+                        final List<String> keys = new ArrayList<>();
+
+                        for(DataSnapshot tag : data.getChildren()) {
+
+                            keys.add((String) tag.child("story_id").getValue());
+                        }
+
                         queryStory(ref, QueryType.LIST, new FirebaseCallback() {
 
                             @Override
                             public void onStoryResult(List<Story> list) {
 
+                                Iterator<Story> iterator = list.iterator();
 
+                                while (iterator.hasNext()) {
+
+                                    Story story = iterator.next();
+
+                                    if(!keys.contains(story.getId())) {
+
+                                        iterator.remove();
+                                    }
+                                }
+
+                                Collections.sort(list, new Comparator<Story>() {
+
+                                    @Override
+                                    public int compare(Story s1, Story s2) {
+
+                                        return (int) (s2.getPubdate() - s1.getPubdate());
+                                    }
+                                });
+
+                                callback.onStoryResult(list);
                             }
                         });
 
@@ -268,6 +294,7 @@ public class FirebaseUtil {
             }
         });
     }
+
 
     public static void queryContract(long playerId, final FirebaseCallback callback) {
 

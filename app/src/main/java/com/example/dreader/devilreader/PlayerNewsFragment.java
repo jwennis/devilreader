@@ -6,13 +6,18 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.dreader.devilreader.firebase.FirebaseCallback;
+import com.example.dreader.devilreader.firebase.FirebaseUtil;
 import com.example.dreader.devilreader.model.Player;
+import com.example.dreader.devilreader.model.Story;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,7 +69,21 @@ public class PlayerNewsFragment extends Fragment {
 
     private void initNews() {
 
+        String playerId = Long.toString(mPlayer.getNhl_id());
 
+        FirebaseUtil.queryStory(FirebaseUtil.TAG_PLAYER, playerId, new FirebaseCallback() {
+
+            @Override
+            public void onStoryResult(List<Story> list) {
+
+                Log.v("DREADER", "Num stories: " + list.size());
+
+                for(Story story : list) {
+
+                    Log.v("DREADER", story.getPubdate() + ": " + story.getTitle());
+                }
+            }
+        });
     }
 
 
