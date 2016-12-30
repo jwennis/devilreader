@@ -10,6 +10,7 @@
         android:id="@+id/roster_label_mugshot"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:transitionName="@string/player_mugshot_transition" />
 
 </FrameLayout>

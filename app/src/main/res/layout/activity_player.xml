@@ -48,7 +48,8 @@
                 android:layout_height="100dp"
                 android:layout_gravity="center|center"
                 android:paddingTop="8dp"
-                android:elevation="4dp" />
+                android:elevation="4dp"
+                android:transitionName="@string/player_mugshot_transition" />
 
             <FrameLayout
                 android:id="@+id/player_detail_frame"

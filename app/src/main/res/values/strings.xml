@@ -46,6 +46,7 @@
 
     <string name="player_backdrop_root">https://nhl.bamcontent.com/images/actionshots/</string>
     <string name="player_mugshot_root">https://nhl.bamcontent.com/images/headshots/current/168x168/</string>
+    <string name="player_mugshot_transition">com.example.dreader.devilreader.MUGSHOT_TRANSITION</string>
 
     <!-- SharedPreferences -->
 

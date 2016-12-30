@@ -1,9 +1,13 @@
 package com.example.dreader.devilreader.ui;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
+import android.os.Build;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,7 +71,20 @@ public class RosterLabelAdapter extends RecyclerView.Adapter<RosterLabelAdapter.
                 Intent playerIntent = new Intent(context, PlayerActivity.class);
                 playerIntent.putExtra(Player.PARAM_PLAYER_PARCEL, item);
 
-                context.startActivity(playerIntent);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                    View mugshot = view.findViewById(R.id.roster_label_mugshot);
+
+                    Bundle bundle = ActivityOptions
+                            .makeSceneTransitionAnimation((Activity) context, mugshot, mugshot.getTransitionName())
+                            .toBundle();
+
+                    context.startActivity(playerIntent, bundle);
+
+                } else {
+
+                    context.startActivity(playerIntent);
+                }
             }
         });
     }
