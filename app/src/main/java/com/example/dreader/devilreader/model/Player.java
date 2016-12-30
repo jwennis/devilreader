@@ -10,7 +10,7 @@ import com.example.dreader.devilreader.Util;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
+public class Player implements Parcelable {
 
     public static final String PARAM_PLAYER_PARCEL = "PARAM_PLAYER_PARCEL";
 
@@ -240,6 +240,11 @@ public class Player {
         Log.v("DREADER", "DOB = " + dob);
         Log.v("DREADER", "HEIGHT = " + height);
         Log.v("DREADER", "WEIGHT = " + weight);
+
+        for(PlayerContract contract : mContracts) {
+
+            contract.print();
+        }
     }
 
 

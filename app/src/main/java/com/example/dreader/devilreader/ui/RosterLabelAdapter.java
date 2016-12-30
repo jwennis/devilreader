@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.dreader.devilreader.PlayerActivity;
 import com.example.dreader.devilreader.R;
 import com.example.dreader.devilreader.model.Player;
 
@@ -62,10 +63,10 @@ public class RosterLabelAdapter extends RecyclerView.Adapter<RosterLabelAdapter.
             @Override
             public void onClick(View view) {
 
-//                Intent playerIntent = new Intent(context, PlayerActivity.class);
-//                playerIntent.putExtra(Player.PARAM_PLAYER_PARCEL, item);
-//
-//                context.startActivity(playerIntent);
+                Intent playerIntent = new Intent(context, PlayerActivity.class);
+                playerIntent.putExtra(Player.PARAM_PLAYER_PARCEL, item);
+
+                context.startActivity(playerIntent);
             }
         });
     }
