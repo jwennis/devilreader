@@ -15,6 +15,7 @@ import com.example.dreader.devilreader.firebase.FirebaseCallback;
 import com.example.dreader.devilreader.firebase.FirebaseUtil;
 import com.example.dreader.devilreader.model.Player;
 import com.example.dreader.devilreader.model.Story;
+import com.example.dreader.devilreader.ui.StoryAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,8 @@ import butterknife.ButterKnife;
 public class PlayerNewsFragment extends Fragment {
 
     private Player mPlayer;
+    private List<Story> mItems;
+    private StoryAdapter mAdapter;
 
     @BindView(R.id.player_news_recycler)
     RecyclerView news_recycler;
@@ -67,32 +70,6 @@ public class PlayerNewsFragment extends Fragment {
     }
 
 
-    private void initNews() {
-
-        String playerId = Long.toString(mPlayer.getNhl_id());
-
-        FirebaseUtil.queryStory(FirebaseUtil.TAG_PLAYER, playerId, new FirebaseCallback() {
-
-            @Override
-            public void onStoryResult(List<Story> list) {
-
-                Log.v("DREADER", "Num stories: " + list.size());
-
-                for(Story story : list) {
-
-                    Log.v("DREADER", story.getPubdate() + ": " + story.getTitle());
-                }
-            }
-        });
-    }
-
-
-    private void loadNews() {
-
-
-    }
-
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
 
@@ -102,6 +79,31 @@ public class PlayerNewsFragment extends Fragment {
     }
 
 
+    private void initNews() {
+
+        String playerId = Long.toString(mPlayer.getNhl_id());
+
+        FirebaseUtil.queryStory(FirebaseUtil.TAG_PLAYER, playerId, new FirebaseCallback() {
+
+            @Override
+            public void onStoryResult(List<Story> list) {
+
+                mItems = list;
+
+                loadNews();
+            }
+        });
+    }
 
 
+    private void loadNews() {
+
+        if(mAdapter == null) {
+
+            mAdapter = new StoryAdapter(mItems,
+                    PlayerNewsFragment.class.getSimpleName());
+        }
+
+        news_recycler.setAdapter(mAdapter);
+    }
 }

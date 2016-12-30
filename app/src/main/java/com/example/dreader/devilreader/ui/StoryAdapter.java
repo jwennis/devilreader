@@ -23,16 +23,20 @@ import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 
 import com.example.dreader.devilreader.NewsFragment;
+import com.example.dreader.devilreader.PlayerNewsFragment;
 import com.example.dreader.devilreader.R;
 import com.example.dreader.devilreader.StoryActivity;
 import com.example.dreader.devilreader.data.StoryContract.StoryEntry;
 import com.example.dreader.devilreader.model.Story;
+
+import java.util.List;
 
 
 public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHolder> {
 
     private static Typeface TypefaceArvoNormal;
 
+    private List<Story> mItems;
     private Cursor mData;
     private String mCaller;
 
@@ -42,6 +46,15 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
         super();
 
         mData = data;
+        mCaller = caller;
+    }
+
+
+    public StoryAdapter(List<Story> list, String caller) {
+
+        super();
+
+        mItems = list;
         mCaller = caller;
     }
 
@@ -64,8 +77,8 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
         holder.title.setText(item.getTitle());
         holder.title.setTypeface(TypefaceArvoNormal);
 
-        if(mCaller.equals(NewsFragment.class.getSimpleName())) {
-            // or PlayerNewsFragment
+        if(mCaller.equals(NewsFragment.class.getSimpleName()) ||
+                mCaller.equals(PlayerNewsFragment.class.getSimpleName())) {
 
             ViewCompat.setElevation(holder.layout_root,
                     context.getResources().getDimension(R.dimen.default_elevation));
@@ -167,11 +180,16 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
     @Override
     public int getItemCount() {
 
-        return mData != null ? mData.getCount() : 0;
+        return mData != null ? mData.getCount() : mItems.size();
     }
 
 
     public Story getItemAt(int pos) {
+
+        if(mItems != null) {
+
+            return mItems.get(pos);
+        }
 
         if(pos < getItemCount()) {
 
