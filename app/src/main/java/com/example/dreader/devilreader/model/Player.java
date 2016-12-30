@@ -8,6 +8,7 @@ import android.util.Log;
 import com.example.dreader.devilreader.Util;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class Player implements Parcelable {
@@ -215,6 +216,57 @@ public class Player implements Parcelable {
     }
 
 
+    public String getStatus() {
+
+        if(is_captain) {
+
+            return "Captain";
+
+        } else if (is_assistant) {
+
+            return "Assistant Captain";
+        }
+
+        return null;
+    }
+
+
+    public String getDobString() {
+
+        String dob_string = Long.toString(dob);
+
+        String y = dob_string.substring(0, 4);
+        int m = Integer.parseInt(dob_string.substring(4, 6));
+        int d = Integer.parseInt(dob_string.substring(6, 8));
+
+        return Util.SHORT_MONTH_NAMES[ m-1 ] + " " + d + ", " + y;
+    }
+
+    public int getAge() {
+
+        Calendar c = Calendar.getInstance();
+        int currentYear = c.get(Calendar.YEAR);
+        int currentMonth = c.get(Calendar.MONTH) + 1;
+        int currentDate = c.get(Calendar.DAY_OF_MONTH);
+
+        String dob_string = Long.toString(dob);
+
+        int birthYear = Integer.parseInt(dob_string.substring(0, 4));
+        int birthMonth = Integer.parseInt(dob_string.substring(4, 6));
+        int birthDate = Integer.parseInt(dob_string.substring(6, 8));
+
+        int age = currentYear - birthYear;
+
+        if(currentMonth > birthMonth ||
+                (currentMonth == birthMonth && currentDate <= birthDate)) {
+
+            age--;
+        }
+
+        return age;
+    }
+
+
     public void print() {
 
         Log.v("DREADER", "ID = " + nhl_id);
@@ -289,6 +341,12 @@ public class Player implements Parcelable {
         values.add(expiryStatus);
 
         return values;
+    }
+
+
+    public List<PlayerContract> getContracts() {
+
+        return mContracts;
     }
 
 

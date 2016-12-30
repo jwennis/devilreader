@@ -84,8 +84,6 @@ public class StoryActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_story);
 
-        ButterKnife.bind(this);
-
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -317,6 +315,8 @@ public class StoryActivity extends AppCompatActivity {
 
 
     private void bindStory() {
+
+        ButterKnife.bind(this);
 
         Typeface TypefaceArvoBold = Typeface.createFromAsset(getAssets(), TYPEFACE_ARVO_BOLD);
 

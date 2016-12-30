@@ -43,6 +43,27 @@ public class Util {
     }
 
 
+    /**
+     * Formats an integer value with appropriate suffix
+     * Example: 1 -> "1st", 2 -> "2nd", etc...
+     *
+     * @param number the number to be formatted
+     * @return formatted String
+     */
+    public static String formatNumSuffix(int number) {
+
+        String[] suffix = { "th", "st", "nd", "rd" };
+        int mod = number % 10;
+
+        if (mod > 3 || (number % 100 >= 11 && number % 100 <= 13)) {
+
+            mod = 0;
+        }
+
+        return number + suffix[mod];
+    }
+
+
     public static SharedPreferences getPreferences(Context context) {
 
         return PreferenceManager.getDefaultSharedPreferences(context);
