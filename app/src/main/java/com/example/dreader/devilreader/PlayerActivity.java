@@ -2,6 +2,11 @@ package com.example.dreader.devilreader;
 
 import android.graphics.Typeface;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -16,6 +21,8 @@ import com.example.dreader.devilreader.model.Player;
 import com.example.dreader.devilreader.ui.CircleTransform;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -57,6 +64,12 @@ public class PlayerActivity extends AppCompatActivity {
 
     @BindView(R.id.player_detail_position)
     TextView player_position;
+
+    @BindView(R.id.tab_layout)
+    TabLayout tab_layout;
+
+    @BindView(R.id.viewpager)
+    ViewPager viewpager;
 
 
     @Override
@@ -172,5 +185,67 @@ public class PlayerActivity extends AppCompatActivity {
         position.append(mPlayer.getHand().equals("L") ? "LEFT" : "RIGHT");
 
         player_position.setText(position.toString());
+
+        initViewPager();
+    }
+
+
+    private void initViewPager() {
+
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+
+        Bundle args = new Bundle();
+        args.putParcelable(Player.PARAM_PLAYER_PARCEL, mPlayer);
+
+//        PlayerContractsFragment contractsFragment = new PlayerContractsFragment();
+//        contractsFragment.setArguments(args);
+//        adapter.addFragment(contractsFragment, "CONTRACTS");
+
+        PlayerNewsFragment newsFragment = new PlayerNewsFragment();
+        newsFragment.setArguments(args);
+        adapter.addFragment(newsFragment, "NEWS");
+
+//        PlayerGoalsFragment goalsFragment = new PlayerGoalsFragment();
+//        goalsFragment.setArguments(args);//
+//        adapter.addFragment(goalsFragment, "GOALS");
+//
+        viewpager.setAdapter(adapter);
+        tab_layout.setupWithViewPager(viewpager);
+    }
+
+
+    private class ViewPagerAdapter extends FragmentPagerAdapter {
+
+        private final List<Fragment> mFragments = new ArrayList<>();
+        private final List<String> mFragmentTitles = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+
+            return mFragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+
+            return mFragments.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+
+            mFragments.add(fragment);
+            mFragmentTitles.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+
+            return mFragmentTitles.get(position);
+        }
     }
 }
