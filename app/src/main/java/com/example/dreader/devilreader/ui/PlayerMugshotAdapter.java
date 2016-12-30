@@ -22,14 +22,12 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RosterLabelAdapter extends RecyclerView.Adapter<RosterLabelAdapter.LabelViewHolder> {
-
-    private static Typeface TypefaceArvoNormal;
+public class PlayerMugshotAdapter extends RecyclerView.Adapter<PlayerMugshotAdapter.LabelViewHolder> {
 
     private List<Player> mItems;
 
 
-    public RosterLabelAdapter(List<Player> items) {
+    public PlayerMugshotAdapter(List<Player> items) {
 
         super();
 
@@ -38,15 +36,15 @@ public class RosterLabelAdapter extends RecyclerView.Adapter<RosterLabelAdapter.
 
 
     @Override
-    public RosterLabelAdapter.LabelViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public PlayerMugshotAdapter.LabelViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         return new LabelViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_roster_label, parent, false));
+                .inflate(R.layout.list_item_player_mugshot, parent, false));
     }
 
 
     @Override
-    public void onBindViewHolder(RosterLabelAdapter.LabelViewHolder holder, int position) {
+    public void onBindViewHolder(PlayerMugshotAdapter.LabelViewHolder holder, int position) {
 
         final Context context = holder.layout_root.getContext();
         final Player item = mItems.get(position);
@@ -55,9 +53,6 @@ public class RosterLabelAdapter extends RecyclerView.Adapter<RosterLabelAdapter.
                 .load(holder.MUGSHOT_ROOT + item.getNhl_id() + "@2x.jpg")
                 .transform(new CircleTransform(context))
                 .into(holder.mugshot);
-
-        holder.player_name.setText(item.getName());
-        holder.player_name.setTypeface(TypefaceArvoNormal);
 
         holder.layout_root.setOnClickListener(new View.OnClickListener() {
 
@@ -84,14 +79,8 @@ public class RosterLabelAdapter extends RecyclerView.Adapter<RosterLabelAdapter.
 
         ViewGroup layout_root;
 
-        @BindString(R.string.typeface_arvo_normal)
-        String TYPEFACE_ARVO_NORMAL;
-
         @BindView(R.id.roster_label_mugshot)
         ImageView mugshot;
-
-        @BindView(R.id.roster_label_player_name)
-        TextView player_name;
 
         @BindString(R.string.player_mugshot_root)
         String MUGSHOT_ROOT;
@@ -104,13 +93,6 @@ public class RosterLabelAdapter extends RecyclerView.Adapter<RosterLabelAdapter.
             layout_root = (ViewGroup) itemView;
 
             ButterKnife.bind(this, layout_root);
-
-            if(TypefaceArvoNormal == null) {
-
-                AssetManager assets = layout_root.getContext().getAssets();
-
-                TypefaceArvoNormal = Typeface.createFromAsset(assets, TYPEFACE_ARVO_NORMAL);
-            }
         }
     }
 }

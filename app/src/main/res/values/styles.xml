@@ -112,6 +112,25 @@
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
+    <style name="story_header_label">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/margin_medium</item>
+        <item name="android:textColor">@color/darkgrey</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="story_tags">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/margin_xsmall</item>
+        <item name="android:layout_marginBottom">@dimen/margin_xsmall</item>
+        <item name="android:padding">@dimen/margin_xsmall</item>
+        <item name="android:scrollbars">none</item>
+        <item name="android:nestedScrollingEnabled">false</item>
+    </style>
+
+
     <!-- RosterFragment -->
 
     <style name="roster_section_heading">
@@ -157,5 +176,8 @@
         <item name="android:background">#dddddd</item>
         <item name="android:visibility">invisible</item>
     </style>
+
+
+
 
 </resources>

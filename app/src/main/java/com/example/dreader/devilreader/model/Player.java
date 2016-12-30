@@ -241,9 +241,12 @@ public class Player implements Parcelable {
         Log.v("DREADER", "HEIGHT = " + height);
         Log.v("DREADER", "WEIGHT = " + weight);
 
-        for(PlayerContract contract : mContracts) {
+        if(mContracts != null) {
 
-            contract.print();
+            for(PlayerContract contract : mContracts) {
+
+                contract.print();
+            }
         }
     }
 

@@ -40,6 +40,8 @@
     </string-array>
     <string name="title_activity_settings">Settings</string>
 
+    <string name="story_label_tags">Tagged Players</string>
+
     <!-- Player -->
 
     <string name="player_backdrop_root">https://nhl.bamcontent.com/images/actionshots/</string>

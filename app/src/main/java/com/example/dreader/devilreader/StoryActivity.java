@@ -19,6 +19,9 @@ import android.support.customtabs.CustomTabsService;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -37,6 +40,8 @@ import com.example.dreader.devilreader.firebase.FirebaseCallback;
 import com.example.dreader.devilreader.firebase.FirebaseUtil;
 import com.example.dreader.devilreader.model.Player;
 import com.example.dreader.devilreader.model.Story;
+import com.example.dreader.devilreader.ui.PlayerMugshotAdapter;
+import com.example.dreader.devilreader.ui.RosterLabelAdapter;
 
 
 public class StoryActivity extends AppCompatActivity {
@@ -64,6 +69,12 @@ public class StoryActivity extends AppCompatActivity {
 
     @BindView(R.id.story_content)
     TextView content;
+
+    @BindView(R.id.story_subtitle_tags)
+    TextView subtitle_tags;
+
+    @BindView(R.id.story_tags)
+    RecyclerView tags;
 
 
     @Override
@@ -311,6 +322,7 @@ public class StoryActivity extends AppCompatActivity {
 
         title.setText(mStory.getTitle());
         title.setTypeface(TypefaceArvoBold);
+        subtitle_tags.setTypeface(TypefaceArvoBold);
 
         byline.setText(mStory.getLongByline());
 
@@ -402,7 +414,14 @@ public class StoryActivity extends AppCompatActivity {
 
     private void bindTags() {
 
-        // TODO: bind player mugshots here
+        if(mTags.size() > 0) {
+
+            subtitle_tags.setVisibility(View.VISIBLE);
+
+            tags.setLayoutManager(new GridLayoutManager(this, 5));
+            tags.setItemAnimator(new DefaultItemAnimator());
+            tags.setAdapter(new PlayerMugshotAdapter(mTags));
+        }
     }
 
 

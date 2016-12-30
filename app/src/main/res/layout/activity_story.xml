@@ -31,6 +31,16 @@
             android:id="@+id/story_content"
             style="@style/story_content" />
 
+        <TextView
+            android:id="@+id/story_subtitle_tags"
+            android:text="@string/story_label_tags"
+            android:visibility="gone"
+            style="@style/story_header_label" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/story_tags"
+            style="@style/story_tags" />
+
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>
