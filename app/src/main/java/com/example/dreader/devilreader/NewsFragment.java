@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -266,6 +267,7 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
                         getContext().getContentResolver()
                                 .update(StoryEntry.buildUri(item.getKey()), values, null, null);
 
+                        Snackbar.make(layout_root, R.string.story_marked_read, Snackbar.LENGTH_SHORT).show();
                         mAdapter.notifyDataSetChanged();
                     }
 
