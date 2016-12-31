@@ -36,7 +36,6 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
 
     private static Typeface TypefaceArvoNormal;
 
-    private List<Story> mItems;
     private Cursor mData;
     private String mCaller;
 
@@ -46,15 +45,6 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
         super();
 
         mData = data;
-        mCaller = caller;
-    }
-
-
-    public StoryAdapter(List<Story> list, String caller) {
-
-        super();
-
-        mItems = list;
         mCaller = caller;
     }
 
@@ -180,16 +170,11 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
     @Override
     public int getItemCount() {
 
-        return mData != null ? mData.getCount() : mItems.size();
+        return mData != null ? mData.getCount() : 0;
     }
 
 
     public Story getItemAt(int pos) {
-
-        if(mItems != null) {
-
-            return mItems.get(pos);
-        }
 
         if(pos < getItemCount()) {
 
