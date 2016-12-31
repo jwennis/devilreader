@@ -5,6 +5,7 @@ import java.util.List;
 import com.example.dreader.devilreader.model.Player;
 import com.example.dreader.devilreader.model.PlayerContract;
 import com.example.dreader.devilreader.model.Story;
+import com.google.firebase.database.DataSnapshot;
 
 public class FirebaseCallback {
 
@@ -17,4 +18,5 @@ public class FirebaseCallback {
     public void onTagResult(List<String> tags) { }
 
     public void onContractResult(List<PlayerContract> list) { }
+
 }

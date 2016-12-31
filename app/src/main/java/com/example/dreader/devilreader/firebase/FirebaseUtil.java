@@ -8,11 +8,9 @@ import com.example.dreader.devilreader.model.Player;
 import com.example.dreader.devilreader.model.PlayerContract;
 import com.example.dreader.devilreader.model.Story;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 
 public class FirebaseUtil {
@@ -42,7 +40,10 @@ public class FirebaseUtil {
 
     private static DatabaseReference getReference(String key) {
 
-        return getFirebaseInstance().getReference(key);
+        DatabaseReference ref = getFirebaseInstance().getReference(key);
+        ref.keepSynced(true);
+
+        return ref;
     }
 
 
@@ -81,42 +82,50 @@ public class FirebaseUtil {
     private static void queryStory(Query query, final QueryType type,
                                    final FirebaseCallback callback) {
 
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        query.addListenerForSingleValueEvent(new FirebaseListener() {
+
+            private List<Story> list;
+            private Story item;
 
             @Override
-            public void onDataChange(DataSnapshot data) {
+            protected void onDataResult(DataSnapshot data) {
 
                 switch(type) {
 
                     case LIST: {
 
-                        List<Story> list = new ArrayList<>();
+                        list = new ArrayList<>();
 
                         for(DataSnapshot child : data.getChildren()) {
 
                             list.add(child.getValue(Story.class));
                         }
 
-                        callback.onStoryResult(list);
-
                         break;
                     }
 
                     case ITEM: {
 
-                        Story item = data.getValue(Story.class);
-
-                        callback.onStoryResult(item);
+                        item = data.getValue(Story.class);
 
                         break;
                     }
                 }
+
+                publishProgress();
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            protected void sendResult() {
 
-                // TODO: log error + handle gracefully
+                if(list != null) {
+
+                    callback.onStoryResult(list);
+
+                } else if (item != null) {
+
+                    callback.onStoryResult(item);
+                }
             }
         });
     }
@@ -157,42 +166,50 @@ public class FirebaseUtil {
     private static void queryPlayer(Query query, final QueryType type,
                                     final FirebaseCallback callback) {
 
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        query.addListenerForSingleValueEvent(new FirebaseListener() {
+
+            private List<Player> list;
+            private Player item;
 
             @Override
-            public void onDataChange(DataSnapshot data) {
+            protected void onDataResult(DataSnapshot data) {
 
                 switch(type) {
 
                     case LIST: {
 
-                        List<Player> list = new ArrayList<>();
+                        list = new ArrayList<>();
 
                         for(DataSnapshot child : data.getChildren()) {
 
                             list.add(child.getValue(Player.class));
                         }
 
-                        callback.onPlayerResult(list);
-
                         break;
                     }
 
                     case ITEM: {
 
-                        Player item = data.getValue(Player.class);
-
-                        callback.onPlayerResult(item);
+                        item = data.getValue(Player.class);
 
                         break;
                     }
                 }
+
+                publishProgress();
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            protected void sendResult() {
 
-                // TODO: log error + handle gracefully
+                if(list != null) {
+
+                    callback.onPlayerResult(list);
+
+                } else if (item != null) {
+
+                    callback.onPlayerResult(item);
+                }
             }
         });
     }
@@ -221,20 +238,23 @@ public class FirebaseUtil {
             }
         }
 
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        query.addListenerForSingleValueEvent(new FirebaseListener() {
+
+            private List<Player> players;
+            private List<String> keys;
 
             @Override
-            public void onDataChange(DataSnapshot data) {
+            protected void onDataResult(DataSnapshot data) {
 
                 switch(param) {
 
                     case TAG_STORY: {
 
-                        final List<Long> keys = new ArrayList<>();
+                        keys = new ArrayList<>();
 
                         for(DataSnapshot tag : data.getChildren()) {
 
-                            keys.add(Long.parseLong((String) tag.child("player_id").getValue()));
+                            keys.add((String) tag.child("player_id").getValue());
                         }
 
                         queryPlayer(ref, QueryType.LIST, new FirebaseCallback() {
@@ -248,13 +268,15 @@ public class FirebaseUtil {
 
                                     Player player = iterator.next();
 
-                                    if(!keys.contains(player.getNhl_id())) {
+                                    if(!keys.contains(Long.toString(player.getNhl_id()))) {
 
                                         iterator.remove();
                                     }
                                 }
 
-                                callback.onPlayerResult(list);
+                                players = list;
+
+                                publishProgress();
                             }
                         });
 
@@ -263,22 +285,31 @@ public class FirebaseUtil {
 
                     case TAG_PLAYER: {
 
-                        final List<String> keys = new ArrayList<>();
+                        keys = new ArrayList<>();
 
                         for(DataSnapshot tag : data.getChildren()) {
 
                             keys.add((String) tag.child("story_id").getValue());
                         }
 
-                        callback.onTagResult(keys);
+                        publishProgress();
+
+                        break;
                     }
                 }
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            protected void sendResult() {
 
-                // TODO: log error + handle gracefully
+                if(players != null) {
+
+                    callback.onPlayerResult(players);
+
+                } else {
+
+                    callback.onTagResult(keys);
+                }
             }
         });
     }
@@ -289,25 +320,29 @@ public class FirebaseUtil {
         DatabaseReference ref = getReference("Contract");
         Query query = ref.orderByChild("player_id").equalTo(playerId);
 
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        query.addListenerForSingleValueEvent(new FirebaseListener() {
+
+            private List<PlayerContract> list;
 
             @Override
-            public void onDataChange(DataSnapshot data) {
+            protected void onDataResult(DataSnapshot data) {
 
-                List<PlayerContract> list = new ArrayList<>();
+                list = new ArrayList<>();
 
                 for(DataSnapshot child : data.getChildren()) {
 
                     list.add(new PlayerContract(child));
                 }
 
-                callback.onContractResult(list);
+                publishProgress();
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            protected void sendResult() {
 
+                callback.onContractResult(list);
             }
         });
     }
+
 }
