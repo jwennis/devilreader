@@ -79,6 +79,19 @@ public class PlayerContract {
     }
 
 
+    public int getValue() {
+
+        int totalSalary = 0;
+
+        for(ContractYear year : years) {
+
+            totalSalary += year.getNhlSalary();
+        }
+
+        return totalSalary;
+    }
+
+
     public int getCapHit() {
 
         int totalSalary = 0;
@@ -173,6 +186,22 @@ public class PlayerContract {
         public boolean isNoTrade() {
 
             return clause_notrade;
+        }
+
+        public String getClause() {
+
+            if(clause_nomove) {
+
+                return "No Movement Clause";
+
+            } else if(clause_notrade) {
+
+                return "No Trade Clause";
+
+            } else {
+
+                return "";
+            }
         }
 
 

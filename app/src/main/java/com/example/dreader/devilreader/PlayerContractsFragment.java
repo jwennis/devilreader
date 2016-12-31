@@ -13,6 +13,7 @@ import com.example.dreader.devilreader.firebase.FirebaseCallback;
 import com.example.dreader.devilreader.firebase.FirebaseUtil;
 import com.example.dreader.devilreader.model.Player;
 import com.example.dreader.devilreader.model.PlayerContract;
+import com.example.dreader.devilreader.ui.ContractAdapter;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ import butterknife.ButterKnife;
 public class PlayerContractsFragment extends Fragment {
 
     private Player mPlayer;
-    //private ContractAdapter mAdapter;
+    private ContractAdapter mAdapter;
 
     @BindView(R.id.contracts_recycler)
     RecyclerView contracts_recycler;
@@ -104,14 +105,14 @@ public class PlayerContractsFragment extends Fragment {
 
     private void bindContracts() {
 
-//        if(mAdapter == null) {
-//
-//            mAdapter = new ContractAdapter(mPlayer.getContracts());
-//            contracts_recycler.setAdapter(mAdapter);
-//
-//        } else {
-//
-//            mAdapter.notifyDatasetChanged();
-//        }
+        if(mAdapter == null) {
+
+            mAdapter = new ContractAdapter(mPlayer.getContracts());
+            contracts_recycler.setAdapter(mAdapter);
+
+        } else {
+
+            //mAdapter.notifyDatasetChanged();
+        }
     }
 }
