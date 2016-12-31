@@ -37,7 +37,6 @@ public class PlayerNewsFragment extends Fragment implements LoaderManager.Loader
     private static final int LOADER_ID = 1;
 
     private Player mPlayer;
-    //private List<Story> mItems;
     private List<String> mTags;
     private StoryAdapter mAdapter;
 

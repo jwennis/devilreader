@@ -1,7 +1,5 @@
 package com.example.dreader.devilreader.firebase;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
@@ -25,11 +23,32 @@ public class FirebaseUtil {
     public static final String TAG_STORY = "TAG_STORY";
     public static final String TAG_PLAYER = "TAG_PLAYER";
 
+    private static FirebaseDatabase mFirebase;
+
     private enum QueryType { ITEM, LIST }
+
+
+    private static FirebaseDatabase getFirebaseInstance() {
+
+        if(mFirebase == null) {
+
+            mFirebase = FirebaseDatabase.getInstance();
+            mFirebase.setPersistenceEnabled(true);
+        }
+
+        return mFirebase;
+    }
+
+
+    private static DatabaseReference getReference(String key) {
+
+        return getFirebaseInstance().getReference(key);
+    }
+
 
     public static void queryStory(String param, String paramValue, FirebaseCallback callback) {
 
-        DatabaseReference ref =  FirebaseDatabase.getInstance().getReference("Story");
+        DatabaseReference ref =  getReference("Story");
 
         switch(param) {
 
@@ -105,7 +124,7 @@ public class FirebaseUtil {
 
     public static void queryPlayer(String param, String paramValue, FirebaseCallback callback) {
 
-        DatabaseReference ref =  FirebaseDatabase.getInstance().getReference("Player");
+        DatabaseReference ref =  getReference("Player");
 
         switch(param) {
 
@@ -182,7 +201,7 @@ public class FirebaseUtil {
     public static void queryTag(final String param, String paramValue,
                                 final DatabaseReference ref, final FirebaseCallback callback) {
 
-        DatabaseReference tagRef = FirebaseDatabase.getInstance().getReference("Tags");
+        DatabaseReference tagRef = getReference("Tags");
         Query query = null;
 
         switch(param) {
@@ -267,7 +286,7 @@ public class FirebaseUtil {
 
     public static void queryContract(long playerId, final FirebaseCallback callback) {
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Contract");
+        DatabaseReference ref = getReference("Contract");
         Query query = ref.orderByChild("player_id").equalTo(playerId);
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
