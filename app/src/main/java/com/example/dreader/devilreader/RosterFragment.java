@@ -131,101 +131,87 @@ public class RosterFragment extends Fragment {
 
     private void initRoster() {
 
-        new Thread() {
+        FirebaseUtil.queryPlayer(FirebaseUtil.TEAM, "NJD", new FirebaseCallback() {
 
             @Override
-            public void run(){
+            public void onPlayerResult(final List<Player> roster) {
 
-                FirebaseUtil.queryPlayer(FirebaseUtil.TEAM, "NJD", new FirebaseCallback() {
+                final List<Player> processed = new ArrayList<>();
 
-                    @Override
-                    public void onPlayerResult(final List<Player> list) {
+                for(final Player player : roster) {
 
-                        mProcessPlayersTask.execute(list.toArray(new Player[list.size()]));
-                    }
-                });
+                    FirebaseUtil.queryContract(player.getNhl_id(), new FirebaseCallback() {
+
+                        @Override
+                        public void onContractResult(final List<PlayerContract> contracts) {
+
+                            player.setContracts(contracts);
+
+                            processed.add(player);
+
+                            if(processed.size() == roster.size()) {
+
+                                sortRoster(roster);
+                            }
+                        }
+                    });
+                }
             }
-
-        }.start();
+        });
     }
 
 
-    private AsyncTask mProcessPlayersTask = new AsyncTask<Player, Integer, Boolean>() {
+    private void sortRoster(final List<Player> roster) {
 
-        @Override
-        protected Boolean doInBackground(final Player... players) {
+        new AsyncTask<Void, Void, Void>() {
 
-            final List<Player> processed = new ArrayList<>();
+            @Override
+            protected Void doInBackground(Void... voids) {
 
-            for(final Player player : players) {
-
-                FirebaseUtil.queryContract(player.getNhl_id(), new FirebaseCallback() {
+                Collections.sort(roster, new Comparator<Player>() {
 
                     @Override
-                    public void onContractResult(final List<PlayerContract> list) {
+                    public int compare(Player p1, Player p2) {
 
-                        player.setContracts(list);
-
-                        processed.add(player);
-
-                        if(processed.size() == players.length) {
-
-                            sortRoster(processed);
-
-                            onPostExecute(true);
-                        }
+                        return p2.getCapHit() - p1.getCapHit();
                     }
                 });
+
+                for(Player player : roster) {
+
+                    if(player.getIs_injured()) {
+
+                        mInjured.add(player);
+
+                    } else if (!player.getIs_roster()) {
+
+                        mNonroster.add(player);
+
+                    } else if(Pattern.matches("C|LW|RW", player.getPosition())) {
+
+                        mForwards.add(player);
+
+                    } else if (player.getPosition().equals("D")) {
+
+                        mDefensemen.add(player);
+
+                    } else {
+
+                        mGoaltenders.add(player);
+                    }
+                }
+
+                return null;
             }
 
-            return false;
-        }
-
-        private void sortRoster(List<Player> roster) {
-
-            Collections.sort(roster, new Comparator<Player>() {
-
-                @Override
-                public int compare(Player p1, Player p2) {
-
-                    return p2.getCapHit() - p1.getCapHit();
-                }
-            });
-
-            for(Player player : roster) {
-
-                if(player.getIs_injured()) {
-
-                    mInjured.add(player);
-
-                } else if (!player.getIs_roster()) {
-
-                    mNonroster.add(player);
-
-                } else if(Pattern.matches("C|LW|RW", player.getPosition())) {
-
-                    mForwards.add(player);
-
-                } else if (player.getPosition().equals("D")) {
-
-                    mDefensemen.add(player);
-
-                } else {
-
-                    mGoaltenders.add(player);
-                }
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Boolean isSorted) {
-
-            if(isSorted) {
+            @Override
+            protected void onPostExecute(Void voidArg) {
 
                 bindRoster();
             }
-        }
-    };
+
+        }.execute();
+    }
 
 
     private void bindRoster() {
@@ -244,17 +230,18 @@ public class RosterFragment extends Fragment {
         salary_container.setVisibility(View.VISIBLE);
     }
 
+
     private void setAdapter(List<Player> players,
                               RecyclerView labelRecycler, RecyclerView salaryRecycler) {
 
-        initRecyclers(labelRecycler, salaryRecycler);
+        initRecycler(labelRecycler, salaryRecycler);
 
         labelRecycler.setAdapter(new RosterLabelAdapter(players));
         salaryRecycler.setAdapter(new RosterSalaryAdapter(players));
     }
 
 
-    private void initRecyclers(RecyclerView... recyclers) {
+    private void initRecycler(RecyclerView... recyclers) {
 
         for(RecyclerView recycler : recyclers) {
 

@@ -197,9 +197,9 @@ public class PlayerActivity extends AppCompatActivity {
         Bundle args = new Bundle();
         args.putParcelable(Player.PARAM_PLAYER_PARCEL, mPlayer);
 
-//        PlayerContractsFragment contractsFragment = new PlayerContractsFragment();
-//        contractsFragment.setArguments(args);
-//        adapter.addFragment(contractsFragment, "CONTRACTS");
+        PlayerContractsFragment contractsFragment = new PlayerContractsFragment();
+        contractsFragment.setArguments(args);
+        adapter.addFragment(contractsFragment, "CONTRACTS");
 
         PlayerNewsFragment newsFragment = new PlayerNewsFragment();
         newsFragment.setArguments(args);
