@@ -27,7 +27,6 @@ public class FirebaseUtil {
 
     private enum QueryType { ITEM, LIST }
 
-
     public static void queryStory(String param, String paramValue, FirebaseCallback callback) {
 
         DatabaseReference ref =  FirebaseDatabase.getInstance().getReference("Story");
@@ -252,37 +251,7 @@ public class FirebaseUtil {
                             keys.add((String) tag.child("story_id").getValue());
                         }
 
-                        queryStory(ref, QueryType.LIST, new FirebaseCallback() {
-
-                            @Override
-                            public void onStoryResult(List<Story> list) {
-
-                                Iterator<Story> iterator = list.iterator();
-
-                                while (iterator.hasNext()) {
-
-                                    Story story = iterator.next();
-
-                                    if(!keys.contains(story.getId())) {
-
-                                        iterator.remove();
-                                    }
-                                }
-
-                                Collections.sort(list, new Comparator<Story>() {
-
-                                    @Override
-                                    public int compare(Story s1, Story s2) {
-
-                                        return (int) (s2.getPubdate() - s1.getPubdate());
-                                    }
-                                });
-
-                                callback.onStoryResult(list);
-                            }
-                        });
-
-                        break;
+                        callback.onTagResult(keys);
                     }
                 }
             }

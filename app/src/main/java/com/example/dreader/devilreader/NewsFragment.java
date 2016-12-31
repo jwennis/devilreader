@@ -63,6 +63,8 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        layout_root = (ViewGroup) inflater.inflate(R.layout.fragment_news, container, false);
+
         if (savedInstanceState != null) {
 
             mFilter = (Filter) savedInstanceState.getSerializable(PARAM_FILTER);
@@ -71,8 +73,6 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
 
             mFilter = Filter.UNREAD;
         }
-
-        layout_root = (ViewGroup) inflater.inflate(R.layout.fragment_news, container, false);
 
         bindNews();
 

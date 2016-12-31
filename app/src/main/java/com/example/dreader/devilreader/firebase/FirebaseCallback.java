@@ -14,5 +14,7 @@ public class FirebaseCallback {
     public void onPlayerResult(List<Player> list) { }
     public void onPlayerResult(Player item) { }
 
+    public void onTagResult(List<String> tags) { }
+
     public void onContractResult(List<PlayerContract> list) { }
 }
