@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import com.example.dreader.devilreader.model.Player;
 import com.example.dreader.devilreader.model.PlayerContract;
 import com.example.dreader.devilreader.ui.ContractAdapter;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -107,7 +110,11 @@ public class PlayerContractsFragment extends Fragment {
 
         if(mAdapter == null) {
 
-            mAdapter = new ContractAdapter(mPlayer.getContracts());
+            List<PlayerContract> contracts = new ArrayList<>(mPlayer.getContracts()) ;
+
+            Collections.reverse(contracts);
+
+            mAdapter = new ContractAdapter(contracts);
             contracts_recycler.setAdapter(mAdapter);
 
         } else {

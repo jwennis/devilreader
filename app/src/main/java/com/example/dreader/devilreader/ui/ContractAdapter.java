@@ -31,9 +31,7 @@ public class ContractAdapter extends RecyclerView.Adapter<ContractAdapter.Contra
 
         super();
 
-        mItems = list.subList(0, list.size()); // shallow copy
-
-        Collections.reverse(mItems);
+        mItems = list;
     }
 
     @Override
