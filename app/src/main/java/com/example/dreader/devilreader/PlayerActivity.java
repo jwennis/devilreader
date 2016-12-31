@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,17 +39,23 @@ public class PlayerActivity extends AppCompatActivity {
     @BindString(R.string.player_mugshot_root)
     String MUGSHOT_ROOT;
 
+    @BindString(R.string.typeface_arvo_normal)
+    String TYPEFACE_ARVO_NORMAL;
+
     @BindString(R.string.typeface_arvo_bold)
     String TYPEFACE_ARVO_BOLD;
+
+    @BindView(R.id.collapsing_toolbar)
+    CollapsingToolbarLayout collapsing_toolbar;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     @BindView(R.id.player_detail_backdrop)
     ImageView player_backdrop;
 
     @BindView(R.id.player_detail_mugshot)
     ImageView player_mugshot;
-
-    @BindView(R.id.player_detail_name)
-    TextView player_name;
 
     @BindView(R.id.player_detail_status)
     TextView player_status;
@@ -88,9 +95,6 @@ public class PlayerActivity extends AppCompatActivity {
             mPlayer = getIntent().getExtras().getParcelable(Player.PARAM_PLAYER_PARCEL);
         }
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("");
-
         bindPlayer();
     }
 
@@ -124,6 +128,15 @@ public class PlayerActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(mPlayer.getName());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Typeface TypefaceArvoNormal = Typeface.createFromAsset(getAssets(), TYPEFACE_ARVO_NORMAL);
+
+        collapsing_toolbar.setCollapsedTitleTypeface(TypefaceArvoNormal);
+        collapsing_toolbar.setExpandedTitleTypeface(TypefaceArvoNormal);
+
         Glide.with(this)
                 .load(BACKDROP_ROOT + mPlayer.getNhl_id() + "@2x.jpg")
                 //.placeholder(R.drawable.img_player_backdrop_placeholder)
@@ -134,11 +147,6 @@ public class PlayerActivity extends AppCompatActivity {
                 .load(MUGSHOT_ROOT + mPlayer.getNhl_id() + "@2x.jpg")
                 .transform(new CircleTransform(this))
                 .into(player_mugshot);
-
-        Typeface TypefaceArvoBold = Typeface.createFromAsset(getAssets(), TYPEFACE_ARVO_BOLD);
-
-        player_name.setText(mPlayer.getName());
-        player_name.setTypeface(TypefaceArvoBold);
 
         String status = mPlayer.getStatus();
 

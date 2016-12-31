@@ -65,7 +65,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.dreader.devilreader.MainActivity" />
         </activity>
-        <activity android:name=".PlayerActivity"></activity>
+        <activity android:name=".PlayerActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
