@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.dreader.devilreader.GameActivity;
 import com.example.dreader.devilreader.R;
 import com.example.dreader.devilreader.Util;
 import com.example.dreader.devilreader.model.Game;
