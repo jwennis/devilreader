@@ -1,5 +1,8 @@
 package com.example.dreader.devilreader;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.graphics.Typeface;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
@@ -10,24 +13,19 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import butterknife.BindString;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import com.bumptech.glide.Glide;
 import com.example.dreader.devilreader.model.Player;
 import com.example.dreader.devilreader.ui.CircleTransform;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.BindString;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class PlayerActivity extends AppCompatActivity {
 
@@ -214,7 +212,7 @@ public class PlayerActivity extends AppCompatActivity {
         adapter.addFragment(newsFragment, "NEWS");
 
         PlayerGoalsFragment goalsFragment = new PlayerGoalsFragment();
-        goalsFragment.setArguments(args);//
+        goalsFragment.setArguments(args);
         adapter.addFragment(goalsFragment, "GOALS");
 
         viewpager.setAdapter(adapter);
