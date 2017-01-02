@@ -213,10 +213,10 @@ public class PlayerActivity extends AppCompatActivity {
         newsFragment.setArguments(args);
         adapter.addFragment(newsFragment, "NEWS");
 
-//        PlayerGoalsFragment goalsFragment = new PlayerGoalsFragment();
-//        goalsFragment.setArguments(args);//
-//        adapter.addFragment(goalsFragment, "GOALS");
-//
+        PlayerGoalsFragment goalsFragment = new PlayerGoalsFragment();
+        goalsFragment.setArguments(args);//
+        adapter.addFragment(goalsFragment, "GOALS");
+
         viewpager.setAdapter(adapter);
         tab_layout.setupWithViewPager(viewpager);
     }
