@@ -123,6 +123,13 @@ public class MainActivity extends AppCompatActivity implements
                 break;
             }
 
+            case R.id.drawer_schedule: {
+
+                swapFragment(new ScheduleFragment(), true);
+
+                break;
+            }
+
             case R.id.drawer_settings: {
 
                 startActivity(new Intent(this, SettingsActivity.class));

@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
 
+import com.example.dreader.devilreader.model.Game;
 import com.example.dreader.devilreader.model.Player;
 import com.example.dreader.devilreader.model.PlayerContract;
 import com.example.dreader.devilreader.model.Story;
@@ -341,6 +342,82 @@ public class FirebaseUtil {
             protected void sendResult() {
 
                 callback.onContractResult(list);
+            }
+        });
+    }
+
+    public static void queryGame(String param, String paramValue, FirebaseCallback callback) {
+
+        DatabaseReference ref =  getReference("Game");
+
+        switch(param) {
+
+            case ORDER_BY: {
+
+                Query query = ref.orderByChild(paramValue).limitToLast(82);
+
+                queryGame(query, QueryType.LIST, callback);
+
+                break;
+            }
+
+            case KEY: {
+
+                queryGame(ref.child(paramValue), QueryType.ITEM, callback);
+
+                break;
+            }
+        }
+    }
+
+
+    private static void queryGame(Query query, final QueryType type,
+                                   final FirebaseCallback callback) {
+
+        query.addListenerForSingleValueEvent(new FirebaseListener() {
+
+            private List<Game> list;
+            private Game item;
+
+            @Override
+            protected void onDataResult(DataSnapshot data) {
+
+                switch(type) {
+
+                    case LIST: {
+
+                        list = new ArrayList<>();
+
+                        for(DataSnapshot child : data.getChildren()) {
+
+                            list.add(child.getValue(Game.class));
+                        }
+
+                        break;
+                    }
+
+                    case ITEM: {
+
+                        item = data.getValue(Game.class);
+
+                        break;
+                    }
+                }
+
+                publishProgress();
+            }
+
+            @Override
+            protected void sendResult() {
+
+                if(list != null) {
+
+                    callback.onGameResult(list);
+
+                } else if (item != null) {
+
+                    callback.onGameResult(item);
+                }
             }
         });
     }

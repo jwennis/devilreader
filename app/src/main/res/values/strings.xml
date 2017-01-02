@@ -5,6 +5,7 @@
     <string name="drawer_discover">Discover</string>
     <string name="drawer_news">News</string>
     <string name="drawer_roster">Roster</string>
+    <string name="drawer_schedule">Schedule</string>
     <string name="drawer_settings">Settings</string>
 
     <string name="action_settings">Settings</string>

@@ -1,13 +1,11 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.RecyclerView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/schedule_recycler"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.dreader.devilreader.ScheduleFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
-
-</FrameLayout>
+    android:layout_height="wrap_content"
+    android:background="@color/lightgrey"
+    android:scrollbars="vertical"
+    tools:context=".ScheduleFragment" />
