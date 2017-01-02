@@ -4,6 +4,8 @@ package com.example.dreader.devilreader;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,9 +41,14 @@ public class ScheduleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        Util.setTitle(getActivity(), R.string.drawer_schedule);
+
         View layout_root = inflater.inflate(R.layout.fragment_schedule, container, false);
 
         ButterKnife.bind(this, layout_root);
+
+        schedule_recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        schedule_recycler.setItemAnimator(new DefaultItemAnimator());
 
         return layout_root;
     }
