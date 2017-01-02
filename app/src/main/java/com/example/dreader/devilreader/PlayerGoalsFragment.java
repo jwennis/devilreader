@@ -70,11 +70,11 @@ public class PlayerGoalsFragment extends Fragment {
 
 //        if(mGoals == null) {
 //
-//            initContracts();
+//            initGoals();
 //
 //        } else {
 //
-//            bindContracts();
+//            bindGoals();
 //        }
     }
 
