@@ -92,6 +92,24 @@ public class ScheduleFragment extends Fragment {
 
             mAdapter = new GameAdapter(mSchedule);
             schedule_recycler.setAdapter(mAdapter);
+
+            // Scroll to first pending game
+
+            int index = 0;
+
+            for(Game game : mSchedule) {
+
+                if(!game.isPending()) {
+
+                    index++;
+
+                } else {
+
+                    schedule_recycler.scrollToPosition(index);
+
+                    break;
+                }
+            }
         }
     }
 }
