@@ -12,6 +12,8 @@ import java.util.List;
 
 public class Game implements Parcelable {
 
+    public static final String PARAM_GAME_PARCEL = "PARAM_GAME_PARCEL";
+
     private long nhl_id;
     private long datestring;
 

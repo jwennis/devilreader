@@ -17,6 +17,7 @@ import com.example.dreader.devilreader.firebase.FirebaseUtil;
 import com.example.dreader.devilreader.model.Game;
 import com.example.dreader.devilreader.ui.GameAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -61,13 +62,23 @@ public class ScheduleFragment extends Fragment {
 
         if(savedInstanceState != null) {
 
-            //mSchedule = savedInstanceState.getParcelableArrayList(Game.PARAM_GAME_PARCELABLE);
-            //bindSchedule();
+            mSchedule = savedInstanceState.getParcelableArrayList(Game.PARAM_GAME_PARCEL);
+
+            bindSchedule();
 
         } else {
 
             initSchedule();
         }
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+
+        outState.putStringArrayList(Game.PARAM_GAME_PARCEL, (ArrayList) mSchedule);
+
+        super.onSaveInstanceState(outState);
     }
 
 

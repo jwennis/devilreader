@@ -1,6 +1,8 @@
 package com.example.dreader.devilreader.ui;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +31,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameViewHolder
     }
 
     @Override
-    public GameAdapter.GameViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public GameViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         return new GameViewHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_game, parent, false));
@@ -37,7 +39,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameViewHolder
 
 
     @Override
-    public void onBindViewHolder(GameAdapter.GameViewHolder holder, int position) {
+    public void onBindViewHolder(final GameViewHolder holder, int position) {
 
         final Game item = getItemAt(position);
 
@@ -79,15 +81,15 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameViewHolder
             @Override
             public void onClick(View view) {
 
-//                if (!game.isPending()) {
-//
-//                    Context context = holder.layout_root.getContext();
-//
-//                    Intent gameIntent = new Intent(context, GameActivity.class);
-//                    gameIntent.putExtra(GameModel.PARAM_GAME_PARCEL, game);
-//
-//                    context.startActivity(gameIntent);
-//                }
+                if (!item.isPending()) {
+
+                    Context context = holder.layout_root.getContext();
+
+                    Intent gameIntent = new Intent(context, GameActivity.class);
+                    gameIntent.putExtra(Game.PARAM_GAME_PARCEL, item);
+
+                    context.startActivity(gameIntent);
+                }
             }
         });
     }
