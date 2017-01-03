@@ -126,5 +126,12 @@
 
     <string name="game_scoring_final">FINAL</string>
     <string name="game_label_recap">RECAP</string>
+    <string name="game_label_stats">STATS</string>
+    <string name="game_stats_shots">SHOTS</string>
+    <string name="game_stats_faceoffs">FACEOFFS</string>
+    <string name="game_stats_powerplay">POWERPLAY</string>
+    <string name="game_stats_pim">PENALTY MINUTES</string>
+    <string name="game_stats_hits">HITS</string>
+    <string name="game_stats_blocks">BLOCKS</string>
 
 </resources>

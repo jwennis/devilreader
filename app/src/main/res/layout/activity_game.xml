@@ -13,13 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="@dimen/margin_small">
+        android:gravity="center_horizontal">
 
         <TextView
             android:id="@+id/game_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_small"
             android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="@color/darkgrey" />
@@ -194,6 +195,150 @@
 
         </RelativeLayout>
 
+        <!-- Stats -->
+
+        <TextView
+            android:id="@+id/game_label_stats"
+            android:text="@string/game_label_stats"
+            style="@style/game_section_label" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_small"
+            android:paddingTop="@dimen/margin_small"
+            android:paddingLeft="@dimen/margin_large"
+            android:paddingBottom="@dimen/margin_xsmall"
+            android:orientation="horizontal"
+            android:background="@color/white"
+            android:elevation="@dimen/margin_xsmall">
+
+            <!-- Heading -->
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/game_stats_label" />
+
+                <TextView
+                    android:textStyle="bold"
+                    android:text="@string/game_stats_shots"
+                    style="@style/game_stats_label" />
+
+                <TextView
+                    android:textStyle="bold"
+                    android:text="@string/game_stats_faceoffs"
+                    style="@style/game_stats_label" />
+
+                <TextView
+                    android:textStyle="bold"
+                    android:text="@string/game_stats_powerplay"
+                    style="@style/game_stats_label" />
+
+                <TextView
+                    android:textStyle="bold"
+                    android:text="@string/game_stats_pim"
+                    style="@style/game_stats_label" />
+
+                <TextView
+                    android:textStyle="bold"
+                    android:text="@string/game_stats_hits"
+                    style="@style/game_stats_label" />
+
+                <TextView
+                    android:textStyle="bold"
+                    android:text="@string/game_stats_blocks"
+                    style="@style/game_stats_label" />
+
+            </LinearLayout>
+
+            <!-- Away -->
+
+            <LinearLayout
+                android:id="@+id/game_stats_away"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_gravity="center_horizontal"
+                    android:textStyle="bold"
+                    style="@style/game_stats_label" />
+
+                <TextView
+                    android:layout_gravity="center_horizontal"
+                    style="@style/game_stats_label" />
+
+                <TextView
+                    android:layout_gravity="center_horizontal"
+                    style="@style/game_stats_label" />
+
+                <TextView
+                    android:layout_gravity="center_horizontal"
+                    style="@style/game_stats_label" />
+
+                <TextView
+                    android:layout_gravity="center_horizontal"
+                    style="@style/game_stats_label" />
+
+                <TextView
+                    android:layout_gravity="center_horizontal"
+                    style="@style/game_stats_label" />
+
+                <TextView
+                    android:layout_gravity="center_horizontal"
+                    style="@style/game_stats_label" />
+
+            </LinearLayout>
+
+            <!-- Home -->
+
+            <LinearLayout
+                android:id="@+id/game_stats_home"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_gravity="center_horizontal"
+                    android:textStyle="bold"
+                    style="@style/game_stats_label" />
+
+                <TextView
+                    android:layout_gravity="center_horizontal"
+                    style="@style/game_stats_label" />
+
+                <TextView
+                    android:layout_gravity="center_horizontal"
+                    style="@style/game_stats_label" />
+
+                <TextView
+                    android:layout_gravity="center_horizontal"
+                    style="@style/game_stats_label" />
+
+                <TextView
+                    android:layout_gravity="center_horizontal"
+                    style="@style/game_stats_label" />
+
+                <TextView
+                    android:layout_gravity="center_horizontal"
+                    style="@style/game_stats_label" />
+
+                <TextView
+                    android:layout_gravity="center_horizontal"
+                    style="@style/game_stats_label" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
 
     </LinearLayout>

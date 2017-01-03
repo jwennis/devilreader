@@ -213,6 +213,13 @@
         <item name="android:paddingBottom">@dimen/margin_xsmall</item>
     </style>
 
+    <style name="game_stats_label">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/margin_xsmall</item>
+        <item name="android:paddingBottom">@dimen/margin_small</item>
+        <item name="android:textColor">@color/darkgrey</item>
+    </style>
 
 
 </resources>

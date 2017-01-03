@@ -64,6 +64,15 @@ public class GameActivity extends AppCompatActivity {
     @BindView(R.id.game_recap_play)
     ImageView recap_play;
 
+    @BindView(R.id.game_label_stats)
+    TextView label_stats;
+
+    @BindView(R.id.game_stats_away)
+    ViewGroup stats_away;
+
+    @BindView(R.id.game_stats_home)
+    ViewGroup stats_home;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +138,9 @@ public class GameActivity extends AppCompatActivity {
         date.setText(mGame.getLongDate());
         date.setTypeface(TypefaceArvoBold);
 
+        TextView statsLabelAway = (TextView) stats_away.getChildAt(0);
+        TextView statsLabelHome = (TextView) stats_home.getChildAt(0);
+
         if(mGame.isHome()) {
 
             arena.setText(Util.getTeamArena("NJD"));
@@ -137,6 +149,9 @@ public class GameActivity extends AppCompatActivity {
             scoring_away_icon.setImageResource(Util.getTeamIcon(mGame.getOpponent()));
             scoring_home_icon.setImageResource(Util.getTeamIcon("NJD"));
 
+            statsLabelAway.setText(mGame.getOpponent());
+            statsLabelHome.setText("NJD");
+
         } else  {
 
             arena.setText(Util.getTeamArena(mGame.getOpponent()));
@@ -144,6 +159,9 @@ public class GameActivity extends AppCompatActivity {
 
             scoring_away_icon.setImageResource(Util.getTeamIcon("NJD"));
             scoring_home_icon.setImageResource(Util.getTeamIcon(mGame.getOpponent()));
+
+            statsLabelAway.setText("NJD");
+            statsLabelHome.setText(mGame.getOpponent());
         }
 
         // Scoring summary
@@ -199,6 +217,21 @@ public class GameActivity extends AppCompatActivity {
                 startActivityForResult(recapIntent, 0);
             }
         });
+
+        // Stats
+
+        label_stats.setTypeface(TypefaceArvoBold);
+
+        List<String> statsAway = mGame.getStatsAway();
+        List<String> statsHome = mGame.getStatsHome();
+
+        for(int i = 0; i < 6; i++) {
+
+            ((TextView) stats_away.getChildAt(i + 1)).setText(statsAway.get(i));
+            ((TextView) stats_home.getChildAt(i + 1)).setText(statsHome.get(i));
+        }
+
+
 
     }
 }
