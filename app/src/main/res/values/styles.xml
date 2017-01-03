@@ -171,7 +171,7 @@
     <style name="roster_salary_label">
         <item name="android:layout_width">@dimen/roster_salary_item_width</item>
         <item name="android:layout_height">40dp</item>
-        <item name="android:layout_margin">4dp</item>
+        <item name="android:layout_margin">@dimen/margin_xsmall</item>
         <item name="android:gravity">center</item>
         <item name="android:background">#dddddd</item>
         <item name="android:visibility">invisible</item>
@@ -183,6 +183,17 @@
 
     <style name="player_title_collapsed">
         <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="game_section_label">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/margin_large</item>
+        <item name="android:layout_marginBottom">@dimen/margin_large</item>
+        <item name="android:layout_marginStart">@dimen/margin_medium</item>
+        <item name="android:textColor">@color/darkgrey</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="game_scoring_label">
@@ -198,8 +209,8 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:paddingTop">4dp</item>
-        <item name="android:paddingBottom">4dp</item>
+        <item name="android:paddingTop">@dimen/margin_xsmall</item>
+        <item name="android:paddingBottom">@dimen/margin_xsmall</item>
     </style>
 
 

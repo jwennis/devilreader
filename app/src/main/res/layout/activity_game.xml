@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textColor="@color/darkgrey" />
 
         <TextView
@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textColor="@color/darkgrey" />
 
         <TextView
@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textColor="@color/darkgrey" />
 
         <!-- Scoring summary -->
@@ -121,6 +121,7 @@
                     style="@style/game_scoring_label" />
 
                 <TextView
+                    android:textStyle="bold"
                     style="@style/game_scoring_label" />
 
             </LinearLayout>
@@ -157,14 +158,41 @@
                     style="@style/game_scoring_label" />
 
                 <TextView
+                    android:textStyle="bold"
                     style="@style/game_scoring_label" />
 
             </LinearLayout>
 
         </LinearLayout>
 
+        <!-- Video recap -->
 
+        <TextView
+            android:id="@+id/game_label_recap"
+            android:text="@string/game_label_recap"
+            style="@style/game_section_label" />
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_small"
+            android:background="@color/white"
+            android:elevation="@dimen/margin_xsmall">
+
+            <ImageView
+                android:id="@+id/game_recap_backdrop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/game_recap_play"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_centerInParent="true"
+                app:srcCompat="@drawable/ic_media_play_light" />
+
+        </RelativeLayout>
 
 
 

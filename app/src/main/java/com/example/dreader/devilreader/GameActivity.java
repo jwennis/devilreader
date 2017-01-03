@@ -1,5 +1,8 @@
 package com.example.dreader.devilreader;
 
+import android.content.Intent;
+import android.graphics.Typeface;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -10,10 +13,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.dreader.devilreader.model.Game;
 
 import java.util.List;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -22,6 +27,9 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 public class GameActivity extends AppCompatActivity {
 
     private Game mGame;
+
+    @BindString(R.string.typeface_arvo_bold)
+    String TYPEFACE_ARVO_BOLD;
 
     @BindView(R.id.game_date)
     TextView date;
@@ -46,6 +54,15 @@ public class GameActivity extends AppCompatActivity {
 
     @BindView(R.id.game_scoring_home_icon)
     ImageView scoring_home_icon;
+
+    @BindView(R.id.game_label_recap)
+    TextView label_recap;
+
+    @BindView(R.id.game_recap_backdrop)
+    ImageView recap_backdrop;
+
+    @BindView(R.id.game_recap_play)
+    ImageView recap_play;
 
 
     @Override
@@ -107,7 +124,10 @@ public class GameActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        Typeface TypefaceArvoBold = Typeface.createFromAsset(getAssets(), TYPEFACE_ARVO_BOLD);
+
         date.setText(mGame.getLongDate());
+        date.setTypeface(TypefaceArvoBold);
 
         if(mGame.isHome()) {
 
@@ -160,6 +180,25 @@ public class GameActivity extends AppCompatActivity {
             }
         }
 
+        // Recap
+
+        label_recap.setTypeface(TypefaceArvoBold);
+
+        Glide.with(this)
+                .load(mGame.getRecapImage())
+                .into(recap_backdrop);
+
+        recap_play.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                Intent recapIntent = new Intent(Intent.ACTION_VIEW);
+                recapIntent.setDataAndType(Uri.parse(mGame.getRecapVideo()),"video/mp4");
+
+                startActivityForResult(recapIntent, 0);
+            }
+        });
 
     }
 }

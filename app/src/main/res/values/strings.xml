@@ -125,5 +125,6 @@
 
 
     <string name="game_scoring_final">FINAL</string>
+    <string name="game_label_recap">RECAP</string>
 
 </resources>
