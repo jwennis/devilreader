@@ -40,6 +40,133 @@
             android:textSize="14sp"
             android:textColor="@color/darkgrey" />
 
+        <!-- Scoring summary -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/margin_xlarge"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:paddingTop="@dimen/margin_xsmall"
+            android:paddingBottom="@dimen/margin_xsmall"
+            android:background="@color/white"
+            android:elevation="@dimen/margin_xsmall">
+
+            <!-- Scoring summary heading -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/game_scoring_heading">
+
+                <FrameLayout
+                    style="@style/game_scoring_icon_frame" />
+
+                <TextView
+                    android:textStyle="bold"
+                    style="@style/game_scoring_label" />
+
+                <TextView
+                    android:textStyle="bold"
+                    style="@style/game_scoring_label" />
+
+                <TextView
+                    android:textStyle="bold"
+                    style="@style/game_scoring_label" />
+
+                <TextView
+                    android:textStyle="bold"
+                    style="@style/game_scoring_label" />
+
+                <TextView
+                    android:text="@string/game_scoring_final"
+                    android:textStyle="bold"
+                    style="@style/game_scoring_label" />
+
+            </LinearLayout>
+
+            <!-- Away Scoring Summary -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/game_scoring_away">
+
+                <FrameLayout
+                    style="@style/game_scoring_icon_frame">
+
+                    <ImageView
+                        android:id="@+id/game_scoring_away_icon"
+                        android:layout_width="48dp"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center" />
+
+                </FrameLayout>
+
+                <TextView
+                    style="@style/game_scoring_label" />
+
+                <TextView
+                    style="@style/game_scoring_label" />
+
+                <TextView
+                    style="@style/game_scoring_label" />
+
+                <TextView
+                    style="@style/game_scoring_label" />
+
+                <TextView
+                    style="@style/game_scoring_label" />
+
+            </LinearLayout>
+
+            <!-- Home Scoring Summary -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/game_scoring_home">
+
+                <FrameLayout
+                    style="@style/game_scoring_icon_frame">
+
+                    <ImageView
+                        android:id="@+id/game_scoring_home_icon"
+                        android:layout_width="48dp"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center" />
+
+                </FrameLayout>
+
+                <TextView
+                    style="@style/game_scoring_label" />
+
+                <TextView
+                    style="@style/game_scoring_label" />
+
+                <TextView
+                    style="@style/game_scoring_label" />
+
+                <TextView
+                    style="@style/game_scoring_label" />
+
+                <TextView
+                    style="@style/game_scoring_label" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+
+
 
     </LinearLayout>
 

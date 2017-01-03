@@ -123,7 +123,7 @@
         <item>@string/pref_title_sources_had</item>
     </string-array>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="game_scoring_final">FINAL</string>
 
 </resources>
