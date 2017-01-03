@@ -209,6 +209,23 @@ public class Game implements Parcelable {
     }
 
 
+    public String getLongDate() {
+
+        String date = Long.toString(datestring);
+        int y = Integer.parseInt(date.substring(0, 4));
+        int m = Integer.parseInt(date.substring(4, 6)) - 1;
+        int d = Integer.parseInt(date.substring(6, 8));
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(y, m, d);
+
+        int day = cal.get(Calendar.DAY_OF_WEEK) - 1;
+
+        return String.format("%s, %s %d, %d",
+                Util.DAY_OF_WEEK_NAMES[day], Util.LONG_MONTH_NAMES[m], d, y);
+    }
+
+
     public boolean isPending() {
 
         return status.equals("P");

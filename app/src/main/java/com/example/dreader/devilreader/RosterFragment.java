@@ -89,6 +89,8 @@ public class RosterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        Util.setTitle(getActivity(), R.string.drawer_roster);
+
         layout_root = (ViewGroup) inflater.inflate(R.layout.fragment_roster, container, false);
 
         if(savedInstanceState != null) {
@@ -217,8 +219,6 @@ public class RosterFragment extends Fragment {
     private void bindRoster() {
 
         ButterKnife.bind(this, layout_root);
-
-        Util.setTitle(getActivity(), R.string.drawer_roster);
 
         setAdapter(mForwards, forward_labels, forward_salaries);
         setAdapter(mDefensemen, defense_labels, defense_salaries);

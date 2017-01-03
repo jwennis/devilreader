@@ -20,6 +20,10 @@ public class Util {
     public static final String[] SHORT_MONTH_NAMES = new String[] {
             "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 
+    public static final String[] LONG_MONTH_NAMES = new String[] {
+            "January", "February", "March", "April", "May", "June", "July",
+            "August", "September", "October", "November", "December" };
+
 
     public static long getCurrentTimestamp() {
 
@@ -166,7 +170,7 @@ public class Util {
         teams.put("NSH", "Nashville Predators");
         teams.put("NYI", "New York Islanders");
         teams.put("NYR", "New York Rangers");
-        teams.put("OTT", "Ottowa Senators");
+        teams.put("OTT", "Ottawa Senators");
         teams.put("PHI", "Philadelphia Flyers");
         teams.put("PIT", "Pittsburgh Penguins");
         teams.put("SJS", "San Jose Sharks");
@@ -178,5 +182,79 @@ public class Util {
         teams.put("WSH", "Washington Capitals");
 
         return teams.get(team);
+    }
+
+    public static String getTeamCity(String team) {
+
+        HashMap<String, String> cities = new HashMap<>();
+        cities.put("ANA", "Anaheim, California");
+        cities.put("ARI", "Glendale, Arizona");
+        cities.put("BOS", "Boston, Massachusetts");
+        cities.put("BUF", "Buffalo, New York");
+        cities.put("CAR", "Raleigh, North Carolina");
+        cities.put("CBJ", "Columbus, Ohio");
+        cities.put("CGY", "Calgary, Alberta");
+        cities.put("CHI", "Chicago, Illinois");
+        cities.put("COL", "Denver, Colorado");
+        cities.put("DAL", "Dallas, Texas");
+        cities.put("DET", "Detroit, Michigan");
+        cities.put("EDM", "Detroit, Mishigan");
+        cities.put("FLA", "Sunrise, Florida");
+        cities.put("LAK", "Los Angeles, California");
+        cities.put("MIN", "Saint Paul, Minnesota");
+        cities.put("MTL", "Montreal, Quebec");
+        cities.put("NJD", "Newark, New Jersey");
+        cities.put("NSH", "Nashville, Tennessee");
+        cities.put("NYI", "Brooklyn, New York");
+        cities.put("NYR", "New York City, New York");
+        cities.put("OTT", "Ottawa, Ontario");
+        cities.put("PHI", "Philadelphia, Pennsylvania");
+        cities.put("PIT", "Pittsburgh, Pennsylvania");
+        cities.put("SJS", "San Jose, California");
+        cities.put("STL", "St. Louis, Missouri");
+        cities.put("TBL", "Tampa, Florida");
+        cities.put("TOR", "Toronto, Ontario");
+        cities.put("VAN", "Vancouver, British Columbia");
+        cities.put("WPG", "Winnipeg, Manitoba");
+        cities.put("WSH", "Washington, D.C.");
+
+        return cities.get(team);
+    }
+
+    public static String getTeamArena(String team) {
+
+        HashMap<String, String> arenas = new HashMap<>();
+        arenas.put("ANA", "Honda Center");
+        arenas.put("ARI", "Gila River Arena");
+        arenas.put("BOS", "TD Garden");
+        arenas.put("BUF", "KeyBank Center");
+        arenas.put("CAR", "PNC Arena");
+        arenas.put("CBJ", "Nationwide Arena");
+        arenas.put("CGY", "Scotiabank Saddledome");
+        arenas.put("CHI", "United Center");
+        arenas.put("COL", "Pepsi Center");
+        arenas.put("DAL", "American Airlines Center");
+        arenas.put("DET", "Joe Louis Arena");
+        arenas.put("EDM", "Rogers Place");
+        arenas.put("FLA", "BB&T Center");
+        arenas.put("LAK", "Staples Center");
+        arenas.put("MIN", "Xcel Energy Center");
+        arenas.put("MTL", "Bell Center");
+        arenas.put("NJD", "Prudential Center");
+        arenas.put("NSH", "Bridgestone Arena");
+        arenas.put("NYI", "Barclays Center");
+        arenas.put("NYR", "Madison Square Garden");
+        arenas.put("OTT", "Canadian Tire Center");
+        arenas.put("PHI", "Wells Fargo Center");
+        arenas.put("PIT", "PPG Paints Arena");
+        arenas.put("SJS", "SAP Center");
+        arenas.put("STL", "Scottrade Center");
+        arenas.put("TBL", "Amalie Arena");
+        arenas.put("TOR", "Air Canada Center");
+        arenas.put("VAN", "Rogers Arena");
+        arenas.put("WPG", "MTS Centre");
+        arenas.put("WSH", "Verizon Center");
+
+        return arenas.get(team);
     }
 }
