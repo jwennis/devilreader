@@ -1,6 +1,7 @@
 package com.example.dreader.devilreader;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -53,7 +54,6 @@ public class PlayerContractsFragment extends Fragment {
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -66,9 +66,6 @@ public class PlayerContractsFragment extends Fragment {
 
             mPlayer = savedInstanceState.getParcelable(Player.PARAM_PLAYER_PARCEL);
         }
-
-        contracts_recycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        contracts_recycler.setItemAnimator(new DefaultItemAnimator());
 
         return root;
     }
@@ -89,6 +86,20 @@ public class PlayerContractsFragment extends Fragment {
         }
     }
 
+//    @Override
+//    public void onResume() {
+//
+//        super.onResume();
+//
+//        if(mPlayer.getContracts() == null) {
+//
+//            initContracts();
+//
+//        } else {
+//
+//            bindContracts();
+//        }
+//    }
 
     private void initContracts() {
 
@@ -114,11 +125,10 @@ public class PlayerContractsFragment extends Fragment {
             Collections.reverse(contracts);
 
             mAdapter = new ContractAdapter(contracts);
-            contracts_recycler.setAdapter(mAdapter);
-
-        } else {
-
-            //mAdapter.notifyDatasetChanged();
         }
+
+        contracts_recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        contracts_recycler.setItemAnimator(new DefaultItemAnimator());
+        contracts_recycler.setAdapter(mAdapter);
     }
 }

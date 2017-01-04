@@ -51,9 +51,6 @@ public class PlayerGoalsFragment extends Fragment {
 
         ButterKnife.bind(this, root);
 
-        goals_recycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        goals_recycler.setItemAnimator(new DefaultItemAnimator());
-
         if(savedInstanceState != null) {
 
             mPlayer = savedInstanceState.getParcelable(Player.PARAM_PLAYER_PARCEL);
@@ -110,7 +107,10 @@ public class PlayerGoalsFragment extends Fragment {
         if(mAdapter == null) {
 
             mAdapter = new GoalAdapter(mGoals, PlayerGoalsFragment.class.getSimpleName());
-            goals_recycler.setAdapter(mAdapter);
         }
+
+        goals_recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        goals_recycler.setItemAnimator(new DefaultItemAnimator());
+        goals_recycler.setAdapter(mAdapter);
     }
 }

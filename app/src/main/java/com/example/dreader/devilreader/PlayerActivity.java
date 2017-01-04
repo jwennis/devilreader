@@ -84,6 +84,11 @@ public class PlayerActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_player);
 
+        ButterKnife.bind(this);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         if(savedInstanceState != null) {
 
             mPlayer = savedInstanceState.getParcelable(Player.PARAM_PLAYER_PARCEL);
@@ -122,13 +127,7 @@ public class PlayerActivity extends AppCompatActivity {
 
     private void bindPlayer() {
 
-        mPlayer.print();
-
-        ButterKnife.bind(this);
-
-        setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(mPlayer.getName());
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Typeface TypefaceArvoNormal = Typeface.createFromAsset(getAssets(), TYPEFACE_ARVO_NORMAL);
 
