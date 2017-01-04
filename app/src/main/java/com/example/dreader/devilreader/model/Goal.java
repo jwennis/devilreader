@@ -81,6 +81,12 @@ public class Goal implements Parcelable {
     }
 
 
+    public boolean hasVideo() {
+
+        return video != null;
+    }
+
+
     public static final Creator<Goal> CREATOR = new Creator<Goal> () {
 
         public Goal createFromParcel(Parcel in) {

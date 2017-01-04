@@ -1,7 +1,10 @@
 package com.example.dreader.devilreader.ui;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,6 +59,23 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalViewHolder
         holder.name.setText(String.format("%s (%d)", item.getName(), item.getCount()));
         holder.assists.setText(item.getAssists());
         holder.time.setText(item.getTime());
+
+        if(item.hasVideo()){
+
+            holder.video.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+
+                    String videoUrl = item.getVideo();
+
+                    Intent videoIntent = new Intent(Intent.ACTION_VIEW);
+                    videoIntent.setDataAndType(Uri.parse(videoUrl),"video/mp4");
+
+                    ((Activity) context).startActivityForResult(videoIntent, 0);
+                }
+            });
+        }
     }
 
 
@@ -90,6 +110,10 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalViewHolder
 
         @BindView(R.id.goal_time)
         TextView time;
+
+        @BindView(R.id.goal_video)
+        ImageView video;
+
 
         public GoalViewHolder(View itemView) {
 
