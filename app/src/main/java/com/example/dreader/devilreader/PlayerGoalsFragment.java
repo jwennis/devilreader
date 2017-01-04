@@ -12,11 +12,20 @@ import android.view.ViewGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import com.example.dreader.devilreader.firebase.FirebaseCallback;
+import com.example.dreader.devilreader.firebase.FirebaseUtil;
+import com.example.dreader.devilreader.model.Goal;
 import com.example.dreader.devilreader.model.Player;
+import com.example.dreader.devilreader.ui.GoalAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerGoalsFragment extends Fragment {
 
     private Player mPlayer;
+    private List<Goal> mGoals;
+    private GoalAdapter mAdapter;
 
     @BindView(R.id.goals_recycler)
     RecyclerView goals_recycler;
@@ -48,6 +57,7 @@ public class PlayerGoalsFragment extends Fragment {
         if(savedInstanceState != null) {
 
             mPlayer = savedInstanceState.getParcelable(Player.PARAM_PLAYER_PARCEL);
+            mGoals = savedInstanceState.getParcelableArrayList(Goal.PARAM_GOAL_PARCEL);
         }
 
         return root;
@@ -58,6 +68,7 @@ public class PlayerGoalsFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
 
         outState.putParcelable(Player.PARAM_PLAYER_PARCEL, mPlayer);
+        outState.putParcelableArrayList(Goal.PARAM_GOAL_PARCEL, (ArrayList) mGoals);
 
         super.onSaveInstanceState(outState);
     }
@@ -68,29 +79,29 @@ public class PlayerGoalsFragment extends Fragment {
 
         super.onActivityCreated(savedInstanceState);
 
-//        if(mGoals == null) {
-//
-//            initGoals();
-//
-//        } else {
-//
-//            bindGoals();
-//        }
+        if(mGoals == null) {
+
+            initGoals();
+
+        } else {
+
+            bindGoals();
+        }
     }
 
 
     private void initGoals() {
 
-//        FirebaseUtil.queryGoals(mPlayer.getNhl_id(), new FirebaseCallback() {
-//
-//            @Override
-//            public void onGoalResult(final List<Goal> goals) {
-//
-//                //...
-//
-//                bindGoals();
-//            }
-//        });
+        FirebaseUtil.queryGoal(FirebaseUtil.TAG_PLAYER, mPlayer.getNhl_id(), new FirebaseCallback() {
+
+            @Override
+            public void onGoalResult(List<Goal> list) {
+
+                mGoals = list;
+
+                bindGoals();
+            }
+        });
     }
 
 
