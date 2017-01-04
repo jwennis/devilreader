@@ -19,6 +19,7 @@ public class Goal implements Parcelable {
     private String time;
     private String video;
 
+    private String title;
 
     public Goal() {
 
@@ -36,6 +37,8 @@ public class Goal implements Parcelable {
         assists = in.readString();
         time = in.readString();
         video = in.readString();
+
+        title = in.readString();
     }
 
 
@@ -81,6 +84,12 @@ public class Goal implements Parcelable {
     }
 
 
+    public String getTitle() {
+
+        return title;
+    }
+
+
     public boolean hasVideo() {
 
         return video != null;
@@ -119,5 +128,7 @@ public class Goal implements Parcelable {
         out.writeString(assists);
         out.writeString(time);
         out.writeString(video);
+
+        out.writeString(title);
     }
 }

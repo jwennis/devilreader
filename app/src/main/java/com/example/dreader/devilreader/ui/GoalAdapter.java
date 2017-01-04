@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.dreader.devilreader.GameActivity;
+import com.example.dreader.devilreader.PlayerGoalsFragment;
 import com.example.dreader.devilreader.R;
 import com.example.dreader.devilreader.model.Goal;
 
@@ -56,7 +58,15 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalViewHolder
                 .transform(new CircleTransform(context))
                 .into(holder.mugshot);
 
-        holder.name.setText(String.format("%s (%d)", item.getName(), item.getCount()));
+        if(mCaller.equals(GameActivity.class.getSimpleName())) {
+
+            holder.title.setText(String.format("%s (%d)", item.getName(), item.getCount()));
+
+        } else if (mCaller.equals(PlayerGoalsFragment.class.getSimpleName())) {
+
+            holder.title.setText(item.getTitle());
+        }
+
         holder.assists.setText(item.getAssists());
         holder.time.setText(item.getTime());
 
@@ -105,8 +115,8 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalViewHolder
         @BindView(R.id.goal_mugshot)
         ImageView mugshot;
 
-        @BindView(R.id.goal_name)
-        TextView name;
+        @BindView(R.id.goal_title)
+        TextView title;
 
         @BindView(R.id.goal_assists)
         TextView assists;
