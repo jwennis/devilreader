@@ -186,12 +186,6 @@ public class Game implements Parcelable {
     }
 
 
-    public void print() {
-
-        Log.v("DREADER", "Date: " + datestring);
-    }
-
-
     public String getDate() {
 
         String date = Long.toString(datestring);

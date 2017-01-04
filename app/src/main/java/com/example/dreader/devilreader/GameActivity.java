@@ -35,6 +35,9 @@ public class GameActivity extends AppCompatActivity {
     private List<Goal> mGoals;
     private GoalAdapter mAdapter;
 
+    @BindString(R.string.typeface_arvo_normal)
+    String TYPEFACE_ARVO_NORMAL;
+
     @BindString(R.string.typeface_arvo_bold)
     String TYPEFACE_ARVO_BOLD;
 
@@ -70,6 +73,12 @@ public class GameActivity extends AppCompatActivity {
 
     @BindView(R.id.game_recap_play)
     ImageView recap_play;
+
+    @BindView(R.id.game_label_tagline)
+    TextView label_tagline;
+
+    @BindView(R.id.game_article)
+    TextView article;
 
     @BindView(R.id.game_label_stats)
     TextView label_stats;
@@ -147,6 +156,7 @@ public class GameActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        Typeface TypefaceArvoNormal = Typeface.createFromAsset(getAssets(), TYPEFACE_ARVO_NORMAL);
         Typeface TypefaceArvoBold = Typeface.createFromAsset(getAssets(), TYPEFACE_ARVO_BOLD);
 
         date.setText(mGame.getLongDate());
@@ -231,6 +241,11 @@ public class GameActivity extends AppCompatActivity {
                 startActivityForResult(recapIntent, 0);
             }
         });
+
+        label_tagline.setText(mGame.getTagline());
+        label_tagline.setTypeface(TypefaceArvoNormal);
+
+        article.setText(mGame.getArticle());
 
         // Stats
 

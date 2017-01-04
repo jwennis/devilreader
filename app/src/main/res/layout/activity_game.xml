@@ -165,7 +165,7 @@
 
         </LinearLayout>
 
-        <!-- Video recap -->
+        <!-- Recap -->
 
         <TextView
             android:id="@+id/game_label_recap"
@@ -193,6 +193,21 @@
                 app:srcCompat="@drawable/ic_media_play_light" />
 
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/game_label_tagline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:textColor="@color/darkgrey"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/game_article"
+            style="@style/story_content" />
 
         <!-- Stats -->
 
