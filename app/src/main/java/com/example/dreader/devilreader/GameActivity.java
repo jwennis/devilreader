@@ -5,6 +5,9 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +19,7 @@ import com.example.dreader.devilreader.firebase.FirebaseCallback;
 import com.example.dreader.devilreader.firebase.FirebaseUtil;
 import com.example.dreader.devilreader.model.Game;
 import com.example.dreader.devilreader.model.Goal;
+import com.example.dreader.devilreader.ui.GoalAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +33,7 @@ public class GameActivity extends AppCompatActivity {
 
     private Game mGame;
     private List<Goal> mGoals;
+    private GoalAdapter mAdapter;
 
     @BindString(R.string.typeface_arvo_bold)
     String TYPEFACE_ARVO_BOLD;
@@ -75,6 +80,11 @@ public class GameActivity extends AppCompatActivity {
     @BindView(R.id.game_stats_home)
     ViewGroup stats_home;
 
+    @BindView(R.id.game_label_goals)
+    TextView label_goals;
+
+    @BindView(R.id.game_recycler_goals)
+    RecyclerView recycler_goals;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -235,6 +245,10 @@ public class GameActivity extends AppCompatActivity {
             ((TextView) stats_home.getChildAt(i + 1)).setText(statsHome.get(i));
         }
 
+        // Goals
+
+        label_goals.setTypeface(TypefaceArvoBold);
+
         if(mGoals != null) {
 
             bindGoals();
@@ -263,7 +277,13 @@ public class GameActivity extends AppCompatActivity {
 
     private void bindGoals() {
 
+        recycler_goals.setLayoutManager(new LinearLayoutManager(this));
+        recycler_goals.setItemAnimator(new DefaultItemAnimator());
 
+        if(mAdapter == null) {
 
+            mAdapter = new GoalAdapter(mGoals, GameActivity.class.getSimpleName());
+            recycler_goals.setAdapter(mAdapter);
+        }
     }
 }

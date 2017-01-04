@@ -340,6 +340,22 @@
         </LinearLayout>
 
 
+        <!-- Goals -->
+
+        <TextView
+            android:id="@+id/game_label_goals"
+            android:text="@string/game_label_goals"
+            style="@style/game_section_label" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/game_recycler_goals"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:scrollbars="none"
+            android:nestedScrollingEnabled="true"
+            />
+
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

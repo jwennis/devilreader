@@ -123,10 +123,10 @@
         <item>@string/pref_title_sources_had</item>
     </string-array>
 
-
     <string name="game_scoring_final">FINAL</string>
     <string name="game_label_recap">RECAP</string>
     <string name="game_label_stats">STATS</string>
+    <string name="game_label_goals">GOALS</string>
     <string name="game_stats_shots">SHOTS</string>
     <string name="game_stats_faceoffs">FACEOFFS</string>
     <string name="game_stats_powerplay">POWERPLAY</string>
