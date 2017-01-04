@@ -351,10 +351,13 @@
             android:id="@+id/game_recycler_goals"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:layout_marginBottom="@dimen/margin_large"
             android:background="@color/white"
             android:scrollbars="none"
             android:nestedScrollingEnabled="true"
-            />
+            android:elevation="@dimen/margin_xsmall" />
 
     </LinearLayout>
 
