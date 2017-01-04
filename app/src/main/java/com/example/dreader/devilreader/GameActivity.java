@@ -5,8 +5,6 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.dreader.devilreader.firebase.FirebaseCallback;
+import com.example.dreader.devilreader.firebase.FirebaseUtil;
 import com.example.dreader.devilreader.model.Game;
 
 import java.util.List;
@@ -22,7 +22,6 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -231,7 +230,9 @@ public class GameActivity extends AppCompatActivity {
             ((TextView) stats_home.getChildAt(i + 1)).setText(statsHome.get(i));
         }
 
+        FirebaseUtil.queryGoal(FirebaseUtil.TAG_GAME, mGame.getNhl_id(), new FirebaseCallback() {
 
+        });
 
     }
 }

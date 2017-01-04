@@ -1,5 +1,7 @@
 package com.example.dreader.devilreader.firebase;
 
+import android.util.Log;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ public class FirebaseUtil {
     public static final String TEAM = "TEAM";
     public static final String TAG_STORY = "TAG_STORY";
     public static final String TAG_PLAYER = "TAG_PLAYER";
+    public static final String TAG_GAME = "TAG_GAME";
 
     private static FirebaseDatabase mFirebase;
 
@@ -346,6 +349,7 @@ public class FirebaseUtil {
         });
     }
 
+
     public static void queryGame(String param, String paramValue, FirebaseCallback callback) {
 
         DatabaseReference ref =  getReference("Game");
@@ -421,5 +425,64 @@ public class FirebaseUtil {
             }
         });
     }
+
+
+    public static void queryGoal(String param, long paramValue, final FirebaseCallback callback) {
+
+        DatabaseReference goalRef =  getReference("Goal");
+        Query query;
+
+        switch(param) {
+
+            case TAG_GAME: {
+
+                query = goalRef.orderByChild("game_id").equalTo(paramValue);
+                //queryGoal(goalRef.orderByChild("player_id").equalTo(paramValue), callback);
+
+                break;
+            }
+
+            case TAG_PLAYER: {
+
+                query = goalRef.orderByChild("player_id").equalTo(paramValue);
+
+                //queryGoal(goalRef.orderByChild("player_id").equalTo(paramValue), callback);
+
+                break;
+            }
+
+            default: {
+
+                query = null;
+            }
+        }
+
+        query.addListenerForSingleValueEvent(new FirebaseListener() {
+
+            //private List<Goal> list;
+
+            @Override
+            protected void onDataResult(DataSnapshot data) {
+
+                //list = new ArrayList<>();
+
+                Log.v("DREADER", "# Goals = " + data.getChildrenCount());
+
+                for(DataSnapshot child : data.getChildren()) {
+
+                    //list.add(new PlayerContract(child));
+                }
+
+                publishProgress();
+            }
+
+            @Override
+            protected void sendResult() {
+
+                //callback.onContractResult(list);
+            }
+        });
+    }
+
 
 }
