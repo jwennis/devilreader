@@ -107,15 +107,10 @@ public class PlayerGoalsFragment extends Fragment {
 
     private void bindGoals() {
 
-//        if(mAdapter == null) {
-//
-//            mAdapter = new GoalAdapter(mGoals);
-//            goals_recycler.setAdapter(mAdapter);
-//
-//        } else {
-//
-//            //mAdapter.notifyDatasetChanged();
-//        }
-    }
+        if(mAdapter == null) {
 
+            mAdapter = new GoalAdapter(mGoals, PlayerGoalsFragment.class.getSimpleName());
+            goals_recycler.setAdapter(mAdapter);
+        }
+    }
 }
