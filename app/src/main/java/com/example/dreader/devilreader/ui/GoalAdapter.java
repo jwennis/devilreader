@@ -76,6 +76,9 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalViewHolder
                 }
             });
         }
+
+        holder.divider.setVisibility(position == getItemCount() - 1
+                ? View.GONE : View.VISIBLE);
     }
 
 
@@ -113,6 +116,9 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalViewHolder
 
         @BindView(R.id.goal_video)
         ImageView video;
+
+        @BindView(R.id.goal_divider)
+        View divider;
 
 
         public GoalViewHolder(View itemView) {
