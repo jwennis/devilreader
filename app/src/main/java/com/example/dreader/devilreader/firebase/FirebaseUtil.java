@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import com.example.dreader.devilreader.model.Game;
+import com.example.dreader.devilreader.model.Goal;
 import com.example.dreader.devilreader.model.Player;
 import com.example.dreader.devilreader.model.PlayerContract;
 import com.example.dreader.devilreader.model.Story;
@@ -437,7 +438,6 @@ public class FirebaseUtil {
             case TAG_GAME: {
 
                 query = goalRef.orderByChild("game_id").equalTo(paramValue);
-                //queryGoal(goalRef.orderByChild("player_id").equalTo(paramValue), callback);
 
                 break;
             }
@@ -445,8 +445,6 @@ public class FirebaseUtil {
             case TAG_PLAYER: {
 
                 query = goalRef.orderByChild("player_id").equalTo(paramValue);
-
-                //queryGoal(goalRef.orderByChild("player_id").equalTo(paramValue), callback);
 
                 break;
             }
@@ -459,18 +457,16 @@ public class FirebaseUtil {
 
         query.addListenerForSingleValueEvent(new FirebaseListener() {
 
-            //private List<Goal> list;
+            private List<Goal> list;
 
             @Override
             protected void onDataResult(DataSnapshot data) {
 
-                //list = new ArrayList<>();
-
-                Log.v("DREADER", "# Goals = " + data.getChildrenCount());
+                list = new ArrayList<>();
 
                 for(DataSnapshot child : data.getChildren()) {
 
-                    //list.add(new PlayerContract(child));
+                    list.add(child.getValue(Goal.class));
                 }
 
                 publishProgress();
@@ -479,7 +475,7 @@ public class FirebaseUtil {
             @Override
             protected void sendResult() {
 
-                //callback.onContractResult(list);
+                callback.onGoalResult(list);
             }
         });
     }

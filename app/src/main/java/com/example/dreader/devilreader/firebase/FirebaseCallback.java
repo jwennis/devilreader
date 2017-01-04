@@ -3,6 +3,7 @@ package com.example.dreader.devilreader.firebase;
 import java.util.List;
 
 import com.example.dreader.devilreader.model.Game;
+import com.example.dreader.devilreader.model.Goal;
 import com.example.dreader.devilreader.model.Player;
 import com.example.dreader.devilreader.model.PlayerContract;
 import com.example.dreader.devilreader.model.Story;
@@ -21,6 +22,7 @@ public class FirebaseCallback {
 
     public void onTagResult(List<String> tags) { }
 
+    public void onGoalResult(List<Goal> list) { }
     public void onContractResult(List<PlayerContract> list) { }
 
 }

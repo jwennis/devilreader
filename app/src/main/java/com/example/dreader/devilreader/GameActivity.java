@@ -15,7 +15,9 @@ import com.bumptech.glide.Glide;
 import com.example.dreader.devilreader.firebase.FirebaseCallback;
 import com.example.dreader.devilreader.firebase.FirebaseUtil;
 import com.example.dreader.devilreader.model.Game;
+import com.example.dreader.devilreader.model.Goal;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindString;
@@ -26,6 +28,7 @@ import butterknife.ButterKnife;
 public class GameActivity extends AppCompatActivity {
 
     private Game mGame;
+    private List<Goal> mGoals;
 
     @BindString(R.string.typeface_arvo_bold)
     String TYPEFACE_ARVO_BOLD;
@@ -86,6 +89,7 @@ public class GameActivity extends AppCompatActivity {
         if(savedInstanceState != null) {
 
             mGame = savedInstanceState.getParcelable(Game.PARAM_GAME_PARCEL);
+            mGoals = savedInstanceState.getParcelableArrayList(Goal.PARAM_GOAL_PARCEL);
 
         } else {
 
@@ -100,6 +104,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
 
         outState.putParcelable(Game.PARAM_GAME_PARCEL, mGame);
+        outState.putParcelableArrayList(Goal.PARAM_GOAL_PARCEL, (ArrayList) mGoals);
 
         super.onSaveInstanceState(outState);
     }
@@ -230,9 +235,35 @@ public class GameActivity extends AppCompatActivity {
             ((TextView) stats_home.getChildAt(i + 1)).setText(statsHome.get(i));
         }
 
+        if(mGoals != null) {
+
+            bindGoals();
+
+        } else {
+
+            initGoals();
+        }
+    }
+
+
+    private void initGoals() {
+
         FirebaseUtil.queryGoal(FirebaseUtil.TAG_GAME, mGame.getNhl_id(), new FirebaseCallback() {
 
+            @Override
+            public void onGoalResult(List<Goal> list) {
+
+                mGoals = list;
+
+                bindGoals();
+            }
         });
+    }
+
+
+    private void bindGoals() {
+
+
 
     }
 }
