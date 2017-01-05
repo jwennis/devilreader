@@ -82,6 +82,16 @@ public class Util {
     }
 
 
+    public static Class getPreferredStartScreen(Context context) {
+
+        Class[] which = new Class[] { DiscoverFragment.class, NewsFragment.class };
+
+        String prefValue = getPreferences(context).getString("pref_general_start_screen", "0");
+
+        return which[ Integer.parseInt(prefValue) ];
+    }
+
+
     public static String getOpenExternalLinkMethod(Context context) {
 
         String prefkey = context.getString(R.string.pref_general_open_link_method);
@@ -184,6 +194,7 @@ public class Util {
         return teams.get(team);
     }
 
+
     public static String getTeamCity(String team) {
 
         HashMap<String, String> cities = new HashMap<>();
@@ -220,6 +231,7 @@ public class Util {
 
         return cities.get(team);
     }
+
 
     public static String getTeamArena(String team) {
 
