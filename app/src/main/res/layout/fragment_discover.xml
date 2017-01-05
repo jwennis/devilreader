@@ -19,8 +19,8 @@
             android:id="@+id/discover_subtitle_headlines"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/margin_large"
-            android:layout_marginBottom="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginStart="@dimen/margin_medium"
             android:textColor="@color/darkgrey"
             android:textSize="18sp"
             android:text="@string/discover_subtitle_headlines" />
@@ -30,10 +30,40 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
-            android:layout_margin="@dimen/margin_medium"
+            android:layout_margin="@dimen/margin_small"
             android:elevation="@dimen/default_elevation"
             android:scrollbars="none"
             android:nestedScrollingEnabled="false" />
+
+        <!-- Outlook -->
+
+        <TextView
+            android:id="@+id/discover_subtitle_outlook"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:textColor="@color/darkgrey"
+            android:textSize="18sp"
+            android:text="@string/discover_subtitle_outlook" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_small"
+            android:paddingTop="@dimen/margin_medium"
+            android:paddingStart="@dimen/margin_large"
+            android:paddingEnd="@dimen/margin_large"
+            android:paddingBottom="@dimen/margin_medium"
+            android:background="@color/white"
+            android:elevation="@dimen/default_elevation">
+
+            <ImageView
+                android:id="@+id/discover_playoff_outlook"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </FrameLayout>
 
     </LinearLayout>
 

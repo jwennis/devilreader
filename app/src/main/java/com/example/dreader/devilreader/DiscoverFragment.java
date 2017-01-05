@@ -14,9 +14,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.dreader.devilreader.data.StoryContract;
+import com.example.dreader.devilreader.firebase.FirebaseCallback;
+import com.example.dreader.devilreader.firebase.FirebaseUtil;
 import com.example.dreader.devilreader.ui.StoryAdapter;
 
 import butterknife.BindString;
@@ -26,9 +30,12 @@ import butterknife.ButterKnife;
 
 public class DiscoverFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    private static final String PARAM_PLAYOFF_OUTLOOK = "PARAM_PLAYOFF_OUTLOOK";
+
     private static final int LOADER_ID = 3;
 
     private StoryAdapter mAdapter;
+    private byte[] mPlayoffOutlook;
 
     private ViewGroup layout_root;
 
@@ -41,6 +48,11 @@ public class DiscoverFragment extends Fragment implements LoaderManager.LoaderCa
     @BindView(R.id.discover_headlines_recycler)
     RecyclerView headlines_recycler;
 
+    @BindView(R.id.discover_subtitle_outlook)
+    TextView subtitle_outlook;
+
+    @BindView(R.id.discover_playoff_outlook)
+    ImageView playoff_outlook;
 
     public DiscoverFragment() {
 
@@ -59,6 +71,18 @@ public class DiscoverFragment extends Fragment implements LoaderManager.LoaderCa
                 Typeface.createFromAsset(getContext().getAssets(), TYPEFACE_ARVO_BOLD);
 
         subtitle_headlines.setTypeface(TypefaceArvoBold);
+        subtitle_outlook.setTypeface(TypefaceArvoBold);
+
+        if(savedInstanceState != null) {
+
+            mPlayoffOutlook = savedInstanceState.getByteArray(PARAM_PLAYOFF_OUTLOOK);
+
+            bindPlayoffOutlook();
+
+        } else {
+
+            initPlayoffOutlook();
+        }
 
         getActivity().getSupportLoaderManager()
                 .initLoader(LOADER_ID, null, this).forceLoad();
@@ -111,4 +135,29 @@ public class DiscoverFragment extends Fragment implements LoaderManager.LoaderCa
 
         mAdapter.swapCursor(null);
     }
+
+
+    private void initPlayoffOutlook() {
+
+        FirebaseUtil.queryStorage("playoff_outlook.png", new FirebaseCallback() {
+
+            @Override
+            public void onByteArrayResult(byte[] bytes) {
+
+                mPlayoffOutlook = bytes;
+
+                bindPlayoffOutlook();
+            }
+        });
+    }
+
+
+    private void bindPlayoffOutlook() {
+
+        Glide.with(this)
+                .load(mPlayoffOutlook)
+                .asBitmap()
+                .into(playoff_outlook);
+    }
+
 }

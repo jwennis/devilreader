@@ -25,4 +25,5 @@ public class FirebaseCallback {
     public void onGoalResult(List<Goal> list) { }
     public void onContractResult(List<PlayerContract> list) { }
 
+    public void onByteArrayResult(byte[] bytes) { }
 }

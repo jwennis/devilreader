@@ -1,20 +1,21 @@
 package com.example.dreader.devilreader.firebase;
 
-import android.util.Log;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
 
+import com.example.dreader.devilreader.BuildConfig;
 import com.example.dreader.devilreader.model.Game;
 import com.example.dreader.devilreader.model.Goal;
 import com.example.dreader.devilreader.model.Player;
 import com.example.dreader.devilreader.model.PlayerContract;
 import com.example.dreader.devilreader.model.Story;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.storage.FirebaseStorage;
 
 
 public class FirebaseUtil {
@@ -481,4 +482,19 @@ public class FirebaseUtil {
     }
 
 
+
+    public static void queryStorage(String filename, final FirebaseCallback callback) {
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+
+        storage.getReferenceFromUrl(BuildConfig.FIREBASE_STORAGE_BUCKET).child(filename)
+                .getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+
+            @Override
+            public void onSuccess(byte[] bytes) {
+
+                callback.onByteArrayResult(bytes);
+            }
+        });
+    }
 }
