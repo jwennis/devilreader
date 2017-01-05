@@ -137,5 +137,8 @@
 
     <string name="discover_subtitle_headlines">Latest Headlines</string>
     <string name="discover_subtitle_outlook">Playoff Outlook</string>
+    <string name="discover_label_last_game">Last Game</string>
+    <string name="discover_label_next_game">Next Game</string>
+
 
 </resources>

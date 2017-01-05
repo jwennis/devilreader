@@ -354,7 +354,7 @@ public class FirebaseUtil {
 
     public static void queryGame(String param, String paramValue, FirebaseCallback callback) {
 
-        DatabaseReference ref =  getReference("Game");
+        DatabaseReference ref = getReference("Game");
 
         switch(param) {
 

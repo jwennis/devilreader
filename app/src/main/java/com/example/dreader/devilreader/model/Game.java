@@ -254,6 +254,17 @@ public class Game implements Parcelable {
     }
 
 
+    public String getResultLabel() {
+
+        int home = getFinalScoreHome();
+        int away = getFinalScoreAway();
+
+        boolean isWin = isHome() ? home > away : away > home;
+
+        return String.format("%d-%d %s", away, home, isWin ? "W" : "L");
+    }
+
+
     @Override
     public int describeContents() {
 

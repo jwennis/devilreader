@@ -13,6 +13,129 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+
+
+
+
+
+
+
+        <!-- Game preview -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="@dimen/margin_small"
+            android:background="@color/white"
+            android:elevation="@dimen/default_elevation">
+
+            <LinearLayout
+                android:id="@+id/discover_last_game"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:id="@+id/discover_last_game_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:textSize="18sp"
+                    android:textColor="@color/darkgrey"
+                    android:text="@string/discover_label_last_game" />
+
+                <ImageView
+                    android:id="@+id/discover_last_game_icon"
+                    android:layout_width="72dp"
+                    android:layout_height="48dp" />
+
+                <TextView
+                    android:id="@+id/discover_last_game_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:textSize="16sp"
+                    android:textColor="@color/darkgrey" />
+
+                <TextView
+                    android:id="@+id/discover_last_game_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:textSize="16sp"
+                    android:textColor="@color/darkgrey" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginBottom="@dimen/margin_large"
+                android:background="@android:color/darker_gray"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:id="@+id/discover_next_game_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:textSize="18sp"
+                    android:textColor="@color/darkgrey"
+                    android:text="@string/discover_label_next_game"/>
+
+                <ImageView
+                    android:id="@+id/discover_next_game_icon"
+                    android:layout_width="72dp"
+                    android:layout_height="48dp" />
+
+                <TextView
+                    android:id="@+id/discover_next_game_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:textSize="16sp"
+                    android:textColor="@color/darkgrey" />
+
+                <TextView
+                    android:id="@+id/discover_next_game_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:textSize="16sp"
+                    android:textColor="@color/darkgrey" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <!-- Headlines -->
 
         <TextView
