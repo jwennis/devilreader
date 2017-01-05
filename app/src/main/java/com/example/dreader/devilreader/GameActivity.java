@@ -95,6 +95,7 @@ public class GameActivity extends AppCompatActivity {
     @BindView(R.id.game_recycler_goals)
     RecyclerView recycler_goals;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 

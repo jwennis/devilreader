@@ -106,6 +106,8 @@ public class MainActivity extends AppCompatActivity implements
 
             case R.id.drawer_discover: {
 
+                swapFragment(new DiscoverFragment(), true);
+
                 break;
             }
 

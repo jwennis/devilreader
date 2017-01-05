@@ -134,4 +134,6 @@
     <string name="game_stats_hits">HITS</string>
     <string name="game_stats_blocks">BLOCKS</string>
 
+    <string name="discover_subtitle_headlines">Latest Headlines</string>
+
 </resources>
