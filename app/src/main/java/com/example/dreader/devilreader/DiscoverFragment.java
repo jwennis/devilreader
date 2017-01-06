@@ -202,12 +202,6 @@ public class DiscoverFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
 
-
-
-
-
-
-
     private void initGamePreview() {
 
         FirebaseUtil.queryGame(FirebaseUtil.ORDER_BY, "datestring", new FirebaseCallback() {
@@ -266,15 +260,6 @@ public class DiscoverFragment extends Fragment implements LoaderManager.LoaderCa
         next_game_date.setText(mNextGame.getDate());
         next_game_time.setText(mNextGame.getPuckdrop());
     }
-
-
-
-
-
-
-
-
-
 
 
     private void initPlayoffOutlook() {

@@ -1,7 +1,9 @@
 package com.example.dreader.devilreader.sync;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -10,7 +12,6 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.os.Build;
@@ -20,6 +21,7 @@ import com.example.dreader.devilreader.R;
 import com.example.dreader.devilreader.data.StoryContract.StoryEntry;
 import com.example.dreader.devilreader.firebase.FirebaseCallback;
 import com.example.dreader.devilreader.firebase.FirebaseUtil;
+import com.example.dreader.devilreader.model.Game;
 import com.example.dreader.devilreader.model.Story;
 
 
@@ -39,6 +41,12 @@ public class StorySyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle extras, String authority,
                               ContentProviderClient provider, SyncResult syncResult) {
 
+        syncNews();
+        initNotification();
+    }
+
+    private void syncNews() {
+
         FirebaseUtil.queryStory(FirebaseUtil.ORDER_BY, "pubdate", new FirebaseCallback() {
 
             @Override
@@ -53,12 +61,67 @@ public class StorySyncAdapter extends AbstractThreadedSyncAdapter {
 
                 getContext().getContentResolver().bulkInsert(StoryEntry.CONTENT_URI,
                         values.toArray(new ContentValues[ values.size() ]));
-
-                //getContext().sendBroadcast(new Intent(ACTION_DB_UPDATE));
             }
         });
     }
 
+
+    private void initNotification() {
+
+        FirebaseUtil.queryGame(FirebaseUtil.ORDER_BY, "datestring", new FirebaseCallback() {
+
+            @Override
+            public void onGameResult(List<Game> list) {
+
+                Calendar current = Calendar.getInstance();
+                long msCurrent = current.getTimeInMillis();
+
+                for(Game game : list) {
+
+                    String time = game.getPuckdrop();
+
+                    if (time == null) {
+
+                        continue;
+                    }
+
+                    Calendar gameDate = Calendar.getInstance(TimeZone.getTimeZone("EST"));
+
+                    int date = (int) game.getDatestring();
+
+                    gameDate.set(Calendar.YEAR, date / 10000);
+                    gameDate.set(Calendar.MONTH, date / 100 % 100);
+                    gameDate.set(Calendar.DATE, date % 100);
+
+                    int split = time.indexOf(":");
+                    int hour = Integer.parseInt(time.substring(0, split));
+                    int min = Integer.parseInt(time.substring(split + 1, time.length() - 3));
+
+                    boolean isAm = time.indexOf("AM") > -1;
+
+                    if(isAm && hour == 12) {
+
+                        hour = 0;
+
+                    } else if (!isAm && hour < 12) {
+
+                        hour += 12;
+                    }
+
+                    gameDate.set(Calendar.HOUR_OF_DAY, hour);
+                    gameDate.set(Calendar.MINUTE, min);
+                    gameDate.set(Calendar.SECOND, 0);
+
+                    if(gameDate.getTimeInMillis() - msCurrent > 0) {
+
+                        // Current value of game is the next game on schedule
+
+                        break;
+                    }
+                }
+            }
+        });
+    }
 
     public static void syncImmediately(Context context) {
 

@@ -61,7 +61,7 @@ public class FirebaseUtil {
 
             case ORDER_BY: {
 
-                Query query = ref.orderByChild(paramValue).limitToLast(30);
+                Query query = ref.orderByChild(paramValue).limitToLast(50);
 
                 queryStory(query, QueryType.LIST, callback);
 

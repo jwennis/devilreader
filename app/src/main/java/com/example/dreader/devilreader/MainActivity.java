@@ -83,8 +83,11 @@ public class MainActivity extends AppCompatActivity implements
             e.printStackTrace();
         }
 
-        swapFragment(Util.getPreferredStartScreen(this) == DiscoverFragment.class
-                ? new DiscoverFragment() : new NewsFragment(), false);
+        if(savedInstanceState == null) {
+
+            swapFragment(Util.getPreferredStartScreen(this) == DiscoverFragment.class
+                    ? new DiscoverFragment() : new NewsFragment(), false);
+        }
     }
 
 
