@@ -22,8 +22,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.dreader.devilreader.BuildConfig;
 import com.example.dreader.devilreader.R;
-import com.example.dreader.devilreader.Util;
 import com.example.dreader.devilreader.data.StoryContract.StoryEntry;
 import com.example.dreader.devilreader.firebase.FirebaseCallback;
 import com.example.dreader.devilreader.firebase.FirebaseUtil;
@@ -32,6 +32,8 @@ import com.example.dreader.devilreader.model.Story;
 
 
 public class StorySyncAdapter extends AbstractThreadedSyncAdapter {
+
+    public static final String ACTION_DB_UPDATE = "ACTION_DB_UPDATE";
 
     private static final int SYNC_INTERVAL = 1 * 60 * 60;
     private static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
@@ -48,6 +50,7 @@ public class StorySyncAdapter extends AbstractThreadedSyncAdapter {
                               ContentProviderClient provider, SyncResult syncResult) {
 
         syncNews();
+
         initNotification();
     }
 
@@ -67,6 +70,8 @@ public class StorySyncAdapter extends AbstractThreadedSyncAdapter {
 
                 getContext().getContentResolver().bulkInsert(StoryEntry.CONTENT_URI,
                         values.toArray(new ContentValues[ values.size() ]));
+
+                getContext().sendBroadcast(new Intent(ACTION_DB_UPDATE));
             }
         });
     }
@@ -149,8 +154,7 @@ public class StorySyncAdapter extends AbstractThreadedSyncAdapter {
                             (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
 
                     manager.set(AlarmManager.RTC_WAKEUP,
-                            //alarmTime.getTimeInMillis(),
-                            msCurrent + (30*1000),
+                            alarmTime.getTimeInMillis(),
                             alarmIntent);
                 }
             }

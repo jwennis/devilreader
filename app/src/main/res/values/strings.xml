@@ -20,11 +20,21 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_widget_headlines">Dreader Headlines</string>
+
     <string name="content_authority">com.example.dreader.devilreader</string>
     <string name="sync_account_type">com.example.dreader.devilreader.SYNC_ACCOUNT_TYPE</string>
 
     <string name="typeface_arvo_normal">fonts/arvo.ttf</string>
     <string name="typeface_arvo_bold">fonts/arvo_bold.ttf</string>
+
+    <!-- DiscoverFragment -->
+
+    <string name="discover_subtitle_headlines">Latest Headlines</string>
+    <string name="discover_subtitle_outlook">Playoff Outlook</string>
+    <string name="discover_label_last_game">Last Game</string>
+    <string name="discover_label_next_game">Next Game</string>
 
     <!-- NewsFragment -->
 
@@ -40,7 +50,6 @@
         <item>Saved</item>
         <item>Unread</item>
     </string-array>
-    <string name="title_activity_settings">Settings</string>
 
     <string name="story_label_tags">Tagged Players</string>
     <string name="story_marked_read">Marked as read</string>
@@ -134,12 +143,5 @@
     <string name="game_stats_pim">PENALTY MINUTES</string>
     <string name="game_stats_hits">HITS</string>
     <string name="game_stats_blocks">BLOCKS</string>
-
-
-    <string name="discover_subtitle_headlines">Latest Headlines</string>
-    <string name="discover_subtitle_outlook">Playoff Outlook</string>
-    <string name="discover_label_last_game">Last Game</string>
-    <string name="discover_label_next_game">Next Game</string>
-
 
 </resources>

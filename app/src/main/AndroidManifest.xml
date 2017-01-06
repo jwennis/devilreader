@@ -33,9 +33,6 @@
 
         </activity>
 
-        <activity android:name=".StoryActivity" />
-        <activity android:name=".GameActivity" />
-
         <activity
             android:name=".PlayerActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -50,6 +47,9 @@
                 android:value="com.example.dreader.devilreader.MainActivity" />
 
         </activity>
+
+        <activity android:name=".StoryActivity" />
+        <activity android:name=".GameActivity" />
 
         <provider
             android:name=".data.StoryProvider"
@@ -71,7 +71,8 @@
 
         </service>
 
-        <service android:name=".sync.StoryAuthenticatorService">
+        <service
+            android:name=".sync.StoryAuthenticatorService">
 
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
@@ -92,6 +93,25 @@
             </intent-filter>
 
         </receiver>
+
+        <receiver
+            android:name=".widget.HeadlinesWidgetProvider"
+            android:label="@string/title_widget_headlines">
+
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="ACTION_DB_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info_headlines" />
+
+        </receiver>
+
+
+
+
 
     </application>
 
