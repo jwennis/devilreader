@@ -7,11 +7,13 @@ import java.util.TimeZone;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.PendingIntent;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.os.Build;
@@ -76,6 +78,8 @@ public class StorySyncAdapter extends AbstractThreadedSyncAdapter {
                 Calendar current = Calendar.getInstance();
                 long msCurrent = current.getTimeInMillis();
 
+                Calendar alarmTime = null;
+
                 for(Game game : list) {
 
                     String time = game.getPuckdrop();
@@ -114,11 +118,19 @@ public class StorySyncAdapter extends AbstractThreadedSyncAdapter {
 
                     if(gameDate.getTimeInMillis() - msCurrent > 0) {
 
-                        // Current value of game is the next game on schedule
+                        alarmTime = gameDate;
+                        alarmTime.add(Calendar.MINUTE, -5);
 
                         break;
                     }
                 }
+
+                if(alarmTime == null) { return; }
+
+
+
+
+
             }
         });
     }
