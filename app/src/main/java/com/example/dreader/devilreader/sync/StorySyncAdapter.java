@@ -131,6 +131,8 @@ public class StorySyncAdapter extends AbstractThreadedSyncAdapter {
 
                     if(gameDate.getTimeInMillis() - msCurrent > 0) {
 
+                        intent.putExtra(Game.PARAM_GAME_PARCEL, game);
+
                         alarmTime = gameDate;
                         alarmTime.add(Calendar.MINUTE, -5);
 
@@ -146,7 +148,10 @@ public class StorySyncAdapter extends AbstractThreadedSyncAdapter {
                     AlarmManager manager =
                             (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
 
-                    manager.set(AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(), alarmIntent);
+                    manager.set(AlarmManager.RTC_WAKEUP,
+                            //alarmTime.getTimeInMillis(),
+                            msCurrent + (30*1000),
+                            alarmIntent);
                 }
             }
         });
