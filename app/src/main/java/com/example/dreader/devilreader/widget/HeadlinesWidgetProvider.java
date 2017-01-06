@@ -12,7 +12,7 @@ public class HeadlinesWidgetProvider extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 
-        //context.startService(new Intent(context, HeadlinesWidgetIntentService.class));
+        context.startService(new Intent(context, HeadlinesWidgetIntentService.class));
     }
 
     @Override
@@ -30,7 +30,7 @@ public class HeadlinesWidgetProvider extends AppWidgetProvider {
 
             case StorySyncAdapter.ACTION_DB_UPDATE: {
 
-                //context.startService(new Intent(context, HeadlinesWidgetIntentService.class));
+                context.startService(new Intent(context, HeadlinesWidgetIntentService.class));
             }
         }
     }
