@@ -12,6 +12,7 @@ public class PuckdropAlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
+        Log.v("DREADER", "PUCKDROP ALARM FIRED");
 
     }
 }

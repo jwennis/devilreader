@@ -1,5 +1,6 @@
 package com.example.dreader.devilreader.sync;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.TimeZone;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
@@ -18,8 +20,10 @@ import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.dreader.devilreader.R;
+import com.example.dreader.devilreader.Util;
 import com.example.dreader.devilreader.data.StoryContract.StoryEntry;
 import com.example.dreader.devilreader.firebase.FirebaseCallback;
 import com.example.dreader.devilreader.firebase.FirebaseUtil;
@@ -70,6 +74,15 @@ public class StorySyncAdapter extends AbstractThreadedSyncAdapter {
 
     private void initNotification() {
 
+        final Intent intent = new Intent(getContext(), PuckdropAlarmReceiver.class);
+        intent.setAction(PuckdropAlarmReceiver.PUCK_DROP_ALARM);
+
+        if (PendingIntent.getBroadcast(getContext(), 0, intent,
+                PendingIntent.FLAG_NO_CREATE) != null) {
+
+            return;
+        }
+
         FirebaseUtil.queryGame(FirebaseUtil.ORDER_BY, "datestring", new FirebaseCallback() {
 
             @Override
@@ -94,7 +107,7 @@ public class StorySyncAdapter extends AbstractThreadedSyncAdapter {
                     int date = (int) game.getDatestring();
 
                     gameDate.set(Calendar.YEAR, date / 10000);
-                    gameDate.set(Calendar.MONTH, date / 100 % 100);
+                    gameDate.set(Calendar.MONTH, (date / 100 % 100) - 1);
                     gameDate.set(Calendar.DATE, date % 100);
 
                     int split = time.indexOf(":");
@@ -125,12 +138,16 @@ public class StorySyncAdapter extends AbstractThreadedSyncAdapter {
                     }
                 }
 
-                if(alarmTime == null) { return; }
+                if(alarmTime != null) {
 
+                    PendingIntent alarmIntent = PendingIntent.getBroadcast(getContext(), 0, intent,
+                            PendingIntent.FLAG_UPDATE_CURRENT);
 
+                    AlarmManager manager =
+                            (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
 
-
-
+                    manager.set(AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(), alarmIntent);
+                }
             }
         });
     }

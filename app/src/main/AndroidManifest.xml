@@ -83,6 +83,16 @@
 
         </service>
 
+        <receiver
+            android:name=".sync.PuckdropAlarmReceiver"
+            android:enabled="true">
+
+            <intent-filter>
+                <action android:name="PUCK_DROP_ALARM" />
+            </intent-filter>
+
+        </receiver>
+
     </application>
 
 </manifest>
