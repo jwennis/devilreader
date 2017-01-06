@@ -29,6 +29,8 @@
     <string name="typeface_arvo_normal">fonts/arvo.ttf</string>
     <string name="typeface_arvo_bold">fonts/arvo_bold.ttf</string>
 
+    <string name="widget_title">DEVILS HEADLINES</string>
+
     <!-- DiscoverFragment -->
 
     <string name="discover_subtitle_headlines">Latest Headlines</string>

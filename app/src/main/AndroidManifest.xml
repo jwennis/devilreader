@@ -94,6 +94,8 @@
 
         </receiver>
 
+        <service android:name=".widget.HeadlinesWidgetIntentService" />
+
         <receiver
             android:name=".widget.HeadlinesWidgetProvider"
             android:label="@string/title_widget_headlines">
