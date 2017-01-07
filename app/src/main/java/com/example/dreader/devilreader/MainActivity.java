@@ -34,6 +34,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.lang.reflect.Field;
 
@@ -44,15 +46,18 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
-        GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.OnConnectionFailedListener,
+        FirebaseAuth.AuthStateListener {
 
     private static final String PARAM_GOOGLE_USER_ACCOUNT = "PARAM_GOOGLE_USER_ACCOUNT";
+    private static final String PARAM_FIREBASE_AUTH_UID = "PARAM_FIREBASE_AUTH_UID";
 
     private static final int RC_SIGN_IN = 9001;
 
     private GoogleApiClient mGoogleApiClient;
     private ProgressDialog mProgressDialog;
     private GoogleSignInAccount mAccount;
+    private String mFirebaseAuthUid;
 
     @BindString(R.string.typeface_arvo_bold)
     String TYPEFACE_ARVO_BOLD;
@@ -122,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements
         if(savedInstanceState != null) {
 
             mAccount = savedInstanceState.getParcelable(PARAM_GOOGLE_USER_ACCOUNT);
+            mFirebaseAuthUid = savedInstanceState.getString(PARAM_FIREBASE_AUTH_UID);
 
             if(mAccount != null) {
 
@@ -139,9 +145,28 @@ public class MainActivity extends AppCompatActivity implements
 
 
     @Override
+    public void onStart() {
+
+        super.onStart();
+
+        FirebaseUtil.addAuthListener(this);
+    }
+
+
+    @Override
+    public void onStop() {
+
+        super.onStop();
+
+        FirebaseUtil.removeAuthListener(this);
+    }
+
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
 
         outState.putParcelable(PARAM_GOOGLE_USER_ACCOUNT, mAccount);
+        outState.putString(PARAM_FIREBASE_AUTH_UID, mFirebaseAuthUid);
 
         super.onSaveInstanceState(outState);
     }
@@ -239,13 +264,14 @@ public class MainActivity extends AppCompatActivity implements
 
         } else {
 
-            auth_icon.setImageResource(R.drawable.ic_team_njd);
+            auth_icon.setImageResource(R.mipmap.ic_launcher);
             auth_name.setText(R.string.app_name);
             auth_email.setText(R.string.auth_not_signed_in);
 
             signin.setTitle(R.string.auth_sign_in);
         }
     }
+
 
     private void swapFragment(Fragment fragment, boolean addToBackstack) {
 
@@ -312,6 +338,7 @@ public class MainActivity extends AppCompatActivity implements
                 public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
 
                     hideProgressDialog();
+
                     handleSignInResult(googleSignInResult);
                 }
             });
@@ -349,6 +376,8 @@ public class MainActivity extends AppCompatActivity implements
                         updateDrawerHeader();
                     }
                 });
+
+        FirebaseUtil.unauthenticate();
     }
 
 
@@ -380,6 +409,32 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
+    /**
+     * Handles the result of a sign in attempt
+     *
+     * @param result the result of the sign in process
+     */
+    private void handleSignInResult(GoogleSignInResult result) {
+
+        hideProgressDialog();
+
+        if (result.isSuccess()) {
+
+            mAccount = result.getSignInAccount();
+            FirebaseUtil.authenticate(mAccount.getIdToken());
+
+            showSnackbar(getString(R.string.auth_signed_in_fmt, mAccount.getDisplayName()));
+
+        } else {
+
+            mAccount = null;
+            FirebaseUtil.unauthenticate();
+        }
+
+        updateDrawerHeader();
+    }
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -394,27 +449,28 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
-    /**
-     * Handles the result of a sign in attempt
-     *
-     * @param result the result of the sign in process
-     */
-    private void handleSignInResult(GoogleSignInResult result) {
+    @Override
+    public void onAuthStateChanged(@NonNull FirebaseAuth auth) {
 
-        hideProgressDialog();
+        FirebaseUser user = auth.getCurrentUser();
 
-        if (result.isSuccess()) {
+        if (user != null) {
 
-            mAccount = result.getSignInAccount();
+            mFirebaseAuthUid = user.getUid();
 
-            showSnackbar(getString(R.string.auth_signed_in_fmt, mAccount.getDisplayName()));
+            syncUserData();
 
         } else {
 
-            mAccount = null;
+            mFirebaseAuthUid = null;
         }
+    }
 
-        updateDrawerHeader();
+
+    private void syncUserData() {
+
+        // Sync read/saved status between Firebase and device
+
     }
 
 

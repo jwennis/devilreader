@@ -11,6 +11,9 @@ import com.example.dreader.devilreader.model.Player;
 import com.example.dreader.devilreader.model.PlayerContract;
 import com.example.dreader.devilreader.model.Story;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -482,7 +485,6 @@ public class FirebaseUtil {
     }
 
 
-
     public static void queryStorage(String filename, final FirebaseCallback callback) {
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -496,5 +498,30 @@ public class FirebaseUtil {
                 callback.onByteArrayResult(bytes);
             }
         });
+    }
+
+
+    public static void addAuthListener(FirebaseAuth.AuthStateListener listener) {
+
+        FirebaseAuth.getInstance().addAuthStateListener(listener);
+    }
+
+
+    public static void removeAuthListener(FirebaseAuth.AuthStateListener listener) {
+
+        FirebaseAuth.getInstance().removeAuthStateListener(listener);
+    }
+
+
+    public static void authenticate(String token) {
+
+        AuthCredential credential = GoogleAuthProvider.getCredential(token, null);
+        FirebaseAuth.getInstance().signInWithCredential(credential);
+    }
+
+
+    public static void unauthenticate() {
+
+        FirebaseAuth.getInstance().signOut();
     }
 }
