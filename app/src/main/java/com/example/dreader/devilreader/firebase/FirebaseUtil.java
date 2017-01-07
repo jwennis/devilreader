@@ -527,9 +527,16 @@ public class FirebaseUtil {
     }
 
 
-    public static void queryUserData(String authId, final FirebaseCallback callback) {
+    public static String getAuthUid() {
 
-        DatabaseReference userRef = getFirebaseInstance().getReference("UserData").child(authId);
+        return FirebaseAuth.getInstance().getCurrentUser() != null
+                ? FirebaseAuth.getInstance().getCurrentUser().getUid() : null;
+    }
+
+
+    public static void queryUserData(String authUid, final FirebaseCallback callback) {
+
+        DatabaseReference userRef = getFirebaseInstance().getReference("UserData").child(authUid);
 
         userRef.addListenerForSingleValueEvent(new FirebaseListener() {
 
@@ -544,7 +551,7 @@ public class FirebaseUtil {
 
                 for(DataSnapshot child : data.child("read").getChildren()) {
 
-                    read.add((String) child.getKey());
+                    read.add(child.getKey());
                 }
 
                 for(DataSnapshot child : data.child("saved").getChildren()) {
@@ -563,12 +570,23 @@ public class FirebaseUtil {
         });
     }
 
+
     public static void markStoryAsRead(String authUid, String storyId) {
 
         if(authUid != null) {
 
             getFirebaseInstance().getReference("UserData")
                     .child(authUid).child("read").child(storyId).setValue(true);
+        }
+    }
+
+
+    public static void updateStorySavedStatus(String authUid, String storyId, long value) {
+
+        if(authUid != null) {
+
+            getFirebaseInstance().getReference("UserData")
+                    .child(authUid).child("saved").child(storyId).setValue(value);
         }
     }
 }

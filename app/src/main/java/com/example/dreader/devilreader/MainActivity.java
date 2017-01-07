@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.app.ProgressDialog;
 import android.content.ContentValues;
@@ -488,6 +489,9 @@ public class MainActivity extends AppCompatActivity implements
                 List<String> firebaseReadQueue = new ArrayList<>();
                 List<String> deviceReadQueue = new ArrayList<>();
 
+                HashMap<String, Long> firebaseSaveQueue = new HashMap<>();
+                HashMap<String, Long> deviceSaveQueue = new HashMap<>();
+
                 while(data.moveToNext()) {
 
                     Story story = new Story(data);
@@ -500,13 +504,48 @@ public class MainActivity extends AppCompatActivity implements
 
                     } else if(!story.isRead() && read.contains(id)) {
 
-                        story.markAsRead();
-
                         deviceReadQueue.add(id);
+                    }
+
+                    long deviceTimestamp = story.getSavedTimestamp();
+
+                    if(story.isSaved()) {
+
+                        if(!saved.containsKey(id)) {
+
+                            firebaseSaveQueue.put(id, deviceTimestamp);
+
+                        } else if(saved.get(id) < 0) {
+
+                            long firebaseTimestmap = Math.abs(saved.get(id));
+
+                            if(deviceTimestamp > firebaseTimestmap) {
+
+                                firebaseSaveQueue.put(id, deviceTimestamp);
+
+                            } else {
+
+                                deviceSaveQueue.put(id, -firebaseTimestmap);
+                            }
+                        }
+
+                    } else if(!story.isSaved() && saved.containsKey(id) && saved.get(id) > 0) {
+
+                        long firebaseTimestmap = saved.get(id);
+
+                        if(deviceTimestamp > firebaseTimestmap) {
+
+                            firebaseSaveQueue.put(id, -deviceTimestamp);
+
+                        } else {
+
+                            deviceSaveQueue.put(id, firebaseTimestmap);
+                        }
                     }
                 }
 
                 syncReadStories(firebaseReadQueue, deviceReadQueue);
+                syncSavedStories(firebaseSaveQueue, deviceSaveQueue);
             }
         });
     }
@@ -540,6 +579,26 @@ public class MainActivity extends AppCompatActivity implements
                     values, where.toString(), deviceQueue.toArray(new String[ deviceQueue.size() ]));
         }
     }
+
+
+    private void syncSavedStories(HashMap<String, Long> firebaseQueue,
+                                 HashMap<String, Long> deviceQueue) {
+
+        for (Map.Entry<String, Long> entry : firebaseQueue.entrySet()) {
+
+            FirebaseUtil.updateStorySavedStatus(mFirebaseAuthUid, entry.getKey(), entry.getValue());
+        }
+
+        for (Map.Entry<String, Long> entry : deviceQueue.entrySet()) {
+
+            ContentValues values = new ContentValues();
+            values.put(StoryEntry.COL_IS_SAVED, entry.getValue());
+
+            getContentResolver().update(StoryEntry.CONTENT_URI,
+                    values, StoryEntry.COL_ID + " = ?", new String[] { entry.getKey() });
+        }
+    }
+
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
