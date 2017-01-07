@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.example.dreader.devilreader.MainActivity;
