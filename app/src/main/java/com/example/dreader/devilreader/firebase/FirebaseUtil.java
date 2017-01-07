@@ -1,5 +1,6 @@
 package com.example.dreader.devilreader.firebase;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
@@ -121,7 +122,7 @@ public class FirebaseUtil {
                     }
                 }
 
-                publishProgress();
+                resolve();
             }
 
             @Override
@@ -205,7 +206,7 @@ public class FirebaseUtil {
                     }
                 }
 
-                publishProgress();
+                resolve();
             }
 
             @Override
@@ -343,7 +344,7 @@ public class FirebaseUtil {
                     list.add(new PlayerContract(child));
                 }
 
-                publishProgress();
+                resolve();
             }
 
             @Override
@@ -413,7 +414,7 @@ public class FirebaseUtil {
                     }
                 }
 
-                publishProgress();
+                resolve();
             }
 
             @Override
@@ -473,7 +474,7 @@ public class FirebaseUtil {
                     list.add(child.getValue(Goal.class));
                 }
 
-                publishProgress();
+                resolve();
             }
 
             @Override
@@ -523,5 +524,51 @@ public class FirebaseUtil {
     public static void unauthenticate() {
 
         FirebaseAuth.getInstance().signOut();
+    }
+
+
+    public static void queryUserData(String authId, final FirebaseCallback callback) {
+
+        DatabaseReference userRef = getFirebaseInstance().getReference("UserData").child(authId);
+
+        userRef.addListenerForSingleValueEvent(new FirebaseListener() {
+
+            private List<String> read;
+            private HashMap<String, Long> saved;
+
+            @Override
+            protected void onDataResult(DataSnapshot data) {
+
+                read = new ArrayList<>();
+                saved = new HashMap<>();
+
+                for(DataSnapshot child : data.child("read").getChildren()) {
+
+                    read.add((String) child.getKey());
+                }
+
+                for(DataSnapshot child : data.child("saved").getChildren()) {
+
+                    saved.put(child.getKey(), (Long) child.getValue());
+                }
+
+                resolve();
+            }
+
+            @Override
+            protected void sendResult() {
+
+                callback.onUserDataResult(read, saved);
+            }
+        });
+    }
+
+    public static void markStoryAsRead(String authUid, String storyId) {
+
+        if(authUid != null) {
+
+            getFirebaseInstance().getReference("UserData")
+                    .child(authUid).child("read").child(storyId).setValue(true);
+        }
     }
 }

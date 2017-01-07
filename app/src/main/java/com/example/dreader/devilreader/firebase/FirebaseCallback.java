@@ -1,5 +1,6 @@
 package com.example.dreader.devilreader.firebase;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.example.dreader.devilreader.model.Game;
@@ -25,5 +26,6 @@ public class FirebaseCallback {
     public void onGoalResult(List<Goal> list) { }
     public void onContractResult(List<PlayerContract> list) { }
 
+    public void onUserDataResult(List<String> read, HashMap<String, Long> saved) { }
     public void onByteArrayResult(byte[] bytes) { }
 }

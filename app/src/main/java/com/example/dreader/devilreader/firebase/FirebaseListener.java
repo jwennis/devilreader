@@ -38,6 +38,10 @@ public class FirebaseListener extends AsyncTask<DataSnapshot, Void, Boolean>
 
     }
 
+    protected void resolve() {
+
+        publishProgress();
+    }
 
     @Override
     protected void onProgressUpdate(Void... voids) {

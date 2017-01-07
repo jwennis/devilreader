@@ -1,7 +1,14 @@
 package com.example.dreader.devilreader;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,9 +29,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.example.dreader.devilreader.firebase.FirebaseUtil;
-import com.example.dreader.devilreader.ui.CircleTransform;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -37,12 +41,16 @@ import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.lang.reflect.Field;
-
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.bumptech.glide.Glide;
 
+import com.example.dreader.devilreader.data.StoryContract.StoryEntry;
+import com.example.dreader.devilreader.firebase.FirebaseCallback;
+import com.example.dreader.devilreader.firebase.FirebaseUtil;
+import com.example.dreader.devilreader.model.Story;
+import com.example.dreader.devilreader.ui.CircleTransform;
 
 public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
@@ -469,10 +477,69 @@ public class MainActivity extends AppCompatActivity implements
 
     private void syncUserData() {
 
-        // Sync read/saved status between Firebase and device
+        final Cursor data = getContentResolver().query(
+                StoryEntry.CONTENT_URI, null, null, null, null);
 
+        FirebaseUtil.queryUserData(mFirebaseAuthUid, new FirebaseCallback() {
+
+            @Override
+            public void onUserDataResult(List<String> read, HashMap<String, Long> saved) {
+
+                List<String> firebaseReadQueue = new ArrayList<>();
+                List<String> deviceReadQueue = new ArrayList<>();
+
+                while(data.moveToNext()) {
+
+                    Story story = new Story(data);
+
+                    String id = story.getId();
+
+                    if(story.isRead() && !read.contains(id)) {
+
+                        firebaseReadQueue.add(id);
+
+                    } else if(!story.isRead() && read.contains(id)) {
+
+                        story.markAsRead();
+
+                        deviceReadQueue.add(id);
+                    }
+                }
+
+                syncReadStories(firebaseReadQueue, deviceReadQueue);
+            }
+        });
     }
 
+
+    private void syncReadStories(List<String> firebaseQueue, List<String> deviceQueue) {
+
+        for(String storyId : firebaseQueue) {
+
+            FirebaseUtil.markStoryAsRead(mFirebaseAuthUid, storyId);
+        }
+
+        if(deviceQueue.size() > 0) {
+
+            StringBuilder where = new StringBuilder();
+            where.append(StoryEntry.COL_ID + " IN(");
+
+            int numSelected = 0;
+
+            for(int i = 0; i < deviceQueue.size(); i++) {
+
+                where.append(numSelected++ == 0 ? "?" : ",?");
+            }
+
+            where.append(")");
+
+            ContentValues values = new ContentValues();
+            values.put(StoryEntry.COL_IS_READ, 1);
+
+            getContentResolver().update(StoryEntry.CONTENT_URI,
+                    values, where.toString(), deviceQueue.toArray(new String[ deviceQueue.size() ]));
+        }
+    }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
