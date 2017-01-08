@@ -35,6 +35,7 @@ public class RosterFragment extends Fragment {
     private static final String PARAM_ROSTER_INJURED = "PARAM_ROSTER_INJURED";
     private static final String PARAM_ROSTER_NONROSTER = "PARAM_ROSTER_NONROSTER";
 
+    private List<Player> mRoster;
     private List<Player> mForwards;
     private List<Player> mDefensemen;
     private List<Player> mGoaltenders;
@@ -93,6 +94,8 @@ public class RosterFragment extends Fragment {
 
         layout_root = (ViewGroup) inflater.inflate(R.layout.fragment_roster, container, false);
 
+        ButterKnife.bind(this, layout_root);
+
         if(savedInstanceState != null) {
 
             mForwards = (ArrayList) savedInstanceState.getParcelableArrayList(PARAM_ROSTER_FORWARDS);
@@ -138,48 +141,55 @@ public class RosterFragment extends Fragment {
             @Override
             public void onPlayerResult(final List<Player> roster) {
 
-                final List<Player> processed = new ArrayList<>();
+                mRoster = roster;
 
-                for(final Player player : roster) {
+                sortRoster();
 
-                    FirebaseUtil.queryContract(player.getNhl_id(), new FirebaseCallback() {
+                fetchContract(0);
+            }
+        });
+    }
 
-                        @Override
-                        public void onContractResult(final List<PlayerContract> contracts) {
 
-                            player.setContracts(contracts);
+    private void fetchContract(final int index) {
 
-                            processed.add(player);
+        FirebaseUtil.queryContract(mRoster.get(index).getNhl_id(), new FirebaseCallback() {
 
-                            if(processed.size() == roster.size()) {
+            @Override
+            public void onContractResult(final List<PlayerContract> contracts) {
 
-                                sortRoster(roster);
-                            }
-                        }
-                    });
+                mRoster.get(index).setContracts(contracts);
+
+                if(index < mRoster.size() - 1) {
+
+                    fetchContract(index + 1);
+
+                } else {
+
+                    bindSalaries();
                 }
             }
         });
     }
 
 
-    private void sortRoster(final List<Player> roster) {
+    private void sortRoster() {
 
         new AsyncTask<Void, Void, Void>() {
 
             @Override
             protected Void doInBackground(Void... voids) {
 
-                Collections.sort(roster, new Comparator<Player>() {
+                Collections.sort(mRoster, new Comparator<Player>() {
 
                     @Override
                     public int compare(Player p1, Player p2) {
 
-                        return p2.getCapHit() - p1.getCapHit();
+                        return (int) (p2.getCap_hit() - p1.getCap_hit());
                     }
                 });
 
-                for(Player player : roster) {
+                for(Player player : mRoster) {
 
                     if(player.getIs_injured()) {
 
@@ -209,7 +219,7 @@ public class RosterFragment extends Fragment {
             @Override
             protected void onPostExecute(Void voidArg) {
 
-                bindRoster();
+                bindLabels();
             }
 
         }.execute();
@@ -218,35 +228,39 @@ public class RosterFragment extends Fragment {
 
     private void bindRoster() {
 
-        ButterKnife.bind(this, layout_root);
+        bindLabels();
+        bindSalaries();
+    }
 
-        setAdapter(mForwards, forward_labels, forward_salaries);
-        setAdapter(mDefensemen, defense_labels, defense_salaries);
-        setAdapter(mGoaltenders, goaltender_labels, goaltender_salaries);
-        setAdapter(mInjured, injured_labels, injured_salaries);
-        setAdapter(mNonroster, nonroster_labels, nonroster_salaries);
+
+    private void bindLabels() {
+
+        setAdapter(forward_labels, new RosterLabelAdapter(mForwards));
+        setAdapter(defense_labels, new RosterLabelAdapter(mDefensemen));
+        setAdapter(goaltender_labels, new RosterLabelAdapter(mGoaltenders));
+        setAdapter(injured_labels, new RosterLabelAdapter(mInjured));
+        setAdapter(nonroster_labels, new RosterLabelAdapter(mNonroster));
 
         label_container.setVisibility(View.VISIBLE);
+    }
+
+
+    private void bindSalaries() {
+
+        setAdapter(forward_salaries, new RosterSalaryAdapter(mForwards));
+        setAdapter(defense_salaries, new RosterSalaryAdapter(mDefensemen));
+        setAdapter(goaltender_salaries, new RosterSalaryAdapter(mGoaltenders));
+        setAdapter(injured_salaries, new RosterSalaryAdapter(mInjured));
+        setAdapter(nonroster_salaries, new RosterSalaryAdapter(mNonroster));
+
         salary_container.setVisibility(View.VISIBLE);
     }
 
 
-    private void setAdapter(List<Player> players,
-                              RecyclerView labelRecycler, RecyclerView salaryRecycler) {
+    private void setAdapter(RecyclerView recycler, RecyclerView.Adapter adapter) {
 
-        initRecycler(labelRecycler, salaryRecycler);
-
-        labelRecycler.setAdapter(new RosterLabelAdapter(players));
-        salaryRecycler.setAdapter(new RosterSalaryAdapter(players));
-    }
-
-
-    private void initRecycler(RecyclerView... recyclers) {
-
-        for(RecyclerView recycler : recyclers) {
-
-            recycler.setLayoutManager(new LinearLayoutManager(getContext()));
-            recycler.setItemAnimator(new DefaultItemAnimator());
-        }
+        recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        recycler.setItemAnimator(new DefaultItemAnimator());
+        recycler.setAdapter(adapter);
     }
 }

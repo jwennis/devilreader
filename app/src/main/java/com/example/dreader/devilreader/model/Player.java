@@ -26,6 +26,7 @@ public class Player implements Parcelable {
     private String position;
     private String hand;
     private long number;
+    private long cap_hit;
 
     private boolean is_assistant;
     private boolean is_captain;
@@ -219,6 +220,11 @@ public class Player implements Parcelable {
         return weight;
     }
 
+
+    public long getCap_hit() {
+
+        return cap_hit;
+    }
 
     public String getStatus() {
 
