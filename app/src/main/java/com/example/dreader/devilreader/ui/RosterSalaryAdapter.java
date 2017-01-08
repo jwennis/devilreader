@@ -23,9 +23,13 @@ import butterknife.ButterKnife;
 
 public class RosterSalaryAdapter extends RecyclerView.Adapter<RosterSalaryAdapter.SalaryViewHolder> {
 
+    private static final String ATTR_UNRESTRICTED = "UFA";
+    private static final String ATTR_RESTRICTED = "RFA";
+
     private static Typeface TypefaceArvoNormal;
 
     private List<Player> mItems;
+
 
     public RosterSalaryAdapter(List<Player> items) {
 
@@ -46,7 +50,6 @@ public class RosterSalaryAdapter extends RecyclerView.Adapter<RosterSalaryAdapte
     @Override
     public void onBindViewHolder(RosterSalaryAdapter.SalaryViewHolder holder, int position) {
 
-        final Context context = holder.layout_root.getContext();
         final Player item = mItems.get(position);
 
         List<String> values = item.getCapLabelValues();
@@ -56,19 +59,19 @@ public class RosterSalaryAdapter extends RecyclerView.Adapter<RosterSalaryAdapte
             TextView label = holder.getLabel(i);
             String value = values.get(i);
 
-            if(value.equals("UFA")) {
+            if(value.equals(ATTR_UNRESTRICTED)) {
 
-                label.setTextColor(Color.parseColor("#ffffff"));
-                label.setBackgroundColor(Color.parseColor("#2c7a17"));
+                label.setTextColor(0xffffffff);
+                label.setBackgroundColor(0xff2c7a17);
 
-            } else if (value.equals("RFA")) {
+            } else if (value.equals(ATTR_RESTRICTED)) {
 
-                label.setTextColor(Color.parseColor("#ffffff"));
-                label.setBackgroundColor(Color.parseColor("#d30000"));
+                label.setTextColor(0xffffffff);
+                label.setBackgroundColor(0xffd30000);
 
             } else {
 
-                label.setTextColor(Color.parseColor("#000000"));
+                label.setTextColor(0xff000000);
             }
 
             label.setText(value);
@@ -97,6 +100,7 @@ public class RosterSalaryAdapter extends RecyclerView.Adapter<RosterSalaryAdapte
 
             ButterKnife.bind(this, layout_root);
         }
+
 
         public TextView getLabel(int pos) {
 

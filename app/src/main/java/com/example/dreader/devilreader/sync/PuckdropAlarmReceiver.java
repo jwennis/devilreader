@@ -19,18 +19,21 @@ public class PuckdropAlarmReceiver extends BroadcastReceiver {
 
     public static final String PUCK_DROP_ALARM = "PUCK_DROP_ALARM";
 
+    private static final String NOTIFICATION_PREFERENCE = "pref_general_puckdrop_notification";
+
     @Override
     public void onReceive(Context context, Intent intent) {
 
         Game game = intent.getParcelableExtra(Game.PARAM_GAME_PARCEL);
 
         if(game == null || !Util.getPreferences(context)
-                .getBoolean("pref_general_puckdrop_notification", true)) {
+                .getBoolean(NOTIFICATION_PREFERENCE, true)) {
 
             return;
         }
 
-        String title = "Puck drop in 5 minutes";
+        String title = context.getString(R.string.notification_message);
+
         String message = String.format("Devils %1$s %2$s",
                 game.isHome() ? "vs" : "@", Util.getTeamName(game.getOpponent()));
 

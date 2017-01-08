@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.dreader.devilreader.PlayerActivity;
 import com.example.dreader.devilreader.R;
+import com.example.dreader.devilreader.Util;
 import com.example.dreader.devilreader.model.Player;
 
 import java.util.List;
@@ -54,7 +55,7 @@ public class PlayerMugshotAdapter extends RecyclerView.Adapter<PlayerMugshotAdap
         final Player item = mItems.get(position);
 
         Glide.with(context)
-                .load(holder.MUGSHOT_ROOT + item.getNhl_id() + "@2x.jpg")
+                .load(holder.MUGSHOT_ROOT + item.getNhl_id() + Util.PLAYER_IMG_FILE_EXT)
                 .transform(new CircleTransform(context))
                 .into(holder.mugshot);
 

@@ -21,10 +21,12 @@ import java.util.List;
 
 public class HeadlinesWidgetIntentService extends IntentService {
 
+
     public HeadlinesWidgetIntentService() {
 
         super("HeadlinesWidgetIntentService");
     }
+
 
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -63,6 +65,7 @@ public class HeadlinesWidgetIntentService extends IntentService {
             updateWidget(items, manager, id);
         }
     }
+
 
     private void updateWidget(List<Story> items, AppWidgetManager manager, int widgetId) {
 

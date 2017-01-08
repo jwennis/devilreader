@@ -10,6 +10,18 @@ import java.util.List;
 
 public class PlayerContract {
 
+    private static final String ATTR_PLAYER_ID = "player_id";
+    private static final String ATTR_CONTRACT_TYPE = "type";
+    private static final String ATTR_CONTRACT_EXPIRY = "expiry";
+    private static final String ATTR_CONTRACT_YEARS = "years";
+    private static final String ATTR_CONTRACT_SEASON = "season";
+    private static final String ATTR_CONTRACT_SALARY_NHL = "salary_nhl";
+    private static final String ATTR_CONTRACT_SALARY_AHL = "salary_ahl";
+    private static final String ATTR_CONTRACT_BONUS_S = "bonus_signing";
+    private static final String ATTR_CONTRACT_BONUS_P = "bonus_performance";
+    private static final String ATTR_CONTRACT_CLAUSE_M = "clause_nomove";
+    private static final String ATTR_CONTRACT_CLAUSE_T = "clause_notrade";
+
     private long playerId;
 
     private String type;
@@ -33,20 +45,20 @@ public class PlayerContract {
 
     public PlayerContract(DataSnapshot data) {
 
-        playerId = (long) data.child("player_id").getValue();
-        type = (String) data.child("type").getValue();
-        expiry = (String) data.child("expiry").getValue();
+        playerId = (long) data.child(ATTR_PLAYER_ID).getValue();
+        type = (String) data.child(ATTR_CONTRACT_TYPE).getValue();
+        expiry = (String) data.child(ATTR_CONTRACT_EXPIRY).getValue();
         years = new ArrayList<>();
 
-        for(DataSnapshot year : data.child("years").getChildren()) {
+        for(DataSnapshot year : data.child(ATTR_CONTRACT_YEARS).getChildren()) {
 
-            String season = (String) year.child("season").getValue();
-            long nSalary = (long) year.child("salary_nhl").getValue();
-            long aSalary = (long) year.child("salary_ahl").getValue();
-            long sBonus = (long) year.child("bonus_signing").getValue();
-            long pBonus = (long) year.child("bonus_performance").getValue();
-            boolean mClause = (boolean) year.child("clause_nomove").getValue();
-            boolean tClause = (boolean) year.child("clause_notrade").getValue();
+            String season = (String) year.child(ATTR_CONTRACT_SEASON).getValue();
+            long nSalary = (long) year.child(ATTR_CONTRACT_SALARY_NHL).getValue();
+            long aSalary = (long) year.child(ATTR_CONTRACT_SALARY_AHL).getValue();
+            long sBonus = (long) year.child(ATTR_CONTRACT_BONUS_S).getValue();
+            long pBonus = (long) year.child(ATTR_CONTRACT_BONUS_P).getValue();
+            boolean mClause = (boolean) year.child(ATTR_CONTRACT_CLAUSE_M).getValue();
+            boolean tClause = (boolean) year.child(ATTR_CONTRACT_CLAUSE_T).getValue();
 
             addYear(season, nSalary, aSalary, sBonus, pBonus, mClause, tClause);
         }
@@ -107,19 +119,6 @@ public class PlayerContract {
         }
 
         return numYears > 0 ? totalSalary / numYears : 0;
-    }
-
-
-    public void print() {
-
-        Log.v("DREADER", "Contract for " + playerId);
-        Log.v("DREADER", "Type =  " + type);
-        Log.v("DREADER", "Expiry = " + expiry);
-
-        for(ContractYear year : years) {
-
-            year.print();
-        }
     }
 
 
@@ -186,34 +185,6 @@ public class PlayerContract {
         public boolean isNoTrade() {
 
             return clause_notrade;
-        }
-
-        public String getClause() {
-
-            if(clause_nomove) {
-
-                return "No Movement Clause";
-
-            } else if(clause_notrade) {
-
-                return "No Trade Clause";
-
-            } else {
-
-                return "";
-            }
-        }
-
-
-        public void print() {
-
-            Log.v("DREADER", season + ": "
-                    + "NHL " + salary_nhl +  ", "
-                    + "AHL " + salary_ahl +  ", "
-                    + "Signing " + bonus_signing +  ", "
-                    + "Performance " + bonus_performance +  ", "
-                    + "No Move? " + clause_nomove +  ", "
-                    + "No Trade? " + clause_notrade);
         }
     }
 }

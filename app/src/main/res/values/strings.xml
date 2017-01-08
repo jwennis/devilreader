@@ -32,6 +32,8 @@
     <string name="typeface_arvo_bold">fonts/arvo_bold.ttf</string>
 
     <string name="widget_title">DEVILS HEADLINES</string>
+    <string name="notification_message">Puckdrop in 5 minutes</string>
+    <string name="share_message">Share link using</string>
 
     <!-- DiscoverFragment -->
 
@@ -60,9 +62,65 @@
 
     <!-- Player -->
 
+    <string name="player_status_captain">Captain</string>
+    <string name="player_status_assistant">Assistant Captain</string>
+
+    <string name="player_label_age">Age: </string>
+    <string name="player_label_drafted">Drafted </string>
+    <string name="player_label_draft_round"> Round </string>
+    <string name="player_label_draft_pos"> Overall</string>
+
+    <string name="player_undrafted">Undrafted</string>
+    <string name="player_pos_goaltender">GOALTENDER | Catches </string>
+    <string name="player_pos_center">CENTER | Shoots </string>
+    <string name="player_pos_left">LEFT WING | Shoots </string>
+    <string name="player_pos_right">RIGHT WING | Shoots </string>
+    <string name="player_pos_defense">DEFENSE | Shoots </string>
+    <string name="player_hand_right">RIGHT</string>
+    <string name="player_hand_left">LEFT</string>
+
+    <string name="player_contract_nomove">No Movement Clause</string>
+    <string name="player_contract_notrade">No Trade Clause</string>
+    <string name="player_contract_type_standard">Standard Player Contract</string>
+    <string name="player_contract_type_entry_level">Entry Level Contract</string>
+    <string name="player_contract_type_historic">Historic</string>
+    <string name="player_contract_type_na">N/A</string>
+
+    <string name="player_contract_label_type">Type</string>
+    <string name="player_contract_label_expiry">Expiry</string>
+    <string name="player_contract_label_value">Value</string>
+    <string name="player_contract_label_caphit">Cap Hit</string>
+    <string name="player_contract_label_unrestricted">Unrestricted</string>
+    <string name="player_contract_label_restricted">Restricted</string>
+    <string name="player_contract_label_signing">Signing Bonus</string>
+    <string name="player_contract_label_performance">Performance Bonus</string>
+
     <string name="player_backdrop_root">https://nhl.bamcontent.com/images/actionshots/</string>
     <string name="player_mugshot_root">https://nhl.bamcontent.com/images/headshots/current/168x168/</string>
     <string name="player_mugshot_transition">com.example.dreader.devilreader.MUGSHOT_TRANSITION</string>
+
+    <!-- GameActivity -->
+
+    <string name="game_scoring_final">FINAL</string>
+    <string name="game_label_recap">RECAP</string>
+    <string name="game_label_stats">STATS</string>
+    <string name="game_label_goals">GOALS</string>
+    <string name="game_stats_shots">SHOTS</string>
+    <string name="game_stats_faceoffs">FACEOFFS</string>
+    <string name="game_stats_powerplay">POWERPLAY</string>
+    <string name="game_stats_pim">PENALTY MINUTES</string>
+    <string name="game_stats_hits">HITS</string>
+    <string name="game_stats_blocks">BLOCKS</string>
+
+    <!-- Google Authentication -->
+
+    <string name="auth_sign_in">Sign In</string>
+    <string name="auth_sign_out">Sign Out</string>
+    <string name="auth_signed_in_fmt">Signed in as %s</string>
+    <string name="auth_signed_out">Signed out successfully</string>
+    <string name="auth_failed">Authentication failed</string>
+    <string name="auth_loading">Loading…</string>
+    <string name="auth_not_signed_in">Not signed in</string>
 
     <!-- SharedPreferences -->
 
@@ -136,28 +194,5 @@
         <item>@string/pref_title_sources_ppf</item>
         <item>@string/pref_title_sources_had</item>
     </string-array>
-
-    <!-- GameActivity -->
-
-    <string name="game_scoring_final">FINAL</string>
-    <string name="game_label_recap">RECAP</string>
-    <string name="game_label_stats">STATS</string>
-    <string name="game_label_goals">GOALS</string>
-    <string name="game_stats_shots">SHOTS</string>
-    <string name="game_stats_faceoffs">FACEOFFS</string>
-    <string name="game_stats_powerplay">POWERPLAY</string>
-    <string name="game_stats_pim">PENALTY MINUTES</string>
-    <string name="game_stats_hits">HITS</string>
-    <string name="game_stats_blocks">BLOCKS</string>
-
-    <!-- Google Authentication -->
-
-    <string name="auth_sign_in">Sign In</string>
-    <string name="auth_sign_out">Sign Out</string>
-    <string name="auth_signed_in_fmt">Signed in as %s</string>
-    <string name="auth_signed_out">Signed out successfully</string>
-    <string name="auth_failed">Authentication failed</string>
-    <string name="auth_loading">Loading…</string>
-    <string name="auth_not_signed_in">Not signed in</string>
 
 </resources>

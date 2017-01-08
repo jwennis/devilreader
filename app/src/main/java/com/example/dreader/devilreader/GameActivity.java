@@ -168,24 +168,24 @@ public class GameActivity extends AppCompatActivity {
 
         if(mGame.isHome()) {
 
-            arena.setText(Util.getTeamArena("NJD"));
-            city.setText(Util.getTeamCity("NJD"));
+            arena.setText(Util.getTeamArena(Util.TEAM_ABBR_NJD));
+            city.setText(Util.getTeamCity(Util.TEAM_ABBR_NJD));
 
             scoring_away_icon.setImageResource(Util.getTeamIcon(mGame.getOpponent()));
-            scoring_home_icon.setImageResource(Util.getTeamIcon("NJD"));
+            scoring_home_icon.setImageResource(Util.getTeamIcon(Util.TEAM_ABBR_NJD));
 
             statsLabelAway.setText(mGame.getOpponent());
-            statsLabelHome.setText("NJD");
+            statsLabelHome.setText(Util.TEAM_ABBR_NJD);
 
         } else  {
 
             arena.setText(Util.getTeamArena(mGame.getOpponent()));
             city.setText(Util.getTeamCity(mGame.getOpponent()));
 
-            scoring_away_icon.setImageResource(Util.getTeamIcon("NJD"));
+            scoring_away_icon.setImageResource(Util.getTeamIcon(Util.TEAM_ABBR_NJD));
             scoring_home_icon.setImageResource(Util.getTeamIcon(mGame.getOpponent()));
 
-            statsLabelAway.setText("NJD");
+            statsLabelAway.setText(Util.TEAM_ABBR_NJD);
             statsLabelHome.setText(mGame.getOpponent());
         }
 
@@ -237,7 +237,7 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent recapIntent = new Intent(Intent.ACTION_VIEW);
-                recapIntent.setDataAndType(Uri.parse(mGame.getRecapVideo()),"video/mp4");
+                recapIntent.setDataAndType(Uri.parse(mGame.getRecapVideo()), Util.MIMETYPE_VIDEO);
 
                 startActivityForResult(recapIntent, 0);
             }

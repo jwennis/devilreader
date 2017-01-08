@@ -340,8 +340,6 @@ public class StoryActivity extends AppCompatActivity {
         if(mStory.hasMedia()) {
 
             // TODO: implement media player
-
-            Log.v("DREADER", "Media: " + mStory.getMedia());
         }
 
         if(!mStory.hasContent()) {
@@ -471,9 +469,9 @@ public class StoryActivity extends AppCompatActivity {
     private void shareLink() {
 
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
+        shareIntent.setType(Util.MIMETYPE_TEXT);
         shareIntent.putExtra(Intent.EXTRA_TEXT, mStory.getLink());
-        startActivity(Intent.createChooser(shareIntent, "Share link using"));
+        startActivity(Intent.createChooser(shareIntent, getString(R.string.share_message)));
     }
 
 

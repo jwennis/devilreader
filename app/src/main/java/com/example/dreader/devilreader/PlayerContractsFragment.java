@@ -86,20 +86,6 @@ public class PlayerContractsFragment extends Fragment {
         }
     }
 
-//    @Override
-//    public void onResume() {
-//
-//        super.onResume();
-//
-//        if(mPlayer.getContracts() == null) {
-//
-//            initContracts();
-//
-//        } else {
-//
-//            bindContracts();
-//        }
-//    }
 
     private void initContracts() {
 

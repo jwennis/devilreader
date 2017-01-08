@@ -15,6 +15,10 @@ public class Player implements Parcelable {
 
     public static final String PARAM_PLAYER_PARCEL = "PARAM_PLAYER_PARCEL";
 
+    private static final String PLAYER_STATUS_CAPTAIN = "C";
+    private static final String PLAYER_STATUS_ASSISTANT = "A";
+    private static final String CURRENT_SEASON = "2016-17";
+
     private long nhl_id;
 
     private String name;
@@ -220,11 +224,11 @@ public class Player implements Parcelable {
 
         if(is_captain) {
 
-            return "Captain";
+            return PLAYER_STATUS_CAPTAIN;
 
         } else if (is_assistant) {
 
-            return "Assistant Captain";
+            return PLAYER_STATUS_ASSISTANT;
         }
 
         return null;
@@ -241,6 +245,7 @@ public class Player implements Parcelable {
 
         return Util.SHORT_MONTH_NAMES[ m-1 ] + " " + d + ", " + y;
     }
+
 
     public int getAge() {
 
@@ -267,49 +272,13 @@ public class Player implements Parcelable {
     }
 
 
-    public void print() {
-
-        Log.v("DREADER", "ID = " + nhl_id);
-
-        Log.v("DREADER", "Name = " + name);
-
-        Log.v("DREADER", "Team = " + team);
-        Log.v("DREADER", "Position = " + position);
-        Log.v("DREADER", "Hand = " + hand);
-        Log.v("DREADER", "Number = " + number);
-
-        Log.v("DREADER", "isAssistant? = " + is_assistant);
-        Log.v("DREADER", "isCaptain? = " + is_captain);
-        Log.v("DREADER", "isInjured? = " + is_injured);
-        Log.v("DREADER", "isRoster? = " + is_roster);
-        Log.v("DREADER", "isDrafted? = " + is_drafted);
-
-        Log.v("DREADER", "Draft team = " + (draft_team != null ? draft_team : "N/A"));
-        Log.v("DREADER", "Draft team = " + (draft_year > 0 ? draft_year : "N/A"));
-        Log.v("DREADER", "Draft team = " + (draft_round > 0 ? draft_round : "N/A"));
-        Log.v("DREADER", "Draft team = " + (draft_position > 0 ? draft_position : "N/A"));
-
-        Log.v("DREADER", "DOB = " + dob);
-        Log.v("DREADER", "HEIGHT = " + height);
-        Log.v("DREADER", "WEIGHT = " + weight);
-
-        if(mContracts != null) {
-
-            for(PlayerContract contract : mContracts) {
-
-                contract.print();
-            }
-        }
-    }
-
-
     public int getCapHit() {
 
         for(PlayerContract contract : mContracts) {
 
             for(PlayerContract.ContractYear year : contract.getYears()) {
 
-                if(year.getSeason().equals("2016-17")) {
+                if(year.getSeason().equals(CURRENT_SEASON)) {
 
                     return contract.getCapHit();
                 }
@@ -318,6 +287,7 @@ public class Player implements Parcelable {
 
         return 0;
     }
+
 
     public List<String> getCapLabelValues() {
 
@@ -356,12 +326,7 @@ public class Player implements Parcelable {
     }
 
 
-    /**
-     * Writes Player data to Parcel
-     *
-     * @param out Parcel containing Player data
-     * @param flags Additional flags about how the object should be written
-     */
+    @Override
     public void writeToParcel(Parcel out, int flags) {
 
         out.writeLong(nhl_id);
@@ -415,21 +380,14 @@ public class Player implements Parcelable {
         }
     }
 
-    /**
-     * Describe the kinds of special objects contained in this Parcelable
-     * instance's marshaled representation
-     *
-     * @return bitmask indicating the set of special object types marshaled
-     * by this Parcelable object instance
-     */
+
+    @Override
     public int describeContents() {
 
         return 0;
     }
 
-    /**
-     * Creates Player from Parcel
-     */
+
     public static final Parcelable.Creator<Player> CREATOR = new Parcelable.Creator<Player>() {
 
         public Player createFromParcel(Parcel in) {

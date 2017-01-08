@@ -21,6 +21,7 @@ import com.example.dreader.devilreader.data.StoryContract.StoryEntry;
 public class Story implements Parcelable {
 
     public static final String PARAM_STORY_PARCEL = "PARAM_STORY_PARCEL";
+    public static final String ATTR_PUBDATE = "pubdate";
 
     private long _id; // SQLite key
     private String id; // Firebase key
@@ -216,9 +217,6 @@ public class Story implements Parcelable {
     }
 
 
-    //...
-
-
     public boolean isSaved() {
 
         return isSaved > 0;
@@ -229,7 +227,6 @@ public class Story implements Parcelable {
 
         return Math.abs(isSaved);
     }
-
 
 
     public String getLongByline() {
@@ -433,53 +430,7 @@ public class Story implements Parcelable {
     }
 
 
-    /**
-     * Log the Story attributes to console for testing/debug purposes.
-     */
-    public void print() {
-
-        final String LOG_TAG = "DREADER";
-
-        Log.v(LOG_TAG, "[STORY]");
-
-        Log.v(LOG_TAG, "SQLite ID = " + _id);
-        Log.v(LOG_TAG, "Firebase ID = " + id);
-
-        Log.v(LOG_TAG, "Title = " + title);
-        Log.v(LOG_TAG, "Link = " + link);
-        Log.v(LOG_TAG, "Source = " + source);
-        Log.v(LOG_TAG, "Pubdate = " + pubdate);
-
-        Log.v(LOG_TAG, "Author = "
-                + (author != null ? author : "None"));
-
-        Log.v(LOG_TAG, "Tagline = "
-                + (tagline != null ? tagline : "None"));
-
-        Log.v(LOG_TAG, "Attachment = "
-                + (attachment != null ? attachment : "None"));
-
-        Log.v(LOG_TAG, "Media = "
-                + (media != null ? media : "None"));
-
-        Log.v(LOG_TAG, "Content = "
-                + (content != null ? content.size() : 0)
-                + " paragraphs");
-
-        Log.v(LOG_TAG, "isRead? = " + isRead);
-        Log.v(LOG_TAG, "isSaved? = " + isSaved());
-        Log.v(LOG_TAG, "saved timestamp = " + isSaved);
-
-        Log.v(LOG_TAG, "=====");
-    }
-
-
-    /**
-     * Writes Story data to Parcel
-     *
-     * @param out Parcel containing Story data
-     * @param flags Additional flags about how the object should be written
-     */
+    @Override
     public void writeToParcel(Parcel out, int flags) {
 
         out.writeLong(_id);
@@ -499,21 +450,14 @@ public class Story implements Parcelable {
         out.writeStringArray(content != null ? content.toArray(new String[content.size()]) : new String[0]);
     }
 
-    /**
-     * Describe the kinds of special objects contained in this Parcelable
-     * instance's marshaled representation
-     *
-     * @return bitmask indicating the set of special object types marshaled
-     * by this Parcelable object instance
-     */
+
+    @Override
     public int describeContents() {
 
         return 0;
     }
 
-    /**
-     * Creates Story from Parcel
-     */
+
     public static final Creator<Story> CREATOR = new Creator<Story> () {
 
         public Story createFromParcel(Parcel in) {

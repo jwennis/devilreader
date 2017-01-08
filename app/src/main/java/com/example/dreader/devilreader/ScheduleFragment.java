@@ -84,7 +84,7 @@ public class ScheduleFragment extends Fragment {
 
     private void initSchedule() {
 
-        FirebaseUtil.queryGame(FirebaseUtil.ORDER_BY, "datestring", new FirebaseCallback() {
+        FirebaseUtil.queryGame(FirebaseUtil.ORDER_BY, Game.ATTR_DATESTRING, new FirebaseCallback() {
 
             @Override
             public void onGameResult(List<Game> list) {

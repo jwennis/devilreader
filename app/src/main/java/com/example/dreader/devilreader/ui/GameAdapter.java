@@ -24,12 +24,14 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameViewHolder
 
     private List<Game> mItems;
 
+
     public GameAdapter(List<Game> list) {
 
         super();
 
         mItems = list;
     }
+
 
     @Override
     public GameViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

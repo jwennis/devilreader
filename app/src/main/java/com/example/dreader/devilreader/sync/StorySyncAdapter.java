@@ -56,7 +56,7 @@ public class StorySyncAdapter extends AbstractThreadedSyncAdapter {
 
     private void syncNews() {
 
-        FirebaseUtil.queryStory(FirebaseUtil.ORDER_BY, "pubdate", new FirebaseCallback() {
+        FirebaseUtil.queryStory(FirebaseUtil.ORDER_BY, Story.ATTR_PUBDATE, new FirebaseCallback() {
 
             @Override
             public void onStoryResult(List<Story> list) {
@@ -88,7 +88,7 @@ public class StorySyncAdapter extends AbstractThreadedSyncAdapter {
             return;
         }
 
-        FirebaseUtil.queryGame(FirebaseUtil.ORDER_BY, "datestring", new FirebaseCallback() {
+        FirebaseUtil.queryGame(FirebaseUtil.ORDER_BY, Game.ATTR_DATESTRING, new FirebaseCallback() {
 
             @Override
             public void onGameResult(List<Game> list) {
@@ -160,6 +160,7 @@ public class StorySyncAdapter extends AbstractThreadedSyncAdapter {
             }
         });
     }
+
 
     public static void syncImmediately(Context context) {
 

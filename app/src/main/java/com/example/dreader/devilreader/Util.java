@@ -25,6 +25,11 @@ public class Util {
             "January", "February", "March", "April", "May", "June", "July",
             "August", "September", "October", "November", "December" };
 
+    public static final String TEAM_ABBR_NJD = "NJD";
+    public static final String PLAYER_IMG_FILE_EXT = "@2x.jpg";
+    public static final String MIMETYPE_TEXT = "text/plain";
+    public static final String MIMETYPE_VIDEO = "video/mp4";
+
 
     public static long getCurrentTimestamp() {
 

@@ -43,6 +43,48 @@ public class PlayerActivity extends AppCompatActivity {
     @BindString(R.string.typeface_arvo_bold)
     String TYPEFACE_ARVO_BOLD;
 
+    @BindString(R.string.player_status_captain)
+    String CAPTAIN;
+
+    @BindString(R.string.player_status_assistant)
+    String ASSISTANT;
+
+    @BindString(R.string.player_label_age)
+    String LABEL_AGE;
+
+    @BindString(R.string.player_label_drafted)
+    String LABEL_DRAFTED;
+
+    @BindString(R.string.player_label_draft_round)
+    String LABEL_DRAFT_ROUND;
+
+    @BindString(R.string.player_label_draft_pos)
+    String LABEL_DRAFT_POS;
+
+    @BindString(R.string.player_undrafted)
+    String UNDRAFTED;
+
+    @BindString(R.string.player_pos_goaltender)
+    String POSITION_GOALTENDER;
+
+    @BindString(R.string.player_pos_center)
+    String POSITION_CENTER;
+
+    @BindString(R.string.player_pos_left)
+    String POSITION_LEFT;
+
+    @BindString(R.string.player_pos_right)
+    String POSITION_RIGHT;
+
+    @BindString(R.string.player_pos_defense)
+    String POSITION_DEFENSE;
+
+    @BindString(R.string.player_hand_right)
+    String HAND_RIGHT;
+
+    @BindString(R.string.player_hand_left)
+    String HAND_LEFT;
+
     @BindView(R.id.collapsing_toolbar)
     CollapsingToolbarLayout collapsing_toolbar;
 
@@ -135,13 +177,13 @@ public class PlayerActivity extends AppCompatActivity {
         collapsing_toolbar.setExpandedTitleTypeface(TypefaceArvoNormal);
 
         Glide.with(this)
-                .load(BACKDROP_ROOT + mPlayer.getNhl_id() + "@2x.jpg")
+                .load(BACKDROP_ROOT + mPlayer.getNhl_id() + Util.PLAYER_IMG_FILE_EXT)
                 //.placeholder(R.drawable.img_player_backdrop_placeholder)
                 .centerCrop()
                 .into(player_backdrop);
 
         Glide.with(this)
-                .load(MUGSHOT_ROOT + mPlayer.getNhl_id() + "@2x.jpg")
+                .load(MUGSHOT_ROOT + mPlayer.getNhl_id() + Util.PLAYER_IMG_FILE_EXT)
                 .transform(new CircleTransform(this))
                 .into(player_mugshot);
 
@@ -149,24 +191,32 @@ public class PlayerActivity extends AppCompatActivity {
 
         if(status != null) {
 
-            player_status.setText(status);
+            if(mPlayer.getIs_captain()) {
+
+                player_status.setText(CAPTAIN);
+
+            } else if (mPlayer.getIs_captain()) {
+
+                player_status.setText(ASSISTANT);
+            }
+
             player_status.setVisibility(View.VISIBLE);
         }
 
-        player_age.setText("Age: " + mPlayer.getAge() + " (" + mPlayer.getDobString() + ")");
+        player_age.setText(LABEL_AGE + mPlayer.getAge() + " (" + mPlayer.getDobString() + ")");
 
         if(mPlayer.getIs_drafted()) {
 
-            draft_year.setText("Drafted " + mPlayer.getDraft_year() + " by " + mPlayer.getDraft_team());
+            draft_year.setText(LABEL_DRAFTED + mPlayer.getDraft_year() + " by " + mPlayer.getDraft_team());
 
-            draft_position.setText(Util.formatNumSuffix((int) mPlayer.getDraft_round()) + " Round "
-                    + Util.formatNumSuffix((int) mPlayer.getDraft_position()) + " Overall");
+            draft_position.setText(Util.formatNumSuffix((int) mPlayer.getDraft_round()) + LABEL_DRAFT_ROUND
+                    + Util.formatNumSuffix((int) mPlayer.getDraft_position()) + LABEL_DRAFT_POS);
 
             draft_position.setVisibility(View.VISIBLE);
 
         } else {
 
-            draft_year.setText("Undrafted");
+            draft_year.setText(UNDRAFTED);
         }
 
         String pos = mPlayer.getPosition();
@@ -176,18 +226,18 @@ public class PlayerActivity extends AppCompatActivity {
 
             case "G": {
 
-                position.append("GOALTENDER | Catches ");
+                position.append(POSITION_GOALTENDER);
 
                 break;
             }
 
-            case "C": { position.append("CENTER | Shoots "); break; }
-            case "LW": { position.append("LEFT WING | Shoots "); break; }
-            case "RW": { position.append("RIGHT WING | Shoots "); break; }
-            case "D": { position.append("DEFENSE | Shoots "); break; }
+            case "C": { position.append(POSITION_CENTER); break; }
+            case "LW": { position.append(POSITION_LEFT); break; }
+            case "RW": { position.append(POSITION_RIGHT); break; }
+            case "D": { position.append(POSITION_DEFENSE); break; }
         }
 
-        position.append(mPlayer.getHand().equals("L") ? "LEFT" : "RIGHT");
+        position.append(mPlayer.getHand().equals("L") ? HAND_LEFT : HAND_RIGHT);
 
         player_position.setText(position.toString());
 

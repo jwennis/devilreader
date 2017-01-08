@@ -9,17 +9,19 @@ import com.example.dreader.devilreader.sync.StorySyncAdapter;
 
 public class HeadlinesWidgetProvider extends AppWidgetProvider {
 
+
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 
         context.startService(new Intent(context, HeadlinesWidgetIntentService.class));
     }
 
+
     @Override
     public void onEnabled(Context context) {
 
-        // Enter relevant functionality for when the first widget is created
     }
+
 
     @Override
     public void onReceive(Context context, Intent intent) {

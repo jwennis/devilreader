@@ -20,12 +20,20 @@ import com.example.dreader.devilreader.model.PlayerContract;
 import java.util.Collections;
 import java.util.List;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ContractAdapter extends RecyclerView.Adapter<ContractAdapter.ContractViewHolder>{
 
+    private static final String ATTR_STANDARD_PLAYER_CONTRACT = "SPC";
+    private static final String ATTR_ENTRY_LEVEL_CONTRACT = "ELC";
+    private static final String ATTR_HISTORIC_CONTRACT = "H";
+    private static final String ATTR_UNRESTRICTED_FREE_AGENT = "UFA";
+    private static final String ATTR_RESTRICTED_FREE_AGENT = "RFA";
+
     private List<PlayerContract> mItems;
+
 
     public ContractAdapter(List<PlayerContract> list) {
 
@@ -33,6 +41,7 @@ public class ContractAdapter extends RecyclerView.Adapter<ContractAdapter.Contra
 
         mItems = list;
     }
+
 
     @Override
     public ContractAdapter.ContractViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -42,6 +51,7 @@ public class ContractAdapter extends RecyclerView.Adapter<ContractAdapter.Contra
 
         return new ContractViewHolder(contractView);
     }
+
 
     private SpannableStringBuilder createSpan(String label, String value) {
 
@@ -53,43 +63,44 @@ public class ContractAdapter extends RecyclerView.Adapter<ContractAdapter.Contra
         return builder;
     }
 
+
     @Override
     public void onBindViewHolder(ContractAdapter.ContractViewHolder holder, int position) {
 
         PlayerContract contract = mItems.get(position);
 
         String value = Util.format$(contract.getValue());
-        holder.value.setText(createSpan("Value", value));
+        holder.value.setText(createSpan(holder.CONTRACT_LABEL_VALUE, value));
 
         String capHit = Util.format$(contract.getCapHit());
-        holder.cap_hit.setText(createSpan("Cap Hit",capHit));
+        holder.cap_hit.setText(createSpan(holder.CONTRACT_LABEL_CAPHIT, capHit));
 
         switch(contract.getType()) {
 
-            case "SPC": {
+            case ATTR_STANDARD_PLAYER_CONTRACT: {
 
-                holder.type.setText(createSpan("Standard Player Contract", ""));
-
-                break;
-            }
-
-            case "ELC": {
-
-                holder.type.setText(createSpan("Entry Level Contract", ""));
+                holder.type.setText(createSpan(holder.STANDARD_PLAYER_CONTRACT, ""));
 
                 break;
             }
 
-            case "H": {
+            case ATTR_ENTRY_LEVEL_CONTRACT: {
 
-                holder.type.setText(createSpan("Type", "Historic"));
+                holder.type.setText(createSpan(holder.ENTRY_LEVEL_CONTRACT, ""));
+
+                break;
+            }
+
+            case ATTR_HISTORIC_CONTRACT: {
+
+                holder.type.setText(createSpan(holder.CONTRACT_LABEL_TYPE, holder.HISTORIC_CONTRACT));
 
                 break;
             }
 
             default: {
 
-                holder.type.setText(createSpan("Type", "N/A"));
+                holder.type.setText(createSpan(holder.CONTRACT_LABEL_TYPE, holder.CONTRACT_TYPE_NA));
             }
         }
 
@@ -97,12 +108,12 @@ public class ContractAdapter extends RecyclerView.Adapter<ContractAdapter.Contra
 
         switch(contract.getExpiry()) {
 
-            case "UFA": { expiry = "Unrestricted"; break; }
-            case "RFA": { expiry = "Restricted"; break; }
-            default: { expiry = "N/A"; }
+            case ATTR_UNRESTRICTED_FREE_AGENT: { expiry = holder.CONTRACT_LABEL_UNRESTRICTED; break; }
+            case ATTR_RESTRICTED_FREE_AGENT: { expiry = holder.CONTRACT_LABEL_RESTRICTED; break; }
+            default: { expiry = holder.CONTRACT_TYPE_NA; }
         }
 
-        holder.expiry.setText(createSpan("Expiry", expiry));
+        holder.expiry.setText(createSpan(holder.CONTRACT_LABEL_EXPIRY, expiry));
 
         List<PlayerContract.ContractYear> years = contract.getYears();
 
@@ -110,12 +121,16 @@ public class ContractAdapter extends RecyclerView.Adapter<ContractAdapter.Contra
 
             PlayerContract.ContractYear year = years.get(i);
 
-            bindYear(holder.years.getChildAt(i), year.getSeason(), year.getNhlSalary(),
-                    year.getAhlSalary(), year.getPerformanceBonus(), year.getSigningBonus(), year.getClause());
+            String clause = year.isNoMove() ? holder.NO_MOVEMENT_CLAUSE :
+                    year.isNoTrade() ? holder.NO_TRADE_CLAUSE : "";
+
+            bindYear(holder, holder.years.getChildAt(i), year.getSeason(), year.getNhlSalary(),
+                    year.getAhlSalary(), year.getPerformanceBonus(), year.getSigningBonus(), clause);
         }
     }
 
-    private void bindYear(View layout, String s, long nSalary, long aSalary,
+
+    private void bindYear(ContractViewHolder holder, View layout, String s, long nSalary, long aSalary,
                           long sBonus, long pBonus, final String c) {
 
         if(aSalary == 0) {
@@ -139,10 +154,10 @@ public class ContractAdapter extends RecyclerView.Adapter<ContractAdapter.Contra
         final ViewGroup extras = (ViewGroup) layout.findViewById(R.id.contract_year_extras);
 
         final TextView signing = (TextView) extras.findViewById(R.id.contract_year_signing);
-        signing.setText(createSpan("Signing Bonus", Util.format$((int) sBonus)));
+        signing.setText(createSpan(holder.CONTRACT_LABEL_SIGNING_BONUS, Util.format$((int) sBonus)));
 
         final TextView performance = (TextView) extras.findViewById(R.id.contract_year_performance);
-        performance.setText(createSpan("Performance Bonus", Util.format$((int) pBonus)));
+        performance.setText(createSpan(holder.CONTRACT_LABEL_PERFORMANCE_BONUS, Util.format$((int) pBonus)));
 
         final TextView clause = (TextView) extras.findViewById(R.id.contract_year_clause);
         clause.setText(c);
@@ -177,6 +192,7 @@ public class ContractAdapter extends RecyclerView.Adapter<ContractAdapter.Contra
         });
     }
 
+
     private String format$(int number) {
 
         return number > 0 ? Util.format$(number) : "-";
@@ -191,6 +207,48 @@ public class ContractAdapter extends RecyclerView.Adapter<ContractAdapter.Contra
 
 
     public class ContractViewHolder extends RecyclerView.ViewHolder {
+
+        @BindString(R.string.player_contract_nomove)
+        String NO_MOVEMENT_CLAUSE;
+
+        @BindString(R.string.player_contract_notrade)
+        String NO_TRADE_CLAUSE;
+
+        @BindString(R.string.player_contract_type_standard)
+        String STANDARD_PLAYER_CONTRACT;
+
+        @BindString(R.string.player_contract_type_entry_level)
+        String ENTRY_LEVEL_CONTRACT;
+
+        @BindString(R.string.player_contract_type_historic)
+        String HISTORIC_CONTRACT;
+
+        @BindString(R.string.player_contract_type_na)
+        String CONTRACT_TYPE_NA;
+
+        @BindString(R.string.player_contract_label_type)
+        String CONTRACT_LABEL_TYPE;
+
+        @BindString(R.string.player_contract_label_expiry)
+        String CONTRACT_LABEL_EXPIRY;
+
+        @BindString(R.string.player_contract_label_value)
+        String CONTRACT_LABEL_VALUE;
+
+        @BindString(R.string.player_contract_label_caphit)
+        String CONTRACT_LABEL_CAPHIT;
+
+        @BindString(R.string.player_contract_label_unrestricted)
+        String CONTRACT_LABEL_UNRESTRICTED;
+
+        @BindString(R.string.player_contract_label_restricted)
+        String CONTRACT_LABEL_RESTRICTED;
+
+        @BindString(R.string.player_contract_label_signing)
+        String CONTRACT_LABEL_SIGNING_BONUS;
+
+        @BindString(R.string.player_contract_label_performance)
+        String CONTRACT_LABEL_PERFORMANCE_BONUS;
 
         @BindView(R.id.contract_value)
         TextView value;

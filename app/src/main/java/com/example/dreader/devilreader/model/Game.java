@@ -13,6 +13,11 @@ import java.util.List;
 public class Game implements Parcelable {
 
     public static final String PARAM_GAME_PARCEL = "PARAM_GAME_PARCEL";
+    public static final String ATTR_DATESTRING = "datestring";
+
+    private static final String GAME_STATUS_PENDING = "P";
+    private static final String GAME_STATUS_FINAL = "F";
+    private static final String GAME_LOCATION_HOME = "H";
 
     private long nhl_id;
     private long datestring;
@@ -52,7 +57,7 @@ public class Game implements Parcelable {
 
         status = in.readString();
 
-        if(status.equals("P")) {
+        if(status.equals(GAME_STATUS_PENDING)) {
 
             puckdrop = in.readString();
             networks = in.readString();
@@ -68,7 +73,7 @@ public class Game implements Parcelable {
             goalsAway = new ArrayList<>();
             goalsHome = new ArrayList<>();
 
-            int numFrames = status.equals("F") ? 4 : 5;
+            int numFrames = status.equals(GAME_STATUS_FINAL) ? 4 : 5;
 
             for(int i = 0; i < numFrames; i ++) {
 
@@ -222,19 +227,19 @@ public class Game implements Parcelable {
 
     public boolean isPending() {
 
-        return status.equals("P");
+        return status.equals(GAME_STATUS_PENDING);
     }
 
 
     public boolean isRegulation() {
 
-        return status.equals("F");
+        return status.equals(GAME_STATUS_FINAL);
     }
 
 
     public boolean isHome() {
 
-        return location.equals("H");
+        return location.equals(GAME_LOCATION_HOME);
     }
 
 

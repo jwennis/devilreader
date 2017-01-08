@@ -133,7 +133,7 @@ public class RosterFragment extends Fragment {
 
     private void initRoster() {
 
-        FirebaseUtil.queryPlayer(FirebaseUtil.TEAM, "NJD", new FirebaseCallback() {
+        FirebaseUtil.queryPlayer(FirebaseUtil.TEAM, Util.TEAM_ABBR_NJD, new FirebaseCallback() {
 
             @Override
             public void onPlayerResult(final List<Player> roster) {

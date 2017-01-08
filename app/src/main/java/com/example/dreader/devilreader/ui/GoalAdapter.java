@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.example.dreader.devilreader.GameActivity;
 import com.example.dreader.devilreader.PlayerGoalsFragment;
 import com.example.dreader.devilreader.R;
+import com.example.dreader.devilreader.Util;
 import com.example.dreader.devilreader.model.Goal;
 
 import java.util.List;
@@ -54,7 +55,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalViewHolder
         final Context context = holder.layout_root.getContext();
 
         Glide.with(context)
-                .load(holder.MUGSHOT_ROOT + item.getPlayer_id() + "@2x.jpg")
+                .load(holder.MUGSHOT_ROOT + item.getPlayer_id() + Util.PLAYER_IMG_FILE_EXT)
                 .transform(new CircleTransform(context))
                 .into(holder.mugshot);
 
@@ -80,7 +81,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalViewHolder
                     String videoUrl = item.getVideo();
 
                     Intent videoIntent = new Intent(Intent.ACTION_VIEW);
-                    videoIntent.setDataAndType(Uri.parse(videoUrl),"video/mp4");
+                    videoIntent.setDataAndType(Uri.parse(videoUrl), Util.MIMETYPE_VIDEO);
 
                     ((Activity) context).startActivityForResult(videoIntent, 0);
                 }
