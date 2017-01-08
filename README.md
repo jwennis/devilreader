@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/jwennis/devilreader/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" width="192" align="right" vspace="20" hspace="20">
+<img src="https://raw.githubusercontent.com/jwennis/devilreader/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" width="96" align="right" vspace="20" hspace="20">
 
 # Devil Reader
 
