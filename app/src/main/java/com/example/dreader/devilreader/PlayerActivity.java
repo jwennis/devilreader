@@ -203,14 +203,15 @@ public class PlayerActivity extends AppCompatActivity {
             player_status.setVisibility(View.VISIBLE);
         }
 
-        player_age.setText(LABEL_AGE + mPlayer.getAge() + " (" + mPlayer.getDobString() + ")");
+        player_age.setText(String.format("%s: %s (%s)", LABEL_AGE, mPlayer.getAge(), mPlayer.getDobString()));
 
         if(mPlayer.getIs_drafted()) {
 
-            draft_year.setText(LABEL_DRAFTED + mPlayer.getDraft_year() + " by " + mPlayer.getDraft_team());
+            draft_year.setText(String.format("%s %d by %s", LABEL_DRAFTED, mPlayer.getDraft_year(), mPlayer.getDraft_team()));
 
-            draft_position.setText(Util.formatNumSuffix((int) mPlayer.getDraft_round()) + LABEL_DRAFT_ROUND
-                    + Util.formatNumSuffix((int) mPlayer.getDraft_position()) + LABEL_DRAFT_POS);
+            draft_position.setText(String.format("%s %s | %s %s",
+                    Util.formatNumSuffix((int) mPlayer.getDraft_round()), LABEL_DRAFT_ROUND,
+                    Util.formatNumSuffix((int) mPlayer.getDraft_position()), LABEL_DRAFT_POS));
 
             draft_position.setVisibility(View.VISIBLE);
 
@@ -237,7 +238,7 @@ public class PlayerActivity extends AppCompatActivity {
             case "D": { position.append(POSITION_DEFENSE); break; }
         }
 
-        position.append(mPlayer.getHand().equals("L") ? HAND_LEFT : HAND_RIGHT);
+        position.append(" " + (mPlayer.getHand().equals("L") ? HAND_LEFT : HAND_RIGHT));
 
         player_position.setText(position.toString());
 

@@ -67,17 +67,17 @@
     <string name="player_status_captain">Captain</string>
     <string name="player_status_assistant">Assistant Captain</string>
 
-    <string name="player_label_age">Age: </string>
-    <string name="player_label_drafted">Drafted </string>
-    <string name="player_label_draft_round"> Round </string>
-    <string name="player_label_draft_pos"> Overall</string>
+    <string name="player_label_age">Age</string>
+    <string name="player_label_drafted">Drafted</string>
+    <string name="player_label_draft_round">Round</string>
+    <string name="player_label_draft_pos">Overall</string>
 
     <string name="player_undrafted">Undrafted</string>
-    <string name="player_pos_goaltender">GOALTENDER | Catches </string>
-    <string name="player_pos_center">CENTER | Shoots </string>
-    <string name="player_pos_left">LEFT WING | Shoots </string>
-    <string name="player_pos_right">RIGHT WING | Shoots </string>
-    <string name="player_pos_defense">DEFENSE | Shoots </string>
+    <string name="player_pos_goaltender">GOALTENDER | Catches</string>
+    <string name="player_pos_center">CENTER | Shoots</string>
+    <string name="player_pos_left">LEFT WING | Shoots</string>
+    <string name="player_pos_right">RIGHT WING | Shoots</string>
+    <string name="player_pos_defense">DEFENSE | Shoots</string>
     <string name="player_hand_right">RIGHT</string>
     <string name="player_hand_left">LEFT</string>
 
