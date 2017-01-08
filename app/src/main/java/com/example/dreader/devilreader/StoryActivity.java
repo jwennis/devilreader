@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.customtabs.CustomTabsServiceConnection;
@@ -42,6 +43,8 @@ import com.example.dreader.devilreader.model.Player;
 import com.example.dreader.devilreader.model.Story;
 import com.example.dreader.devilreader.ui.PlayerMugshotAdapter;
 import com.example.dreader.devilreader.ui.RosterLabelAdapter;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 
 public class StoryActivity extends AppCompatActivity {
@@ -76,6 +79,8 @@ public class StoryActivity extends AppCompatActivity {
     @BindView(R.id.story_tags)
     RecyclerView tags;
 
+    @BindView(R.id.banner_ad)
+    AdView banner_ad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +108,18 @@ public class StoryActivity extends AppCompatActivity {
         }
 
         bindStory();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+
+                AdRequest adRequest = new AdRequest.Builder().build();
+                banner_ad.loadAd(adRequest);
+
+            }
+
+        }, 3000);
     }
 
 
