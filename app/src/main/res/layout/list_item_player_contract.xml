@@ -29,8 +29,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/contract_value"
             android:layout_toEndOf="@id/contract_icon"
-            android:textColor="@color/darkgrey"
-            android:text="Value" />
+            android:textColor="@color/darkgrey" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -39,8 +38,7 @@
             android:layout_marginTop="@dimen/margin_xsmall"
             android:layout_toEndOf="@id/contract_icon"
             android:layout_below="@id/contract_value"
-            android:textColor="@color/darkgrey"
-            android:text="Cap Hit" />
+            android:textColor="@color/darkgrey" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -48,8 +46,7 @@
             android:id="@+id/contract_type"
             android:layout_marginEnd="@dimen/margin_small"
             android:layout_alignParentEnd="true"
-            android:textColor="@color/darkgrey"
-            android:text="Type" />
+            android:textColor="@color/darkgrey" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -59,8 +56,7 @@
             android:layout_marginTop="@dimen/margin_xsmall"
             android:layout_marginEnd="@dimen/margin_small"
             android:layout_alignParentEnd="true"
-            android:textColor="@color/darkgrey"
-            android:text="Expiry" />
+            android:textColor="@color/darkgrey" />
 
     </RelativeLayout>
 
@@ -84,7 +80,7 @@
             android:paddingStart="@dimen/margin_medium"
             android:textColor="@color/darkgrey"
             android:textStyle="bold"
-            android:text="Season" />
+            android:text="@string/player_contract_label_season" />
 
         <TextView
             android:layout_width="0dp"
@@ -93,7 +89,7 @@
             android:gravity="center_horizontal"
             android:textColor="@color/darkgrey"
             android:textStyle="bold"
-            android:text="NHL Salary" />
+            android:text="@string/player_contract_label_slary_nhl" />
 
         <TextView
             android:layout_width="0dp"
@@ -102,7 +98,7 @@
             android:gravity="center_horizontal"
             android:textColor="@color/darkgrey"
             android:textStyle="bold"
-            android:text="AHL Salary" />
+            android:text="@string/player_contract_label_slary_ahl" />
 
         <View
             android:layout_width="0dp"

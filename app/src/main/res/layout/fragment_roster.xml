@@ -23,7 +23,7 @@
             android:visibility="invisible">
 
             <TextView
-                android:text="Forwards"
+                android:text="@string/roster_label_forwards"
                 android:id="@+id/roster_forward_heading"
                 style="@style/roster_section_heading" />
 
@@ -32,7 +32,7 @@
                 style="@style/roster_list" />
 
             <TextView
-                android:text="Defensemen"
+                android:text="@string/roster_label_defensemen"
                 android:id="@+id/roster_defense_heading"
                 style="@style/roster_section_heading" />
 
@@ -41,7 +41,7 @@
                 style="@style/roster_list" />
 
             <TextView
-                android:text="Goaltenders"
+                android:text="@string/roster_label_goaltenders"
                 android:id="@+id/roster_goaltender_heading"
                 style="@style/roster_section_heading" />
 
@@ -50,7 +50,7 @@
                 style="@style/roster_list" />
 
             <TextView
-                android:text="Injury Reserve"
+                android:text="@string/roster_label_injured"
                 android:id="@+id/roster_injured_heading"
                 style="@style/roster_section_heading" />
 
@@ -59,7 +59,7 @@
                 style="@style/roster_list" />
 
             <TextView
-                android:text="Non-roster"
+                android:text="@string/roster_label_nonroster"
                 android:id="@+id/roster_nonroster_heading"
                 style="@style/roster_section_heading" />
 

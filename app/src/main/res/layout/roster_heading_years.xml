@@ -6,35 +6,35 @@
     android:background="#000000">
 
     <TextView
-        android:text="2016-17"
+        android:text="@string/roster_salary_season_1617"
         style="@style/roster_salary_heading" />
 
     <TextView
-        android:text="2017-18"
+        android:text="@string/roster_salary_season_1718"
         style="@style/roster_salary_heading" />
 
     <TextView
-        android:text="2018-19"
+        android:text="@string/roster_salary_season_1819"
         style="@style/roster_salary_heading" />
 
     <TextView
-        android:text="2019-20"
+        android:text="@string/roster_salary_season_1920"
         style="@style/roster_salary_heading" />
 
     <TextView
-        android:text="2020-21"
+        android:text="@string/roster_salary_season_2021"
         style="@style/roster_salary_heading" />
 
     <TextView
-        android:text="2021-22"
+        android:text="@string/roster_salary_season_2122"
         style="@style/roster_salary_heading" />
 
     <TextView
-        android:text="2022-23"
+        android:text="@string/roster_salary_season_2223"
         style="@style/roster_salary_heading" />
 
     <TextView
-        android:text="2023-24"
+        android:text="@string/roster_salary_season_2324"
         style="@style/roster_salary_heading" />
 
 </LinearLayout>

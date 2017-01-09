@@ -102,6 +102,18 @@
     <string name="player_contract_label_restricted">Restricted</string>
     <string name="player_contract_label_signing">Signing Bonus</string>
     <string name="player_contract_label_performance">Performance Bonus</string>
+    <string name="player_contract_label_season">Season</string>
+    <string name="player_contract_label_slary_nhl">NHL Salary</string>
+    <string name="player_contract_label_slary_ahl">AHL Salary</string>
+
+    <string name="roster_salary_season_1617">2016-17</string>
+    <string name="roster_salary_season_1718">2017-18</string>
+    <string name="roster_salary_season_1819">2018-19</string>
+    <string name="roster_salary_season_1920">2019-20</string>
+    <string name="roster_salary_season_2021">2020-21</string>
+    <string name="roster_salary_season_2122">2021-22</string>
+    <string name="roster_salary_season_2223">2022-23</string>
+    <string name="roster_salary_season_2324">2023-24</string>
 
     <string name="player_contract_icon_desc">Contract</string>
     <string name="player_contract_button_more">More info for %s</string>
@@ -112,6 +124,12 @@
     <string name="player_backdrop_root">https://nhl.bamcontent.com/images/actionshots/</string>
     <string name="player_mugshot_root">https://nhl.bamcontent.com/images/headshots/current/168x168/</string>
     <string name="player_mugshot_transition">com.example.dreader.devilreader.MUGSHOT_TRANSITION</string>
+
+    <string name="roster_label_forwards">Forwards</string>
+    <string name="roster_label_defensemen">Defensemen</string>
+    <string name="roster_label_goaltenders">Goaltenders</string>
+    <string name="roster_label_injured">Injury Reserve</string>
+    <string name="roster_label_nonroster">Non-Roster</string>
 
     <!-- GameActivity -->
 
