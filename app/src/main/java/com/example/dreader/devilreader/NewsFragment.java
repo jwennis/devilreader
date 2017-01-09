@@ -48,6 +48,7 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
 
     private StoryAdapter mAdapter;
     private Filter mFilter;
+    private boolean mInitSync;
 
     private ViewGroup layout_root;
 
@@ -203,6 +204,15 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
 
         if(loader.getId() == LOADER_ID) {
 
+            if(data.getCount() == 0 && !mInitSync) {
+
+                StorySyncAdapter.syncImmediately(getContext());
+
+                mInitSync = true;
+
+                return;
+            }
+
             if(mAdapter == null) {
 
                 mAdapter = new StoryAdapter(data, NewsFragment.class.getSimpleName());
@@ -238,8 +248,6 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
 
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         recycler.setItemAnimator(new DefaultItemAnimator());
-
-        StorySyncAdapter.syncImmediately(getContext());
     }
 
 

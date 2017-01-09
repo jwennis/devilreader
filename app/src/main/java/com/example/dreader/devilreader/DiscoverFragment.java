@@ -23,6 +23,7 @@ import com.example.dreader.devilreader.data.StoryContract;
 import com.example.dreader.devilreader.firebase.FirebaseCallback;
 import com.example.dreader.devilreader.firebase.FirebaseUtil;
 import com.example.dreader.devilreader.model.Game;
+import com.example.dreader.devilreader.sync.StorySyncAdapter;
 import com.example.dreader.devilreader.ui.StoryAdapter;
 
 import java.util.List;
@@ -44,6 +45,7 @@ public class DiscoverFragment extends Fragment implements LoaderManager.LoaderCa
     private Game mLastGame;
     private Game mNextGame;
     private byte[] mPlayoffOutlook;
+    private boolean mInitSync;
 
     private ViewGroup layout_root;
 
@@ -178,6 +180,15 @@ public class DiscoverFragment extends Fragment implements LoaderManager.LoaderCa
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
         if(loader.getId() == LOADER_ID) {
+
+            if(data.getCount() == 0 && !mInitSync) {
+
+                StorySyncAdapter.syncImmediately(getContext());
+
+                mInitSync = true;
+
+                return;
+            }
 
             if (mAdapter == null) {
 
