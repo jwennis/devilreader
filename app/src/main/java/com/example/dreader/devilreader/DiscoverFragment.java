@@ -146,6 +146,14 @@ public class DiscoverFragment extends Fragment implements LoaderManager.LoaderCa
         return layout_root;
     }
 
+    @Override
+    public void onResume() {
+
+        super.onResume();
+
+        getActivity().getSupportLoaderManager()
+                .restartLoader(LOADER_ID, null, this);
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -194,14 +202,14 @@ public class DiscoverFragment extends Fragment implements LoaderManager.LoaderCa
 
                 mAdapter = new StoryAdapter(data, DiscoverFragment.class.getSimpleName());
 
-                headlines_recycler.setLayoutManager(new LinearLayoutManager(getContext()));
-                headlines_recycler.setItemAnimator(new DefaultItemAnimator());
-                headlines_recycler.setAdapter(mAdapter);
-
             } else {
 
                 mAdapter.swapCursor(data);
             }
+
+            headlines_recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+            headlines_recycler.setItemAnimator(new DefaultItemAnimator());
+            headlines_recycler.setAdapter(mAdapter);
         }
     }
 
