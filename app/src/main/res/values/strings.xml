@@ -97,6 +97,9 @@
     <string name="player_contract_label_signing">Signing Bonus</string>
     <string name="player_contract_label_performance">Performance Bonus</string>
 
+    <string name="player_contract_button_more">More info for %s</string>
+    <string name="player_contract_button_less">Less info for %s</string>
+
     <string name="player_backdrop_root">https://nhl.bamcontent.com/images/actionshots/</string>
     <string name="player_mugshot_root">https://nhl.bamcontent.com/images/headshots/current/168x168/</string>
     <string name="player_mugshot_transition">com.example.dreader.devilreader.MUGSHOT_TRANSITION</string>
@@ -113,6 +116,7 @@
     <string name="game_stats_pim">PENALTY MINUTES</string>
     <string name="game_stats_hits">HITS</string>
     <string name="game_stats_blocks">BLOCKS</string>
+    <string name="game_button_play">Play Video</string>
 
     <!-- Google Authentication -->
 

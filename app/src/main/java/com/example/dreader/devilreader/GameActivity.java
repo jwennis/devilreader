@@ -41,6 +41,9 @@ public class GameActivity extends AppCompatActivity {
     @BindString(R.string.typeface_arvo_bold)
     String TYPEFACE_ARVO_BOLD;
 
+    @BindString(R.string.game_button_play)
+    String BUTTON_PLAY;
+
     @BindView(R.id.game_date)
     TextView date;
 
@@ -230,6 +233,8 @@ public class GameActivity extends AppCompatActivity {
         Glide.with(this)
                 .load(mGame.getRecapImage())
                 .into(recap_backdrop);
+
+        recap_play.setContentDescription(BUTTON_PLAY);
 
         recap_play.setOnClickListener(new View.OnClickListener() {
 

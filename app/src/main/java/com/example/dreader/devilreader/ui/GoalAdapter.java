@@ -59,6 +59,8 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalViewHolder
                 .transform(new CircleTransform(context))
                 .into(holder.mugshot);
 
+        holder.mugshot.setContentDescription(item.getName());
+
         if(mCaller.equals(GameActivity.class.getSimpleName())) {
 
             holder.title.setText(String.format("%s (%d)", item.getName(), item.getCount()));
@@ -72,6 +74,8 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalViewHolder
         holder.time.setText(item.getTime());
 
         if(item.hasVideo()){
+
+            holder.video.setContentDescription(holder.BUTTON_PLAY);
 
             holder.video.setOnClickListener(new View.OnClickListener() {
 
@@ -112,6 +116,9 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalViewHolder
 
         @BindString(R.string.player_mugshot_root)
         String MUGSHOT_ROOT;
+
+        @BindString(R.string.game_button_play)
+        String BUTTON_PLAY;
 
         @BindView(R.id.goal_mugshot)
         ImageView mugshot;

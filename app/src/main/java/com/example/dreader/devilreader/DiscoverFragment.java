@@ -231,7 +231,12 @@ public class DiscoverFragment extends Fragment implements LoaderManager.LoaderCa
 
     private void bindGamePreview() {
 
-        last_game_icon.setImageResource(Util.getTeamIcon(mLastGame.getOpponent()));
+        String opponentLast = mLastGame.getOpponent();
+        String opponentNext = mNextGame.getOpponent();
+
+        last_game_icon.setImageResource(Util.getTeamIcon(opponentLast));
+        last_game_icon.setContentDescription(Util.getTeamName(opponentLast));
+
         last_game_score.setText(mLastGame.getResultLabel());
 
         String statusText = "FINAL";
@@ -256,7 +261,9 @@ public class DiscoverFragment extends Fragment implements LoaderManager.LoaderCa
         });
 
 
-        next_game_icon.setImageResource(Util.getTeamIcon(mNextGame.getOpponent()));
+        next_game_icon.setImageResource(Util.getTeamIcon(opponentNext));
+        next_game_icon.setContentDescription(Util.getTeamName(opponentNext));
+
         next_game_date.setText(mNextGame.getDate());
         next_game_time.setText(mNextGame.getPuckdrop());
     }

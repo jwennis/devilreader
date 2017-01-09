@@ -162,6 +162,8 @@ public class ContractAdapter extends RecyclerView.Adapter<ContractAdapter.Contra
         final TextView clause = (TextView) extras.findViewById(R.id.contract_year_clause);
         clause.setText(c);
 
+        expand.setContentDescription(String.format(holder.CONTRACT_BUTTON_MORE, s));
+
         expand.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -178,6 +180,8 @@ public class ContractAdapter extends RecyclerView.Adapter<ContractAdapter.Contra
                 collapse.setVisibility(View.VISIBLE);
             }
         });
+
+        collapse.setContentDescription(String.format(holder.CONTRACT_BUTTON_LESS, s));
 
         collapse.setOnClickListener(new View.OnClickListener() {
 
@@ -249,6 +253,12 @@ public class ContractAdapter extends RecyclerView.Adapter<ContractAdapter.Contra
 
         @BindString(R.string.player_contract_label_performance)
         String CONTRACT_LABEL_PERFORMANCE_BONUS;
+
+        @BindString(R.string.player_contract_button_more)
+        String CONTRACT_BUTTON_MORE;
+
+        @BindString(R.string.player_contract_button_less)
+        String CONTRACT_BUTTON_LESS;
 
         @BindView(R.id.contract_value)
         TextView value;

@@ -59,6 +59,8 @@ public class PlayerMugshotAdapter extends RecyclerView.Adapter<PlayerMugshotAdap
                 .transform(new CircleTransform(context))
                 .into(holder.mugshot);
 
+        holder.mugshot.setContentDescription(item.getName());
+
         holder.layout_root.setOnClickListener(new View.OnClickListener() {
 
             @Override

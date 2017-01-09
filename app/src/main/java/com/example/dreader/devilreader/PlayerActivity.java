@@ -187,6 +187,8 @@ public class PlayerActivity extends AppCompatActivity {
                 .transform(new CircleTransform(this))
                 .into(player_mugshot);
 
+        player_mugshot.setContentDescription(mPlayer.getName());
+
         String status = mPlayer.getStatus();
 
         if(status != null) {
