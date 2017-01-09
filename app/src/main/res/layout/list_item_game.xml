@@ -36,7 +36,8 @@
                 android:id="@+id/game_icon_away"
                 android:layout_width="48dp"
                 android:layout_height="32dp"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:contentDescription="@string/game_away_desc"/>
 
         </FrameLayout>
 
@@ -74,7 +75,8 @@
                 android:id="@+id/game_icon_home"
                 android:layout_width="48dp"
                 android:layout_height="32dp"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:contentDescription="@string/game_home_desc"/>
 
         </FrameLayout>
 

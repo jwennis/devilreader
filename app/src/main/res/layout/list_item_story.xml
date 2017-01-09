@@ -20,6 +20,7 @@
 
         <ImageView
             android:id="@+id/story_item_thumbnail"
+            android:contentDescription="@string/story_thumbnail_desc"
             style="@style/story_item_thumbnail" />
 
     </FrameLayout>
@@ -28,6 +29,7 @@
         android:id="@+id/story_item_save_icon"
         android:layout_below="@id/story_item_title"
         android:layout_toEndOf="@id/story_item_thumbnail_frame"
+        android:contentDescription="@string/action_story_save"
         style="@style/story_item_save_icon" />
 
     <TextView

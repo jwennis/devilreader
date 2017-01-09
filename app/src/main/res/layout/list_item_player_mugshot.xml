@@ -11,6 +11,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="center_horizontal"
+        android:contentDescription="@string/player_mugshot_desc"
         android:transitionName="@string/player_mugshot_transition" />
 
 </FrameLayout>

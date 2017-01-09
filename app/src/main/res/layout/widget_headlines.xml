@@ -20,7 +20,8 @@
             <ImageView
                 android:id="@+id/widget_icon"
                 android:layout_width="24dp"
-                android:layout_height="24dp" />
+                android:layout_height="24dp"
+                android:contentDescription="@string/app_name"/>
 
             <TextView
                 android:id="@+id/widget_title"

@@ -159,6 +159,8 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
                 String message = context.getString(item.isSaved()
                         ? R.string.story_saved : R.string.story_unsaved);
 
+                holder.save_icon.setContentDescription(message);
+
                 Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
 
                 return true;

@@ -11,6 +11,8 @@
     <string name="drawer_sign_out">Sign Out</string>
     <string name="drawer_not_signed_in">Not signed in</string>
 
+    <string name="drawer_user_avatar">User Avatar</string>
+
     <string name="action_settings">Settings</string>
     <string name="action_news_filter">Filter</string>
     <string name="action_news_sources">Sources</string>
@@ -46,6 +48,9 @@
 
     <!-- NewsFragment -->
 
+    <string name="story_thumbnail_desc">Thumbnail</string>
+    <string name="story_attachment_desc">Attached Image</string>
+
     <string name="story_thumbnail_placeholder">
         http://www.prucenter.com/partner-resources/devils/NJ_Devils_Logo.250x250.png
     </string>
@@ -80,6 +85,7 @@
     <string name="player_pos_defense">DEFENSE | Shoots</string>
     <string name="player_hand_right">RIGHT</string>
     <string name="player_hand_left">LEFT</string>
+    <string name="player_mugshot_desc">Player Mugshot</string>
 
     <string name="player_contract_nomove">No Movement Clause</string>
     <string name="player_contract_notrade">No Trade Clause</string>
@@ -97,8 +103,11 @@
     <string name="player_contract_label_signing">Signing Bonus</string>
     <string name="player_contract_label_performance">Performance Bonus</string>
 
+    <string name="player_contract_icon_desc">Contract</string>
     <string name="player_contract_button_more">More info for %s</string>
     <string name="player_contract_button_less">Less info for %s</string>
+
+    <string name="player_backdrop_desc">Player Backdrop Image</string>
 
     <string name="player_backdrop_root">https://nhl.bamcontent.com/images/actionshots/</string>
     <string name="player_mugshot_root">https://nhl.bamcontent.com/images/headshots/current/168x168/</string>
@@ -117,6 +126,10 @@
     <string name="game_stats_hits">HITS</string>
     <string name="game_stats_blocks">BLOCKS</string>
     <string name="game_button_play">Play Video</string>
+
+    <string name="game_home_desc">Home Team</string>
+    <string name="game_away_desc">Away Team</string>
+    <string name="game_opponent_desc">Opponent</string>
 
     <!-- Google Authentication -->
 

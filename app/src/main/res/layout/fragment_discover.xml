@@ -44,7 +44,8 @@
                 <ImageView
                     android:id="@+id/discover_last_game_icon"
                     android:layout_width="72dp"
-                    android:layout_height="48dp" />
+                    android:layout_height="48dp"
+                    android:contentDescription="@string/game_opponent_desc"/>
 
                 <TextView
                     android:id="@+id/discover_last_game_score"
@@ -92,7 +93,8 @@
                 <ImageView
                     android:id="@+id/discover_next_game_icon"
                     android:layout_width="72dp"
-                    android:layout_height="48dp" />
+                    android:layout_height="48dp"
+                    android:contentDescription="@string/game_opponent_desc" />
 
                 <TextView
                     android:id="@+id/discover_next_game_date"
@@ -177,7 +179,8 @@
             <ImageView
                 android:id="@+id/discover_playoff_outlook"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/discover_subtitle_outlook" />
 
         </FrameLayout>
 

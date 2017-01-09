@@ -26,6 +26,7 @@
 
         <ImageView
             android:id="@+id/story_attachment"
+            android:contentDescription="@string/story_attachment_desc"
             style="@style/story_attachment" />
 
         <TextView

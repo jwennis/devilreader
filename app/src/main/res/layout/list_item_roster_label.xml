@@ -13,6 +13,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_gravity="center_vertical"
+        android:contentDescription="@string/player_mugshot_desc"
         android:transitionName="@string/player_mugshot_transition" />
 
     <TextView

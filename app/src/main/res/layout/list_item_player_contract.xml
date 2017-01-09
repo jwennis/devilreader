@@ -21,6 +21,7 @@
             android:id="@+id/contract_icon"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_small"
+            android:contentDescription="@string/player_contract_icon_desc"
             app:srcCompat="@drawable/ic_contract" />
 
         <TextView
